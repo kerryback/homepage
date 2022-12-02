@@ -1,0 +1,42 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+    - research.qmd
+    - teaching.qmd
+    - books.qmd
+    
+
+    
+website:
+  title: ""
+  search: false  
+  navbar:
+    search: false
+    left:
+       
+      - text: "Home"
+        file: index.qmd
+
+      - text: "Research"
+        file: research.qmd
+
+
+      - text: "Teaching"
+        file: teaching.qmd
+
+      - text: "Books"
+        file: books.qmd
+
+      - text: "CV"
+        file: cv.pdf
+    
+format: 
+  html:
+    theme: cosmo
+    scss: styles.css
+    
+
+
+

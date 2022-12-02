@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "I currently teach asset pricing theory and python for business research to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and data-driven investments to MBA students in the Jones School. Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University. I’m an associate editor of the Journal of Finance, and I’m a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of various other academic journals in economics and finance. I’ve written two textbooks and numerous articles in the leading finance and economics journals.\n Recently, I’ve been developing an interactive website for teaching investments (BBCX Investments Library), developing python code for use in teaching MBA, Masters, and Ph.D. students (github.com), and beginning a draft of a textbook with my colleagues Barbara Bennett, Kevin Crotty, and Yuhang Xing (Modern Investments: Theory, Data, and Practice). In addition, I’m doing research on disclosure policies, optimal contracting, security market design, and information asymmetry in option markets and advising several strong Ph.D. students."
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "",
+    "section": "",
+    "text": "TBD"
+  },
+  {
+    "objectID": "teaching.html",
+    "href": "teaching.html",
+    "title": "",
+    "section": "",
+    "text": "BUSI 721: Data Driven Finance I\nMGMT 638: Data-Driven Investments: Equity\nBBCX Investments Library"
+  },
+  {
+    "objectID": "books.html",
+    "href": "books.html",
+    "title": "",
+    "section": "",
+    "text": "In progress, with Barbara Bennet, Kevin Crotty, and Yuhang Xing: Modern Investments: Theory, Data, and Practice"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "",
+    "section": "",
+    "text": "Code Binder\n\n\n\nKerry Back J. Howard Creekmore Professor of Finance and Professor of Economics kerryback@gmail.com\n\n\n\nThis course provides an introduction to quantitative equity management. Quantitative management means trading on signals that can be constructed and tested on large panels of stocks. Many different data sources are used to generate trading signals. In this course, we will illustrate concepts using predictors formed from corporate fundamentals, past prices, analyst forecasts, and earnings surprises. We will discuss the full process of quantitative management, from preliminary analysis of signals to training models to backtesting and strategy assessment.\nWe will use python throughout the course. Many of the things we want to discuss simply can’t be implemented in Excel. Proficiency in programming is not at all expected. Code snippets will be provided that can be modified and used for assignments. An important part of the course is exploring different machine learning models for return prediction. In python, this is almost “point and click” – three short lines of code will define a model, train a model, and predict using a model.\n\n\n\n\nData and factors\nExploratory data analysis\nDecision trees\nRandom forests\nNeural nets\nTransforming data features\nValidation of hyperparameters\nAnalyzing stock picks\nTrade filters\nBacktesting\nIndustries: to trade or not to trade?\n\n\n\n\nThe course deliverables are five individual assignments and a group project due the last day of class (Dec 5). The individual assignments are small assignments intended to ensure that everyone is keeping up. The group project is to train and evaluate a stock prediction model, deliver a write-up of the steps that were taken to evaluate and test the chosen model and alternate models, and make a presentation to the class.\nEach of the individual assignments will contribute 10% of the final course grade. The group project will contribute 40%, and group peer evaluations will contribute 10%.\nThe assignment due dates are\n\nMonday, Oct. 31\nMonday, Nov. 7\nMonday, Nov 14\nMonday, Nov 21\nWednesday, Nov 30\n\n\n\n\nThis course is part of a new JGSB sequence: Data-Driven Investments: Credit will be offered in Spring Term 1, and Data Driven Investments Lab will be offered as a full-semester spring course. This course (Equity) and the Credit course are self-contained, but there are obvious synergies. The Lab course requires either the Equity course or the Credit course as a pre/co-requisite. The Lab course will involve students working in groups to explore other data sources and to further elaborate and test strategies. The plan is that, in the second half of the course, equity strategies will be implemented with paper trading at Alpaca, which is a brokerage with a free python API.\n\n\n\nEach year, the Chicago Quantitative Alliance (CQA) hosts a competition for universities on quantitative investing - the CQA Challenge. In 2021-2022, a team of JGSB MBA students won it, finishing first among 40 or so teams. The competition is to run a diversified long-short market-neutral portfolio with a quantitative approach. Paper trading is done using the StockTrak platform. Teams are judged on compliance, returns, and a video presentation of their strategy in three stages: teams that perform well on compliance proceed to the second stage, the top ten teams on compliance and portfolio returns proceed to the third stage, and teams in the third stage prepare video presentations.\nIf a group participates in the CQA competition, then they can work as a group in the Data-Driven Investments Lab course, and the project in that course can be configured to support participation in the competition. A team in the CQA competition is limited to five persons, but Rice can enter up to three teams. The competition begins in the first part of November. The start date is a little early relative to the timing of our courses, but you could use a generic strategy initially and then later trade into a strategy that you have optimized and tested. The contest lasts until the first of April, and participation entails a commitment until then.\n\n\n\nThe Rice University honor code applies to all work in this course. Each student must do his or her own assignments, but it is allowed and in fact encouraged for students to seek advice from each other. Likewise, groups must do their projects, but they can seek advice from students in other groups. Also, searching for advice on the internet is allowed.\n\n\n\nAny student with a documented disability requiring accommodations in this course is encouraged to contact me outside of class. All discussions will remain confidential. Any adjustments or accommodations regarding assignments or the final exam must be made in advance. Students with disabilities should also contact Disability Support Services in the Allen Center."
+  }
+]
