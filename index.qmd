@@ -10,8 +10,8 @@
 ::: {.column width="50%"} 
 Kerry Back
 <br><br>
-J. Howard Creekmore Professor of Finance <br>![](rice-jgsb.png){width=60%} 
-<br><br>Professor of Economics <br>![](RiceUniversity.png){width=15%} School of Social Sciences 
+J. Howard Creekmore Professor of Finance <br>![](RiceUniversity.png){width=18%} Jones Graduate School of Business
+<br><br>Professor of Economics <br>![](RiceUniversity.png){width=18%} School of Social Sciences 
 <br>
 
 
