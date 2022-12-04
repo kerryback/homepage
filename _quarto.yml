@@ -14,14 +14,11 @@ website:
   search: false  
   navbar:
     search: false
-    left:
+    title: Kerry Back
+    right:
        
-      - text: "Home"
-        file: index.qmd
-
       - text: "Research"
         file: research.qmd
-
 
       - text: "Teaching"
         file: teaching.qmd
@@ -31,6 +28,9 @@ website:
 
       - text: "CV"
         file: cv.pdf
+
+      - text: "Home"
+        file: index.qmd
     
 format: 
   html:
