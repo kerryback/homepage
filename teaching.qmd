@@ -12,4 +12,4 @@ MGMT 638: [Data-Driven Investments: Equity](http://mgmt638.kerryback.com/) (MBA)
 
 MGMT 767: [Data-Driven Investments Lab](http://mgmt767.bbcx-investments.com/) (MBA)
 
-[BBCX Investments Library](http://bbcx-investments.com) (interactive investments website)
+[BBCX Investments Library](http://bbcx-investments.com) (interactive website)
