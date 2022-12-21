@@ -1,15 +1,31 @@
+## Teaching
 
+### MBA
 
-BUSI 520: [Python for Business Research](http://busi520.kerryback.com/) (PhD)
+MGMT 638: [Data-Driven Investments: Equity](http://mgmt638.kerryback.com/) 
 
-BUSI 521/ECON 505: [Asset Pricing Theory/Financial Economics I](http://busi521.kerryback.com/) (PhD)
+MGMT 767: [Data-Driven Investments Lab](http://mgmt767.bbcx-investments.com/) 
 
-BUSI 721: [Data-Driven Finance I](http://busi721.kerryback.com/) (Masters in Data Science)
+<hr>
 
-BUSI 722: [Data-Driven Finance II](http://busi722.kerryback.com/) (Masters in Data Science)
+### Masters in Data Science
 
-MGMT 638: [Data-Driven Investments: Equity](http://mgmt638.kerryback.com/) (MBA)
+BUSI 721: [Data-Driven Finance I](http://busi721.kerryback.com/) 
 
-MGMT 767: [Data-Driven Investments Lab](http://mgmt767.bbcx-investments.com/) (MBA)
+BUSI 721: [Data-Driven Finance I (Rice Online)](http://busi721-rol.kerryback.com/) 
+
+BUSI 722: [Data-Driven Finance II](http://busi722.kerryback.com/) 
+
+<hr>
+
+### Ph.D.
+
+BUSI 520: [Python for Business Research](http://busi520.kerryback.com/) 
+
+BUSI 521/ECON 505: [Asset Pricing Theory/Financial Economics I](http://busi521.kerryback.com/) 
+
+<hr>
+
+### Interactive Investments Website
 
 [BBCX Investments Library](http://bbcx-investments.com) (interactive website)
