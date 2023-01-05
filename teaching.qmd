@@ -15,7 +15,7 @@ MGMT 767: [Data-Driven Investments Lab](http://mgmt767.bbcx-investments.com/)
 
 BUSI 721: [Data-Driven Finance I](http://busi721.kerryback.com/) 
 
-BUSI 721: [Data-Driven Finance I (Rice Online)](http://busi721-rol.kerryback.com/) 
+BUSI 721: [Data-Driven Finance I (Rice Online)](http://busi721-901.kerryback.com/) 
 
 BUSI 722: [Data-Driven Finance II](http://busi722.kerryback.com/) 
 
