@@ -21,4 +21,4 @@ BUSI 722: [Data-Driven Finance II](http://busi722.kerryback.com/)
 
 [Learn Investments at Rice Business](https://learn-investments-at-rice-business.org) (interactive website)
 
-[Time Value of Money](https://notes.kerryback.com) (book chapter)
+[Time Value of Money](https://notes.kerryback.com) (book chapter with interactive figures and python code)
