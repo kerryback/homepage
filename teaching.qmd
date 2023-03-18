@@ -1,40 +1,24 @@
-### MBA
-
-<hr>
-
-
-MGMT 638: [Data-Driven Investments: Equity](http://mgmt638.kerryback.com/) 
-
-MGMT 767: [Data-Driven Investments Lab](http://mgmt767.bbcx-investments.com/) 
-
-<br>
-
-### Masters in Data Science
-
-<hr>
-
-BUSI 721: [Data-Driven Finance I](http://busi721.kerryback.com/) 
-
-BUSI 721: [Data-Driven Finance I (Rice Online)](http://busi721-901.kerryback.com/) 
-
-BUSI 722: [Data-Driven Finance II](http://busi722.kerryback.com/) 
-
-BUSI 722: [Data-Driven Finance II (Rice Online)](http://busi722-901.kerryback.com/) 
-
-<br>
-
-### Ph.D.
-
-<hr>
+## PhD
 
 BUSI 520: [Python for Business Research](http://busi520.kerryback.com/) 
 
 BUSI 521/ECON 505: [Asset Pricing Theory/Financial Economics I](http://busi521.kerryback.com/) 
 
-<br>
+## MBA
 
-### Interactive Investments Website
+MGMT 638: [Data-Driven Investments: Equity](http://mgmt638.kerryback.com/) 
 
-<hr>
+MGMT 767: [Data-Driven Investments Lab](http://mgmt767.bbcx-investments.com/) 
 
-[BBCX Investments Library](https://bbcx-investments.com)
+## Masters in Data Science
+
+BUSI 721: [Data-Driven Finance I](http://busi721.kerryback.com/) 
+
+BUSI 722: [Data-Driven Finance II](http://busi722.kerryback.com/) 
+
+## Other
+
+
+[Learn Investments at Rice Business](https://learn-investments-at-rice-business.org) (interactive website)
+
+[Time Value of Money](https://notes.kerryback.com) (book chapter with interactive figures and python code)

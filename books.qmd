@@ -21,4 +21,3 @@
 [Data for an exercise](CBOEQuotes.txt)
 :::
 ::::
-
