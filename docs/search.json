@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "",
     "section": "",
-    "text": "I teach asset pricing theory and python for business research to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and data-driven investments to MBA students in the Jones School. Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University. I served as Senior Associate Dean at the Olin School at Washington University in St. Louis. I am currently an associate editor of the Journal of Finance, and I’m a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of various other academic journals in economics and finance. I’ve written two textbooks and numerous articles in the leading finance and economics journals.\n Recently, I’ve been developing an interactive website for teaching investments (BBCX Investments Library), developing python code for use in teaching MBA, Masters, and Ph.D. students (github.com/kerryback), and beginning a draft of a textbook with my colleagues Barbara Bennett, Kevin Crotty, and Yuhang Xing (Modern Investments: Theory, Data, and Practice). In addition, I’m doing research on disclosure policies, optimal contracting, security market design, and information asymmetry in option markets and advising several strong Ph.D. students."
+    "text": "I teach asset pricing theory and python for business research to PhD students in the Jones School and the Department of Economics, data-driven investments to MBA students in the Jones School, and data-driven finance to students in the Masters of Data Science program in the Department of Computer Science. Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University. I served as Senior Associate Dean at the Olin School at Washington University in St. Louis. I am currently an associate editor of the Journal of Finance, and I’m a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of various other academic journals in economics and finance. I’ve written two textbooks and numerous articles in the leading finance and economics journals.\n Recently, I’ve been doing research on disclosure policies, optimal contracting, security market design, and information asymmetry in option markets and advising several strong Ph.D. students. In addition, I’ve developed an interactive website for teaching investments (learn-investments.org)."
   },
   {
     "objectID": "research.html",
@@ -18,14 +18,14 @@
     "href": "teaching.html",
     "title": "",
     "section": "",
-    "text": "Masters in Data Science\n\nBUSI 721: Data-Driven Finance I\nBUSI 721: Data-Driven Finance I (Rice Online)\nBUSI 722: Data-Driven Finance II\nBUSI 722: Data-Driven Finance II (Rice Online)\n\n\n\nPh.D.\n\nBUSI 520: Python for Business Research\nBUSI 521/ECON 505: Asset Pricing Theory/Financial Economics I\n\n\n\nInteractive Investments Website\n\nBBCX Investments Library"
+    "text": "BUSI 520: Python for Business Research\nBUSI 521/ECON 505: Asset Pricing Theory/Financial Economics I"
   },
   {
     "objectID": "books.html",
     "href": "books.html",
     "title": "",
     "section": "",
-    "text": "In progress, with Barbara Bennet, Kevin Crotty, and Yuhang Xing: Modern Investments: Theory, Data, and Practice"
+    "text": "Errata\n\n\n\n\n\n\n\n\nExcel workbook with VBA code  Errata  Data for an exercise"
   },
   {
     "objectID": "cv.html",
@@ -40,5 +40,26 @@
     "title": "",
     "section": "Selected Publications",
     "text": "Selected Publications\nBack, K., Crotty, K., and S. M. Kazempour, 2022, Validity, Tightness, and Forecasting Power of Risk Premium Bounds, Journal of Financial Economics, 144, 732–760.\nBack, K., and P. Barton, 2022, Mediation and Strategic Delay in Bargaining and Markets, Journal of Economic Dynamics and Control, 141.\nBack, K., Liu, R., and A. Teguia, 2020, Signaling in OTC Markets: Benefits and Costs of Transparency, Journal of Financial and Quantitative Analysis, 55, 47–75.\nBack, K., Collin-Dufresne, P., Fos, V., Li, T., and A. Ljungqvist, 2018, Activism, Strategic Trading, and Liquidity, Econometrica, 86, 1431–1463.\nBack, K., Crane, A., and K. Crotty, 2018, Skewness Consequences of Seeking Alpha, Review of Financial Studies, 31, 4720–4761.\nBack, K., Crotty, K., and T. Li, 2018, Identifying Information Asymmetry in Securities Markets, Review of Financial Studies, 31, 2277–2325.\nBack, K., and K. Crotty, 2015, The Informational Role of Stock and Bond Volume, Review of Financial Studies, 28, 1381–1427.\nBack, K., and S. Baruch, 2013, Strategic Liquidity Provision in Limit Order Markets, Econometrica, 81, 363–392."
+  },
+  {
+    "objectID": "teaching.html#mba",
+    "href": "teaching.html#mba",
+    "title": "",
+    "section": "MBA",
+    "text": "MBA\nMGMT 638: Data-Driven Investments: Equity\nMGMT 767: Data-Driven Investments Lab"
+  },
+  {
+    "objectID": "teaching.html#masters-in-data-science",
+    "href": "teaching.html#masters-in-data-science",
+    "title": "",
+    "section": "Masters in Data Science",
+    "text": "Masters in Data Science\nBUSI 721: Data-Driven Finance I\nBUSI 722: Data-Driven Finance II"
+  },
+  {
+    "objectID": "teaching.html#other",
+    "href": "teaching.html#other",
+    "title": "",
+    "section": "Other",
+    "text": "Other\nlearn-investments.org (interactive website)\nTime Value of Money (book chapter with interactive figures and python code)"
   }
 ]

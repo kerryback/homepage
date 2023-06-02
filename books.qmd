@@ -21,7 +21,3 @@
 [Data for an exercise](CBOEQuotes.txt)
 :::
 ::::
-
-<hr>
-
-In progress, with Barbara Bennet, Kevin Crotty, and Yuhang Xing: [Modern Investments: Theory, Data, and Practice](http://mi.bbcx-investments.com)

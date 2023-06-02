@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.0.38">
+<meta name="generator" content="quarto-1.1.251">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,10 +11,15 @@
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-span.underline{text-decoration: underline;}
-div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
 </style>
 
 
@@ -53,9 +58,11 @@ ul.task-list{list-style: none;}
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
-      <a class="navbar-brand" href="./index.html">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Kerry Back</span>
-  </a>
+    </a>
+  </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
@@ -100,8 +107,8 @@ ul.task-list{list-style: none;}
 <p>J. Howard Creekmore Professor of Finance <br>Jones Graduate School of Business <br><br>Professor of Economics <br>School of Social Sciences <br> <img src="RiceUniversity.png" class="img-fluid" style="width:40.0%"></p>
 </div>
 </div>
-<p><br> I teach asset pricing theory and python for business research to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and data-driven investments to MBA students in the Jones School. Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St.&nbsp;Louis, and Texas A&amp;M University. I served as Senior Associate Dean at the Olin School at Washington University in St.&nbsp;Louis. I am currently an associate editor of the Journal of Finance, and I’m a former editor of the Review of Financial Studies, a former editor of Finance &amp; Stochastics, and a former associate editor of various other academic journals in economics and finance. I’ve written two textbooks and numerous articles in the leading finance and economics journals.<br>
-<br> Recently, I’ve been developing an interactive website for teaching investments (<a href="http://bbcx-investments.com">BBCX Investments Library</a>), developing python code for use in teaching MBA, Masters, and Ph.D.&nbsp;students (<a href="http://github.com/kerryback">github.com/kerryback</a>), and beginning a draft of a textbook with my colleagues Barbara Bennett, Kevin Crotty, and Yuhang Xing (<a href="http://mi.bbcx-investments.com">Modern Investments: Theory, Data, and Practice</a>). In addition, I’m doing research on disclosure policies, optimal contracting, security market design, and information asymmetry in option markets and advising several strong Ph.D.&nbsp;students.</p>
+<p><br> I teach asset pricing theory and python for business research to PhD students in the Jones School and the Department of Economics, data-driven investments to MBA students in the Jones School, and data-driven finance to students in the Masters of Data Science program in the Department of Computer Science. Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St.&nbsp;Louis, and Texas A&amp;M University. I served as Senior Associate Dean at the Olin School at Washington University in St.&nbsp;Louis. I am currently an associate editor of the Journal of Finance, and I’m a former editor of the Review of Financial Studies, a former editor of Finance &amp; Stochastics, and a former associate editor of various other academic journals in economics and finance. I’ve written two textbooks and numerous articles in the leading finance and economics journals.<br>
+<br> Recently, I’ve been doing research on disclosure policies, optimal contracting, security market design, and information asymmetry in option markets and advising several strong Ph.D.&nbsp;students. In addition, I’ve developed an interactive website for teaching investments (<a href="https://learn-investments.org">learn-investments.org</a>).</p>
 
 
 
@@ -175,7 +182,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   for (var i=0; i<noterefs.length; i++) {
     const ref = noterefs[i];
     tippyHover(ref, function() {
-      let href = ref.getAttribute('href');
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
