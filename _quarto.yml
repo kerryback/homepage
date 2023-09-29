@@ -15,6 +15,7 @@ website:
   navbar:
     search: false
     title: Kerry Back
+    file: index.qmd
     right:
        
       - text: "Research"
@@ -28,9 +29,6 @@ website:
 
       - text: "CV"
         file: cv.pdf
-
-      - text: "Home"
-        file: index.qmd
     
 format: 
   html:
