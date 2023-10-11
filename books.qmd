@@ -5,8 +5,6 @@
 
 [![](appc.jpg)](https://www.amazon.com/Portfolio-Financial-Management-Association-Synthesis/dp/0190241144/ref=sr_1_2?crid=3PGAP7YSJC98J&keywords=kerry+back+books&qid=1670016533&sprefix=kerry+back+books%2Caps%2C91&sr=8-2)
 
-[Errata](Errata_KBack_2ed.pdf)
-
 :::
 ::: {.column width="10%"}
 :::
@@ -14,6 +12,18 @@
 
 [![](cds.jpg)](https://www.amazon.com/Course-Derivative-Securities-Introduction-Computation-ebook/dp/B00DZ12AU4/ref=sr_1_3?crid=3PGAP7YSJC98J&keywords=kerry+back+books&qid=1670016533&sprefix=kerry+back+books%2Caps%2C91&sr=8-3)
 
+:::
+::::
+
+:::: {.columns}
+::: {.column width=14%}
+:::
+::: {.column width=31%}
+[Errata](Errata_KBack_2ed.pdf)
+:::
+::: {.column width=23%}
+:::
+::: {.column width=32%}
 [Excel workbook with VBA code](CourseinDerivativeSecurities.xls)
 <br>
 [Errata](Errata.pdf)
