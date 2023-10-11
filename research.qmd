@@ -2,8 +2,6 @@
 
 Back, K., Carlin, B., Kazempour, S. M., and C. Xie, 2023, [Dynamic Disclosure Games](https://www.dropbox.com/scl/fi/7xom9voplhh3ba2qssxc6/Dynamic-Disclosure-Games.pdf?rlkey=bijkl4a0oubc0ia7eqdi6bj0i&dl=1).
 
-[ASU Seminar Slides, Sept. 2023](https://www.dropbox.com/scl/fi/2kuyip3gwq9xjrzcpkq4i/asu.pdf?rlkey=bcad0bfr257ij7garm5dvbbfx&dl=1)
-
 Back, K., Kakhbod, A., and H. Xing, 2023, [Monitoring and Pay for Long Run Performance.](Contract_and_monitoring.pdf)
 
 Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2022, [Segmented Trading Markets: Competition, Fees, and Tax Policies.](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978)

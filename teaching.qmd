@@ -16,9 +16,9 @@ BUSI 721: [Data-Driven Finance I](http://busi721.kerryback.com/)
 
 BUSI 722: [Data-Driven Finance II](http://busi722.kerryback.com/) 
 
-## Other
+## Web App
 
 
-[learn-investments.org](https://learn-investments.org) (interactive website)
+[learn-investments.rice-business.org](https://learn-investments.rice-business.org) 
 
-[Time Value of Money](https://notes.kerryback.com) (book chapter with interactive figures and python code)
+
