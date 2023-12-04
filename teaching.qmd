@@ -8,7 +8,7 @@ BUSI 521/ECON 505: [Asset Pricing Theory/Financial Economics I](http://busi521.k
 
 MGMT 638: [Data-Driven Investments: Equity](http://mgmt638.kerryback.com/) 
 
-MGMT 675: [AI-Assisted Financial Analysis](http://mgmt75.kerryback.com/) 
+MGMT 675: [AI-Assisted Financial Analysis](http://mgmt675.kerryback.com/) 
 
 MGMT 767: [Data-Driven Investments Lab](http://mgmt767.rice-business.org/) 
 
