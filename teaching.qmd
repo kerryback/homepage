@@ -17,10 +17,3 @@ MGMT 767: [Data-Driven Investments Lab](http://mgmt767.rice-business.org/)
 BUSI 721: [Data-Driven Finance I](http://busi721.kerryback.com/) 
 
 BUSI 722: [Data-Driven Finance II](http://busi722.kerryback.com/) 
-
-## Web App
-
-
-[learn-investments.rice-business.org](https://learn-investments.rice-business.org) 
-
-

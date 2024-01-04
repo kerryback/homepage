@@ -29,6 +29,9 @@ website:
 
       - text: "CV"
         file: cv.pdf
+
+      - text: "Learn Investments Dashboard"
+        href: https://learn-investments.rice-business.org
     
 format: 
   html:
