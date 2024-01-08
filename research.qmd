@@ -24,7 +24,7 @@ Back, K., Crotty, K., and T. Li, 2018, [Identifying Information Asymmetry in Sec
 
 Back, K., and K. Crotty, 2015, [The Informational Role of Stock and Bond Volume,](pubs/Back_Crotty_RFS_2015.pdf) *Review of Financial Studies*, **28**, 1381--1427.
 
-Back, K., 2014, [A Characterization of the Coskewness-Cokurtosis Pricing Model](Back_EconLetters_2014.pdf) *Economics Letters* **125**, 219--222. 
+Back, K., 2014, [A Characterization of the Coskewness-Cokurtosis Pricing Model](pubs/Back_EconLetters_2014.pdf) *Economics Letters* **125**, 219--222. 
 
 Back, K., and S. Baruch, 2013, [Strategic Liquidity Provision in Limit Order Markets,](pubs/Back_Baruch_Econometrica_2013.pdf) *Econometrica*, **81**, 363--392.
  
