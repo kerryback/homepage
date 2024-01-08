@@ -1,18 +1,12 @@
-## Working Papers
+### Working Papers
 
-Back, K., Carlin, B., Kazempour, S. M., and C. Xie, 2023, [Dynamic Disclosure Games](https://www.dropbox.com/scl/fi/7xom9voplhh3ba2qssxc6/Dynamic-Disclosure-Games.pdf?rlkey=bijkl4a0oubc0ia7eqdi6bj0i&dl=1).
+Back, K., Carlin, B., Kazempour, S. M., and C. Xie, 2023, [American Disclosure Options](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4648459).
 
-Back, K., Kakhbod, A., and H. Xing, 2023, [Monitoring and Pay for Long Run Performance.](Contract_and_monitoring.pdf)
-
-Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2022, [Segmented Trading Markets: Competition, Fees, and Tax Policies.](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978)
-
-
+Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2023, [Segmented Trading Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978)
 
 Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2021, [Optimal Transport and Risk Aversion in Kyle's Model of Informed Trading.](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3628726)
 
-Back, K., Kapadia, N., and B. Ostdiek, 2015, [Testing Factor Models on Characteristic and Covariance Pure Plays.](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2621696)
-
-## Recent Publications
+### Recent Publications
 
 Back, K., Crotty, K., and S. M. Kazempour, 2022, [Validity, Tightness, and Forecasting Power of Risk Premium Bounds,](pubs/Back_Crotty_Kazempour_JFE_2022.pdf) *Journal of Financial Economics*, **144**, 732--760.
 
@@ -34,5 +28,5 @@ Back, K., 2014, [A Characterization of the Coskewness-Cokurtosis Pricing Model](
 
 Back, K., and S. Baruch, 2013, [Strategic Liquidity Provision in Limit Order Markets,](pubs/Back_Baruch_Econometrica_2013.pdf) *Econometrica*, **81**, 363--392.
  
-![](cv.pdf)
+
 

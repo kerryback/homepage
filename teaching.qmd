@@ -1,19 +1,17 @@
-## PhD
+### PhD
 
-BUSI 520: [Python for Business Research](http://busi520.kerryback.com/) 
+[BUSI 520](https://busi520.kerryback.com/): Python for Business Research<br>
+[BUSI 521/ECON 505](https://busi521.kerryback.com/): Asset Pricing Theory/Financial Economics I 
 
-BUSI 521/ECON 505: [Asset Pricing Theory/Financial Economics I](http://busi521.kerryback.com/) 
+### MBA and Undergraduate
 
-## MBA
+[MGMT 638](https://mgmt638.kerryback.com/): Data-Driven Investments: Equity <br>
+[MGMT 675](https://mgmt675.kerryback.com/): AI-Assisted Financial Analysis<br>
+[MGMT 767/BUSI 449](https://mgmt767.rice-business.org/): Data-Driven Investments Lab
 
-MGMT 638: [Data-Driven Investments: Equity](http://mgmt638.kerryback.com/) 
+### Masters in Data Science
 
-MGMT 675: [AI-Assisted Financial Analysis](http://mgmt675.kerryback.com/) 
-
-MGMT 767: [Data-Driven Investments Lab](http://mgmt767.rice-business.org/) 
-
-## Masters in Data Science
-
-BUSI 721: [Data-Driven Finance I](http://busi721.kerryback.com/) 
-
-BUSI 722: [Data-Driven Finance II](http://busi722.kerryback.com/) 
+[BUSI 721](https://busi721.kerryback.com/): Data-Driven Finance I<br>
+[BUSI 722](https://busi722.kerryback.com/): Data-Driven Finance II<br> 
+[BUSI 721 Online](https://busi721-901.kerryback.com/): Data-Driven Finance I<br>
+[BUSI 722 Online](https://busi721-902.kerryback.com/): Data-Driven Finance II
