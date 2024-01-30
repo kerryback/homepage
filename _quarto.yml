@@ -30,7 +30,7 @@ website:
       - text: "CV"
         file: cv.pdf
 
-      - text: "Learn Investments Dashboard"
+      - text: "Rice Investments Compendium"
         href: https://learn-investments.rice-business.org
     
 format: 
