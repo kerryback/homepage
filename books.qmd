@@ -24,10 +24,8 @@
 ::: {.column width=23%}
 :::
 ::: {.column width=32%}
-[Excel workbook with VBA code](CourseinDerivativeSecurities.xls)
-<br>
-[Errata](Errata.pdf)
-<br>
-[Data for an exercise](CBOEQuotes.txt)
+[Excel workbook with VBA code](CourseinDerivativeSecurities.xls){target="_blank"}<br>
+[Errata](Errata.pdf){target="_blank"}<br>
+[Data for an exercise](CBOEQuotes.txt){target="_blank"}
 :::
 ::::
