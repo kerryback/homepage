@@ -33,6 +33,8 @@ website:
       - text: "Rice Investments Compendium"
         href: https://learn-investments.rice-business.org
     
+      - text: Seminar at U. of Maryland
+        file: maryland.pdf
 format: 
   html:
     theme: cosmo
