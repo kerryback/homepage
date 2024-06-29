@@ -33,8 +33,8 @@ website:
       - text: "Rice Investments Compendium"
         href: https://learn-investments.rice-business.org
     
-      - text: Brown Bag at Rice
-        file: brownbag.pdf
+      - text: WFA Slides
+        file: wfa.pdf
 format: 
   html:
     theme: cosmo
