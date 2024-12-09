@@ -1,10 +1,12 @@
 ### Working Papers
 
-Back, K., Carlin, B., Kazempour, S. M., and C. Xie, 2023, [Discretionary Announcement Timing and Stock Returns](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4933885).
+Back, K., Carlin, B., Kazempour, S. M., and C. Xie, 2024, [Discretionary Announcement Timing and Stock Returns](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4933885).
+
+Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2021, [Optimal Transport and Informed Trading in Securities Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3628726)
 
 Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2023, [Segmented Trading Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978)
 
-Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2021, [Optimal Transport and Risk Aversion in Kyle's Model of Informed Trading.](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3628726)
+
 
 ### Recent Publications
 
