@@ -33,11 +33,9 @@ website:
       - text: "Learn Investments @ Rice Business"
         href: https://learn-investments.rice-business.org
     
-      - text: WFA Slides
-        file: wfa.pdf
 format: 
   html:
-    theme: cosmo
+    theme: yeti
     scss: styles.css
     
 
