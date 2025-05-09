@@ -1,3 +1,5 @@
+[Teaching Finance with AI](https://finance-with-ai.org)
+
 ### PhD
 
 [BUSI 520](https://busi520.kerryback.com/): Python for Business Research<br>
