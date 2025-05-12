@@ -26,5 +26,9 @@ Recently, I've been doing research on disclosure policies, optimal contracting, 
 <br>
 
 
+#### Websites
 
-Follow *Teaching Finance with AI* on Substack [![Substack logo](substack.png){width=20px}](https://kerryback.substack.com)
+
+[Learn Investments @ Rice Business](htps://learn-investments.rice-business.org)<br>
+    
+[Teaching Finance with AI](https://finance-with-ai.org)  [![Substack logo](substack.png){width=20px}](https://kerryback.substack.com)

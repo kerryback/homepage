@@ -30,9 +30,6 @@ website:
       - text: "CV"
         file: cv.pdf
 
-      - text: "Learn Investments @ Rice Business"
-        href: https://learn-investments.rice-business.org
-    
 format: 
   html:
     theme: yeti

@@ -1,14 +1,14 @@
 ### Working Papers
 
-Back, K., Carlin, B., Kazempour, S. M., and C. Xie, 2024, [Discretionary Announcement Timing and Stock Returns](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4933885).
+Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2021, [Optimal Transport and Informed Trading in Securities Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3628726).
 
-Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2021, [Optimal Transport and Informed Trading in Securities Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3628726)
-
-Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2023, [Segmented Trading Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978)
+Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2023, [Segmented Trading Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978).
 
 
 
 ### Recent Publications
+
+Back, K., Carlin, B., Kazempour, S. M., and C. Xie, 2024, [Discretionary Announcement Timing and Stock Returns](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4933885) *Journal of Finance*, forthcoming.
 
 Back, K., Crotty, K., and S. M. Kazempour, 2022, [Validity, Tightness, and Forecasting Power of Risk Premium Bounds,](pubs/Back_Crotty_Kazempour_JFE_2022.pdf) *Journal of Financial Economics*, **144**, 732--760.
 
