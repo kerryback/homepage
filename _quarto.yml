@@ -30,10 +30,11 @@ website:
       - text: "CV"
         file: cv.pdf
 
-format: 
+format:
   html:
-    theme: yeti
-    scss: styles.css
+    theme:
+      light: flatly
+      dark: superhero
     
 
 
