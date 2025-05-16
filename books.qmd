@@ -1,18 +1,30 @@
 
-[Pricing and Hedging Derivative Securities](https://book.derivative-securities.org/), with Hong Liu and Mark Loewenstein (in progress)
+:::: {.columns}
+
+
+::: {.column width="40%"} 
+
+
+[![](cover.png){width=300}](https://book.derivative-securities.org/), 
+
+:::
+::: {.column width="60%"} 
+Online, in progress
+:::
+::::
 
 <hr>
 
 :::: {.columns}
 
 
-::: {.column width="30%"} 
+::: {.column width="40%"} 
 
 
-[![](appc.png)](https://www.amazon.com/Portfolio-Financial-Management-Association-Synthesis/dp/0190241144/ref=sr_1_2?crid=3PGAP7YSJC98J&keywords=kerry+back+books&qid=1670016533&sprefix=kerry+back+books%2Caps%2C91&sr=8-2)
+[![](appc3.png){width=300}](https://www.amazon.com/Portfolio-Financial-Management-Association-Synthesis/dp/0190241144/ref=sr_1_2?crid=3PGAP7YSJC98J&keywords=kerry+back+books&qid=1670016533&sprefix=kerry+back+books%2Caps%2C91&sr=8-2)
 
 :::
-::: {.column width="70%"} 
+::: {.column width="60%"} 
 [Errata](Errata_KBack_2ed.pdf)
 :::
 ::::
@@ -20,11 +32,11 @@
 <hr>
 
 :::: {.columns}
-::: {.column width=30%}
-[![](cds.jpg)](https://www.amazon.com/Course-Derivative-Securities-Introduction-Computation-ebook/dp/B00DZ12AU4/ref=sr_1_3?crid=3PGAP7YSJC98J&keywords=kerry+back+books&qid=1670016533&sprefix=kerry+back+books%2Caps%2C91&sr=8-3)
+::: {.column width=40%}
+[![](cds.jpg){width=300}](https://www.amazon.com/Course-Derivative-Securities-Introduction-Computation-ebook/dp/B00DZ12AU4/ref=sr_1_3?crid=3PGAP7YSJC98J&keywords=kerry+back+books&qid=1670016533&sprefix=kerry+back+books%2Caps%2C91&sr=8-3)
 :::
 
-::: {.column width=70%}
+::: {.column width=60%}
 
 [Excel workbook with VBA code](CourseinDerivativeSecurities.xls){target="_blank"}<br>
 [Errata](Errata.pdf){target="_blank"}<br>
