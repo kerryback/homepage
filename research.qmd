@@ -1,10 +1,12 @@
 ### Working Papers
 
-Back, K., and A. Ober, 2025, [Performance of Factor Models in a Simple Economy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4933885).
+Back, K., and A. Ober, 2025, [Performance of Factor Models in a Simple Economy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5339536).
+
+Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2025, [Segmented Trading Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978).
 
 Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2024, [Optimal Transport and Informed Trading in Securities Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3628726).
 
-Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2025, [Segmented Trading Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978).
+
 
 
 
