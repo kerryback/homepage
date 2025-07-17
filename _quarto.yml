@@ -28,7 +28,7 @@ website:
         file: books.qmd
 
       - text: "CV"
-        file: cv.pdf
+        file: docs/cv.pdf
 
 format:
   html:

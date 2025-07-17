@@ -1,0 +1,385 @@
+% -*- TeX -*- -*- Soft -*-
+
+\documentclass[margin, 11pt]{res}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+
+\oddsidemargin -.5in
+\evensidemargin -.5in
+\textwidth=6.0in
+\itemsep=0in
+\parsep=0in
+
+\usepackage{datetime}
+
+\newdateformat{monthyeardate}{\monthname[\THEMONTH] \THEYEAR}
+  
+\newenvironment{benumerate}[1]{
+    \let\oldItem\item
+    \def\item{\addtocounter{enumi}{-2}\oldItem}
+    \begin{enumerate}
+    \setcounter{enumi}{#1}
+    \addtocounter{enumi}{1}
+}{
+    \end{enumerate}
+}
+
+\newenvironment{list1}{
+  \begin{list}{}{%
+            \setlength{\itemsep}{0in}
+      \setlength{\parsep}{0in} \setlength{\parskip}{0in}
+      \setlength{\topsep}{0in} \setlength{\partopsep}{0in}
+      \setlength{\leftmargin}{0.2in}}}{\end{list}}
+
+\newenvironment{list2}{
+  \begin{list}{}{%
+      \vspace*{.15in}
+      \setlength{\itemsep}{0in}
+      \setlength{\parsep}{0in} \setlength{\parskip}{0in}
+      \setlength{\topsep}{0in} \setlength{\partopsep}{0in}
+      \setlength{\leftmargin}{0.2in}}}{\vspace*{.15in}\end{list}}
+
+\newenvironment{list3}{
+  \begin{list}{}{%
+            \setlength{\itemsep}{0in}
+      \setlength{\parsep}{0in} \setlength{\parskip}{0in}
+      \setlength{\topsep}{0in} \setlength{\partopsep}{0in}
+      \setlength{\leftmargin}{0.2in}}}{\vspace*{.15in}\end{list}}
+
+\begin{document}
+
+
+
+\name{
+Kerry Back\vspace*{0.3in}
+}
+
+
+\address{\monthyeardate\today\vspace*{0.1in}}
+
+
+\begin{resume}
+
+
+\section{\sc Contact Information}
+\vspace{.05in}
+\begin{tabular}{@{}p{3in}p{4in}}
+\hspace{0.15in} Jones Graduate School of Business & kerry.e.back@rice.edu\\
+\hspace{0.15in} Rice University & \\
+\hspace{0.15in} P.O. Box 2932 & \\
+\hspace{0.15in} Houston, TX  77252--2932 & \\
+\end{tabular}
+
+
+
+
+\section{\sc Education}
+
+\begin{list1}
+\item University of Kentucky, Ph.D., Economics, 1983.
+\item Western Kentucky University, B.A., Economics,
+1978.
+\end{list1}
+
+\section{\sc Employment}
+\begin{list1}
+\item Rice University
+\begin{list3}
+\item Finance Area Coordinator, 2023 --
+\item J. Howard Creekmore Professor of Finance and Professor of Economics, 2014 -- 
+\item J. Howard Creekmore Professor of Finance, 2009--2014.
+\end{list3}
+\item Texas A\&M University
+\begin{list3}
+\item Jerry and Kay Cox Chair in Business and
+Thomas W. Leland Memorial Chair in Finance, 2004--2009.
+\end{list3}
+\item Washington University in Saint Louis
+\begin{list3}
+\item Senior Associate Dean, Academic Affairs, 1996--2001, 2002--2003.
+\item Vernon W. and Marion K. Piper Professor of Financial Economics, 1996--2004.
+\item Visiting Associate, Associate, and Professor of Finance, 1989--1996.
+\end{list3}
+\item Indiana University
+\begin{list3}
+\item Associate Professor of Finance, 1987--90.
+\end{list3}
+\item University of Pennsylvania
+\begin{list3}
+\item Visiting Assistant Professor of
+Economics, 1988--89.
+\end{list3}
+\item Northwestern University
+\begin{list3}
+\item Assistant Professor of
+Economics, 1982--87.
+\end{list3}
+\vspace*{-.15in}
+\end{list1}
+
+\section{\sc Books}
+\begin{enumerate}
+\item Back, K., Liu, Hong, and Mark Loewenstein, in preparation, \textit{Pricing and Hedging Derivative Securities: Theory and Methods}, \href{https://book.derivative-securities.org}{book.derivative-securities.org}.
+\item Back, K., 2016, \textit{Asset Pricing and Portfolio Choice Theory}, Oxford University Press, New York,  2nd ed.
+\item Back, K., 2005, \textit{A Course in Derivative Securities: Introduction to Theory and Computation}, Springer, Berlin.  Chinese translation by Shanghai People's Publishing House.
+\end{enumerate}
+
+\clearpage
+
+\section{\sc Refereed Articles}
+\begin{enumerate}
+  \item Back, K., Carlin, B., Kazempour, S. M., and C. Xie, forthcoming, ``Discretionary Announcement Timing and Stock Returns,'' \textit{Journal of Finance}.
+\item Back, K., Crotty, K., and S. M. Kazempour, 2022, ``Validity, Tightness, and Forecasting Power of Risk Premium Bounds,''  \textit{Journal of Financial Economics}, \textbf{144}, 732--760.
+ \item Back, K., and P. Barton, 2022, ``Mediation and Strategic Delay in Bargaining and Markets,'' \textit{Journal of Economic Dynamics and Control}, \textbf{141}.
+\item Back, K., Liu, R., and A. Teguia, 2020, ``Signaling in OTC Markets: Benefits and Costs of Transparency,'' \textit{Journal of Financial and Quantitative Analysis}, \textbf{55}, 47--75.
+
+\item Back, K., Liu, R., and A. Teguia, 2019, ``Increasing Risk Aversion and Life-Cycle Investing,'' \textit{Mathematics and Financial Economics}, \textbf{13}, 287--302.
+\item Back, K., Collin-Dufresne, P., Fos, V., Li, T., and A. Ljungqvist, 2018, ``Activism, Strategic Trading, and Liquidity,'' \textit{Econometrica} \textbf{86}, 1431--1463.
+\item Back, K., Crane, A., and K. Crotty, 2018, ``Skewness Consequences of Seeking Alpha,'' \textit{Review of Financial Studies}, \textbf{31}, 4720--4761.
+\item Back, K., Crotty, K., and T. Li, 2018, ``Identifying Information Asymmetry in Securities Markets,'' \textit{Review of Financial Studies} \textbf{31}, 2277--2325.
+\item Back, K., and K. Crotty, 2015, ``The Informational Role of Stock and Bond Volume,'' \textit{Review of Financial Studies} \textbf{28}, 1381--1427.
+\item Back, K., 2014, ``A Characterization of the Coskewness-Cokurtosis Pricing Model,'' \textit{Economics Letters} \textbf{125}, 219--222.  
+\item Back, K., and S. Baruch, 2013, ``Strategic Liquidity Provision in Limit Order Markets,'' \textit{Econometrica} \textbf{81}, 363--392.
+\item Back, K., and D. Paulsen, 2009, ``Open Loop Equilibria and Perfect Competition in Option Exercise Games,'' \textit{Review of Financial Studies} \textbf{22}, 4531--4552.
+\item Back, K., and S. Baruch, 2007, ``Working Orders in Limit Order Markets and Floor Exchanges,'' \textit{Journal of Finance} \textbf{61}, 1589--1621.
+\item Back, K., and S. Baruch, 2004, ``Information in Securities Markets: Kyle Meets Glosten and Milgrom,'' \textit{Econometrica} \textbf{72}, 433--465.
+\item Back, K., and J. Zender, 2001, ``Auctions of Divisible Goods with Endogenous Supply,'' {\em Economics Letters\/} {\bf 73}, 29-34.
+\item Back, K., Cao, H., and G. Willard, 2000, ``Imperfect Competition
+among Informed Traders,'' {\em Journal of Finance\/} {\bf 55}, 2117--2155 (nominated for Smith-Breeden award).
+\item Dybvig, P. H., Rogers, L. C. G., and K. Back, 1999,
+``Portfolio Turnpikes,'' {\em Review of Financial Studies\/} {\bf 12}, 165--195.
+\item Back, K., and H. Pedersen, 1998, ``Long-Lived Information and Intraday Patterns,'' {\em Journal of Financial Markets\/}
+{\bf 1}, 385--402.
+\item Back, K., and J. F. Zender, 1993, ``Auctions of Divisible Goods: On the Rationale for the Treasury
+Experiment,'' {\em Review of Financial Studies\/}
+{\bf 6}, 733--764 (reprinted in Klemperer, Paul, ed., {\em The Economic Theory of Auctions}, 2000, Edward Elgar).
+\item Back, K., 1993, ``Asymmetric Information and Options,'' {\em Review of Financial
+Studies} {\bf 6}, 435--472 (received 1993 best paper award from RFS).
+\item  Back, K., and D. P. Brown, 1993, ``Implied Probabilities in GMM Estimators, ''
+{\em Econometrica\/} {\bf 61}, 971--975.
+\item Back, K., 1993, ``Incomplete Markets and Individual Risks,''
+{\em Economic Theory\/} {\bf 3}, 35--42.
+\item  Back, K., and D. P. Brown, 1992, ``GMM, Maximum Likelihood, and Nonparametric
+Efficiency,'' {\em Economics Letters\/}
+{\bf 39}, 23--28.
+\item  Back, K., 1992, ``Insider Trading in Continuous Time,'' {\em Review of Financial
+Studies\/} {\bf 5}, 387--409.
+\item  Back, K., 1991, ``Asset Pricing for General Processes,'' {\em Journal of
+Mathematical Economics\/} {\bf 20}, 371--395.
+\item  Back, K., and S. R. Pliska, 1991, ``On the Fundamental Theorem of Asset Pricing with an
+Infinite
+State Space,''
+{\em Journal of Mathematical Economics\/} {\bf 20}, 1--18.
+\item  Back, K., 1988, ``Structure of Consumption Sets and Existence of Equilibria
+in Infinite Dimensional Spaces,'' {\em Journal of Mathematical
+Economics\/} {\bf 17}, 39--49.
+\item  Back, K., 1988, ``Convergence of Lagrange Multipliers and Dual Variables for
+Convex Optimization Problems,'' {\em Mathematics of Operations
+Research\/} {\bf 13}, 74--79.
+\item  Back, K., and S. R. Pliska, 1987, ``The Shadow Price of Information in Continuous Time
+Decision
+Problems,'' {\em Stochastics\/} {\bf 22}, 151--186.
+\item  Back, K., 1987, ``A Compact Space of Transitive Locally Non-Satiated
+Preference Relations,'' {\em Economics Letters\/} {\bf 24}, 1987,
+253--256.
+\item  Back, K., 1986,
+``Concepts of Similarity for Utility Functions,'' {\em
+Journal of Mathematical Economics\/} {\bf 15}, 129--142.
+\item  Back, K., 1986, ``Continuity of the Fenchel Transform of Convex Functions,''
+{\em Proceedings of the American Mathematical Society\/} {\bf 97},
+661--667.
+\end{enumerate}
+
+\section{\sc Working Papers}
+\begin{enumerate}
+\item Back, K., and A. Ober, 2025, ``Performance of Factor Models in a Simple Economy.''
+\item Back, K., \c{C}elebi, O., Kakhbod, A., and A. M. Reppen, 2025, ``Segmented Trading Markets.''
+\item Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2024, ``Optimal Transport and Informed Trading in Securities Markets.''
+\end{enumerate}
+
+\section{\sc Other Publications}
+\begin{enumerate}
+\item Back, K., 2010, ``Martingale Pricing,'' \textit{Annual Review of Financial Economics} \textbf{2}, 235--250.
+\item Back, K., and S. Baruch, 2010, ``The Kyle Model,'' in R. Cont, ed., \textit{Encyclopedia of Quantitative Finance}, Wiley.
+\item Back, K., 2004, ``Incomplete and Asymmetric Information in Asset Pricing Theory,'' in M. Frittelli and W. Runggaldier, eds., \textit{Stochastic Methods in Finance}, Lecture Notes in Mathematics, Springer.
+\item Back, K., 1996, ``Yield Curve Models: A Mathematical Review,''
+in I. Nelkin, ed., {\em Option Embedded
+Bonds: Price Analysis, Credit Risk and Investment Strategies}, Irwin, 3-36.
+\item Back, K., 1995, ``Continuous Trading with Asymmetric Information and Imperfect
+Competition,'' in M. Davis, D. Duffie, W.
+Fleming, and S. Shreve, eds., {\em Mathematical Finance},
+IMA Volumes in Mathematics
+and its Applications, Springer-Verlag.
+\item Back, K., 1994, ``Review of {\em Dynamic Asset Pricing Theory\/} by Darrell Duffie,'' in
+{\em Journal of Economic Literature\/} {\bf 32}, 708-9.
+\item Back, K., 1991, ``Review of {\em Prices in Financial Markets\/} by Michael U.
+Dothan,'' in {\em Review of Financial Studies\/} {\bf 4}, 221-226.
+\end{enumerate}
+
+\section{\sc Editorial Positions}
+\begin{list1}
+\item Associate Editor, Journal of Finance, 2022-- (4th term)
+\item Co-Editor, Finance and Stochastics, 2001--2011.
+\item Editor, Review of Financial Studies, 1994--1997.
+\item Associate Editor, Journal of Finance, 2003--2012.
+\item Associate Editor, Review of Financial Studies, 1992--1994.
+\item Associate Editor, Journal of Economic Theory, 1993--1996.
+\item Associate Editor, Journal of Economic Dynamics and Control,
+1995--1996.
+\item Associate Editor, Mathematical Finance, 1990--1996.
+\item Associate Editor, Review of Asset Pricing Studies, 2015 --2020.
+\item Associate Editor, Mathematics and Financial Economics, 2006 -- 2021.
+\item Advisory Board, Finance and Stochastics, 2012--2019.
+\item Advisory Board, FMA Survey and Synthesis Series, 2012--2015
+\end{list1}
+
+\section{\sc Ph.D. Committees Chaired and Initial Placements}
+\begin{list1}
+\item Rice University
+\begin{list3}
+\item Patrick Blonien (Carnegie Mellon)
+\item Seyed Mohammad Kazempour (LSU)
+\item Paul Barton (SEC)
+\item  Alberto Teguia (University of British Columbia)
+\item Ron Liu (University of Nebraska)
+\item   Morad Zekhnini (Tulane)
+
+
+\end{list3}
+   \item Texas A\&M University
+\begin{list3}
+\item   Philipp Illeditsch (Wharton School, University of Pennsylvania)
+\end{list3}
+ \item Washington University in St. Louis
+\begin{list3}
+\item  Chris Yung (University of Colorado)
+\item  Tao Li (Chinese University of Hong Kong)
+\item    Shmuel Baruch (London Business School)
+\item Hal Pedersen (Georgia State)
+
+ 
+ 
+\end{list3}
+\vspace*{-.15in}
+\end{list1}
+
+\section{\sc Teaching Awards}
+\begin{list1}
+  \item \href{https://www.fma.org/iita2023}{2023 Financial Management Association Innovation in Teaching Award} (joint with Kevin Crotty).
+\item 2001 Executive Masters in Manufacturing Management Reid Teaching Award, Olin School of Business.
+\item 1999 Executive M.B.A. Reid Teaching Award, Olin School of Business.
+ \item 1998 Professional M.B.A. Reid Teaching Award, Olin School of Business.
+ \item 1997 Executive M.B.A. Reid Teaching Award, Olin School of Business.
+\end{list1}
+
+\newpage
+
+\section{\sc Other Teaching Contributions}
+\begin{list1}
+  \item JGSB Finance Ph.D. Coordinator, 2009 --
+\item Creator (with Kevin Crotty) of \href{http://learn-investments.rice-business.org}{Learn Investments \@ Rice Business}.
+\item Advisor to Rice MBA teams that won the \href{https://www.cqa.org/investment_challenge}{Chicago Quantitative Alliance Investment Challenge} in 2021-22 and 2022-23.
+\end{list1}
+
+\section{\sc Other Awards and Honors}
+\begin{list1}
+  \item Western Finance Association Keynote Speaker, 2024.
+  \item Member of the Foundation for the Advancement of Research in \\ \hspace*{0.5cm} Financial Economics, 2018 --
+\item Fellow of the Finance Theory Group, 2017 --
+\item Nominated for AFA Board of Directors, 2016.
+\item Charles River Associates prize for best paper in corporate finance, WFA, 2014 :\\
+\hspace*{0.5cm}``Liquidity and Governance,'' (with Tao Li and Alexander Ljungqvist).
+\item University of Kentucky Gatton School of Business Alumni Hall of Fame, 2013.
+\item Jones Graduate School of Business Scholarship Excellence Award, 2013, 2019.
+\item Mays Business School Outstanding Research Award, 2007.
+\item Kentucky Economic Association Distinguished Economist, 2000.
+\item Washington University Distinguished Faculty Member, 1999.
+\item Best paper in \textit{Review of Financial Studies} in 1993:\\
+\hspace*{0.5cm} ``Asymmetric Information and Options.''
+\item Batterymarch Fellow, 1991-92.
+\end{list1}
+
+\section{\sc Other Professional Activities}
+\begin{list1}
+\item Distinguished Visiting Scholar, Securities and Exchange Commission, 2015.
+\item Jon M. Huntsman Presidential Visiting Professor, Utah State University, 2013--2014.
+\item AFA Editor Search Committee, 2010--2011
+\item AFA Director Nomination Committee, 1994.
+
+\end{list1}
+
+\section{\sc Current Committees}
+\begin{list1}
+\item University AI Advisory Committee
+\item JGSB Promotion \& Tenure Committee
+\end{list1}
+
+
+
+\end{resume}\end{document}
+
+\item Program Committee:
+\begin{list3}
+\item Utah Winter Finance Conference, 2003 --
+\item Financial Intermediation Research Society, 2007 --
+\item Society for Financial Studies Cavalcade, 2012 -- 2014
+\item Financial Management Association, 1992, 2012 --
+\item European Finance Association 2015 --
+\item Finance Down Under Conference 2014 --
+\item American Finance Association, 1999, 2002.o
+\item Western Finance Association, 1995--98, 2002.
+
+\end{list3}
+
+\section{\sc Software}
+\textit{SimX}, written with Shmuel Baruch, 2010.  This package consists of a server (the exchange) and client (for traders).  The server is an Erlang program that runs in the Erlang shell and operates an open limit order book for a single stock. Students connect via the client from their computers to the Erlang server and use the client to submit and cancel limit orders.  Simulations can be run with numerous options concerning the frequency, size and distribution of automated noise and news trades.  Students participate in the simulations as dealers or as traders with assigned trades to execute.  Performance is measured for dealers in terms of risk-adjusted gains and for traders relative to the volume weighted average price.
+
+
+\item Ad Hoc Reviewer (Finance)
+\begin{list3}
+\item
+Annals of Finance,
+Journal of Business,
+European Finance Review,
+Journal of Finance,
+Finance and Stochastics,
+Journal of Financial and Quantitative Analysis,
+Journal of Financial Economics,
+Journal of Financial Intermediation,
+Review of Financial Studies,
+Mathematical Finance,
+Review of Quantitative Finance and Accounting,
+International Journal of Theoretical and Applied Finance.
+\end{list3}
+\item Ad Hoc Reviewer (Economics)
+\begin{list3}
+\item
+American Economic Review,
+Econometrica,
+Journal of Economic Dynamics and Control,
+International Economic Review,
+Review of Economic Studies,
+Economic Theory,
+Journal of Economic Theory,
+Journal of Mathematical Economics,
+Journal of Money, Credit and Banking,o
+National Science Foundation (Division of Economics),o
+Journal of Political Economy,
+Economic Inquiry,
+European Economic Review.
+\end{list3}
+\item Ad Hoc Reviewer (Applied Mathematics)
+\begin{list3}
+\item
+Annals of Applied Probability,
+Applied Mathematics \& Optimization,
+Israel Science Foundation,
+Management Science,
+Mathematical Programming,
+Mathematics of Operations Research,
+National Science Foundation (Division of Mathematics),
+Optimal Control Applications \& Methods,
+Journal of Optimization Theory and Applications,
+SIAM Journal on Control and Optimization,
+Stochastic Processes and their Applications.
+\end{list3}\vspace*{-.15in}
+\end{list1}
