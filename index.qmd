@@ -17,8 +17,32 @@ School of Social Sciences
 ![](RiceUniversity.png)
 :::
 ::::
+
 <br>
-[![](genai4finance.png){width=100px}](https://genai4finance.kerryback.com) [![](dataportal.png){width=100px}](https://data-portal.rice-business.org) [![](learninvestments.png){width=100px}](https://learn-investments.rice-business.org) [![](cover.png){width=100px}](https://book.derivative-securities.org)<br>
+
+:::: {.columns}
+
+::: {.column width="20%"}
+[![](genai4finance.png){width=100px}](https://genai4finance.kerryback.com)
+:::
+
+::: {.column width="20%"}
+[![](dataportal.png){width=100px}](https://data-portal.rice-business.org)
+:::
+
+::: {.column width="20%"}
+[![](learninvestments.png){width=100px}](https://learn-investments.rice-business.org)
+:::
+
+::: {.column width="20%"}
+[![](cover.png){width=100px}](https://book.derivative-securities.org)
+:::
+
+::: {.column width="20%"}
+[![](workshop.png){width=100px}](https://workshop.kerryback.com)
+:::
+
+::::
 
 [![Substack logo](substack.png){width=20px}](https://kerryback.substack.com)
 <br><br><br>
