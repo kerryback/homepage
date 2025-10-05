@@ -6,6 +6,11 @@ project:
     - research.qmd
     - teaching.qmd
     - books.qmd
+  resources:
+    - cv.pdf
+    - CBOEQuotes.txt
+    - Errata_KBack_2ed.pdf
+
     
 
     
