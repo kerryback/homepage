@@ -1,6 +1,6 @@
 :::: {.columns}
 
-::: {.column width="20%"} 
+::: {.column width="20%"}
 
 ![](photo_cropped_captioned.jpg)
 
