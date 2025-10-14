@@ -2,10 +2,10 @@
 
 ::: {.column width="20%"}
 
-![](photo_cropped_captioned.jpg)
+![](headshot-keeper-cropped2.png)
 
 :::
-::: {.column width="10%"}
+::: {.column width="5%"}
 :::
 ::: {.column width="50%"} 
 J. Howard Creekmore Professor of Finance <br>
@@ -13,7 +13,7 @@ Jones Graduate School of Business<br><br>
 Professor of Economics <br>
 School of Social Sciences 
 :::
-::: {.column width="20%"}
+::: {.column width="25%"}
 ![](RiceUniversity.png)
 :::
 ::::
