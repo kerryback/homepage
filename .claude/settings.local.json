@@ -4,7 +4,16 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(quarto:*)"
+      "Bash(quarto:*)",
+      "Bash(python:*)",
+      "Read(//c/users/kerry/dropbox/**)",
+      "Bash(streamlit run streamlit_fireworks.py)",
+      "Bash(ngrok config add-authtoken 32L39tzYqWXpKSOJwx6uC9tMQfX_7Jy1CyTZhdiaTBYgooGxp)",
+      "Bash(ngrok http 8501)",
+      "Bash(timeout 5 curl -s http://localhost:4040/api/tunnels)",
+      "Bash(pdflatex:*)",
+      "Bash(dir:*)",
+      "Bash(nul)"
     ],
     "deny": [],
     "ask": []
