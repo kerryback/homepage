@@ -1,0 +1,144 @@
+---
+title: "Sample Presentation with LaTeX Math"
+author: "Your Name"
+format: pptx
+---
+
+## Introduction
+
+::: {.columns}
+::: {.column width="60%"}
+This is a sample presentation demonstrating LaTeX equations in Quarto.
+
+- Inline math: The famous equation is $E = mc^2$
+- Display equations work too
+- Multiple formats supported
+:::
+
+::: {.column width="40%"}
+![AI Image: Abstract representation of mathematics and physics](images/intro-placeholder.png){width=100%}
+
+*AI Prompt: "Abstract colorful visualization of mathematical equations and physics formulas floating in space"*
+:::
+:::
+
+## Basic Equations
+
+The quadratic formula:
+
+$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+
+For polynomials of the form $ax^2 + bx + c = 0$
+
+## Statistics and Probability
+
+::: {.columns}
+::: {.column width="55%"}
+The normal distribution probability density function:
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
+
+where $\mu$ is the mean and $\sigma$ is the standard deviation.
+:::
+
+::: {.column width="45%"}
+![AI Image: Bell curve visualization](images/normal-dist-placeholder.png){width=100%}
+
+*AI Prompt: "Beautiful 3D visualization of a normal distribution bell curve with flowing particles"*
+:::
+:::
+
+## Finance: Black-Scholes
+
+![AI Image: Financial markets](images/finance-placeholder.png){width=60%}
+
+*AI Prompt: "Modern financial trading floor with glowing stock charts and data visualizations, professional photography"*
+
+The Black-Scholes formula for a call option:
+
+$$C = S_0 N(d_1) - Ke^{-rT} N(d_2)$$
+
+where:
+
+$$d_1 = \frac{\ln(S_0/K) + (r + \sigma^2/2)T}{\sigma\sqrt{T}}$$
+
+$$d_2 = d_1 - \sigma\sqrt{T}$$
+
+## Matrix Operations
+
+A system of linear equations can be written as:
+
+$$\begin{bmatrix}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\ x_2 \\ x_3
+\end{bmatrix} =
+\begin{bmatrix}
+b_1 \\ b_2 \\ b_3
+\end{bmatrix}$$
+
+## Calculus
+
+::: {.columns}
+::: {.column width="50%"}
+![AI Image: Calculus visualization](images/calculus-placeholder.png){width=100%}
+
+*AI Prompt: "Abstract representation of integration and derivatives with flowing curves and mathematical beauty"*
+:::
+
+::: {.column width="50%"}
+The fundamental theorem of calculus:
+
+$$\int_a^b f(x)\,dx = F(b) - F(a)$$
+
+where $F'(x) = f(x)$
+:::
+:::
+
+## Greek Letters and Symbols
+
+Common in finance and statistics:
+
+- Returns: $r_t = \ln(P_t/P_{t-1})$
+- Volatility: $\sigma = \sqrt{\text{Var}(r)}$
+- Beta: $\beta = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}$
+- Alpha: $\alpha = r_i - (r_f + \beta(r_m - r_f))$
+
+## Summation and Products
+
+Sample mean and variance:
+
+$$\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i$$
+
+$$s^2 = \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
+
+## Limits and Derivatives
+
+The definition of a derivative:
+
+$$f'(x) = \lim_{h \to 0} \frac{f(x+h) - f(x)}{h}$$
+
+Chain rule:
+
+$$\frac{d}{dx}[f(g(x))] = f'(g(x)) \cdot g'(x)$$
+
+## Conclusion
+
+::: {.columns}
+::: {.column width="60%"}
+- Quarto makes it easy to include LaTeX math in presentations
+- Equations render beautifully in PowerPoint
+- Perfect for academic and technical presentations
+- Export to PPTX maintains equation formatting
+- AI-generated images enhance visual appeal
+:::
+
+::: {.column width="40%"}
+![AI Image: Success and innovation](images/conclusion-placeholder.png){width=100%}
+
+*AI Prompt: "Futuristic data visualization with mathematical formulas and AI elements, inspiring and professional"*
+:::
+:::
