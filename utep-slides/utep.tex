@@ -1,0 +1,564 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Use metropolitan theme
+\usetheme{metropolis}
+
+% Packages
+\usepackage{booktabs}
+\usepackage{colortbl, comment}
+
+% Title page information
+\title{The Virtue of Complexity in Simple Economic Models}
+
+\author{Kerry Back \and Alexander Ober \and Seth Pruitt}
+
+
+\date{}
+
+% Footer setup
+\setbeamertemplate{frame numbering}[fraction]
+\setbeamertemplate{footline}{
+  \begin{beamercolorbox}[wd=\textwidth,ht=3ex,dp=1.5ex,leftskip=0.3cm,rightskip=0.3cm]{structure}
+    UTEP, Feb 2026
+    \hfill
+    \insertframenumber{} / \inserttotalframenumber
+  \end{beamercolorbox}
+}
+
+\begin{document}
+
+% Title slide
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% Overview slide
+\begin{frame}{Overview}
+
+  \begin{itemize}
+    \item Recent work by Bryan Kelly, Semyon Malamud and co-authors argue that there is a ``virtue of complexity'' in empirical asset pricing, meaning we should use models with many, many factors.
+    \item This (perhaps) runs counter to the standard practice of seeking parsimonious models. 
+    \item The theoretical part of their work has generated some controversy.
+    \item We focus on the empirical part and ask: does complexity work because the world is complex or does it work even in simple environments?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Simple Economic Models}
+\begin{itemize}
+\item We simulate data from three theoretical models: Berk-Green-Naik (1999), Kogan-Papanikolaou (2014), Gomes-Schmid (2021)
+\item All are equilibrium models that generate a panel of firms with varying characteristics and expected returns.
+\begin{itemize}
+\item Expected returns depend on covariances with a stochastic discount factor
+\item Covariances are correlated in the cross-section with characteristics
+\end{itemize}
+\item We evaluate the complexity method by
+\begin{itemize}
+\item Determining whether performance improves as complexity increases
+\item Comparing complex models to Fama-French, Fama-MacBeth, and the CAPM.
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Didisheim-Ke-Kelly-Malamud Characteristic Factors}
+
+\begin{itemize}
+  \item Factors = returns of portfolios whose weights are rank-standardized characteristic values in $[-0.5, 0.5]$
+  \item Example: book-to-market factor would be return of portfolio that is long value stocks (above median bm) and short growth stocks (below median bm).
+  \item "More value" $\Rightarrow$ higher weight.  "More growth" $\Rightarrow$ more negative weight.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Composite Characteristics and Factors}
+\begin{itemize}
+  \item Start with $M$ characteristics $c_{ik}$.  Generate $M$ random numbers $h_k$.  Compute two new composite characteristics
+$$\cos\left(\sum_{k=1}^M h_kc_{ik}\right) \quad \text{and} \quad \sin\left(\sum_{k=1}^M h_kc_{ik}\right)$$
+  \item Repeat many times to get thousands of new composite characteristics.
+  \item Define a factor as described before for each of the new composite characteristics
+\end{itemize}
+\end{frame}
+
+\begin{frame}{DKKM Empirical Results}
+\begin{itemize}
+  \item 130 stock characteristics
+  \item Out-of-sample Sharpe ratios reach 4.0 with high-complexity models (10,000+ factors)
+   \item Fama-French-Carhart 6-factor Sharpe ratio $\approx$ 1.1
+ \end{itemize}
+\end{frame}
+
+\begin{frame}[c]
+  \centering
+  \Huge Data-Generating Models
+\end{frame}
+
+\begin{frame}{Theoretical Models: Overview}
+\begin{itemize}
+\item In all models, risk premia depend on covariances with a stochastic discount factor.
+\item In all models, the covariances are correlated in the cross-section with firm characteristics.
+\item Hence, characteristics `explain' risk premia.
+\item In all models, we can compute size, book-to-market, profitability, asset growth, and momentum (the FFC6 characteristics).
+\item We can also compute the true \alert{traded} stochastic discount factor and the true tangency portfolio.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Berk, Green, and Naik (1999)}
+\begin{itemize}
+  \item Firms invest optimally given an exogenous pricing kernel
+  \item Fixed number of firms, each receives take-it-or-leave-it investment opportunities each period
+  \item Projects generate operating cash flows until they randomly die
+  \item Investment depends on project NPV (which varies with beta and interest rates)
+  \item Model generates: book value, market value, net income, stock returns
+  \item Characteristics: size, book-to-market, ROE, asset growth, momentum
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Kogan and Papanikolaou (2014)}
+\begin{itemize}
+  \item Firms invest optimally given an exogenous pricing kernel
+  \item Two aggregate state variables:
+  \begin{itemize}
+    \item Disembodied productivity affecting all capital
+    \item Productivity of newly installed capital
+  \end{itemize}
+  \item Firms acquire projects stochastically at firm-specific rates
+  \item Optimal capital investment choice for each project
+  \item Firm-specific and project-specific productivity processes
+  \item Projects produce cash flows until they randomly expire
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Gomes and Schmid (2021)}
+\begin{itemize}
+  \item General equilibrium model with heterogeneous firms
+  \item Representative household with Epstein-Zin preferences (endogenous SDF)
+  \item Firms make optimal investment and financing decisions
+  \item Single aggregate productivity process (AR(1)) + firm-specific shocks
+  \item Stochastic investment opportunities with random costs
+  \item Lumpy investment (discrete project adoption)
+  \item Debt: consol bonds paying coupons until random expiration
+  \item Tax benefits of debt; costly equity issuance (pecking order)
+  \item Strategic default when equity value $\leq 0$
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[c]
+  \centering
+  \Huge Our Simulations
+\end{frame}
+
+\begin{frame}{Advantage of Simulations}
+  \begin{itemize}
+  \item Can compute true conditional expected returns, risks, and Sharpe ratios
+  \item Can compute true traded SDF
+  \item Can compute 
+  $$(\text{estimated SDF value}-\text{true SDF value})^2$$
+   each period - the foundation of the Hansen-Jagannathan distance
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Simulation Design}
+\begin{itemize}
+  \item 1,000 firms and 920 months in each panel (discard first 200 as burn-in, leaving 60 years)
+  \item 12 independent panels for each data-generating model
+  \item In each panel for each model in each month, compute true conditional SDF and true conditional max Sharpe ratio
+  \item Use calibrations from original papers, except we substitute exogenous lognormal SDF in Gomes-Schmid, calibrated to match market risk premium
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Evaluations of Empirical Methods}
+
+\begin{itemize}
+\item Compare conditional Sharpe ratios of estimated MVE portfolios of factors
+
+\vspace{0.4cm}
+\begin{quote}
+\leftskip=2em\rightskip=2em
+\upshape Barillas-Shanken, 2017: in horse race between factor models, assuming test assets include competing factors, model with highest Sharpe ratio wins
+\end{quote}
+\item Estimate conditional SDFs implied by the models and compute Hansen-Jagannathan distance to true conditional SDF
+
+\vspace{0.4cm}
+\begin{quote}
+\leftskip=2em\rightskip=2em
+\upshape HJ distance is the maximum pricing error over all test assets with unit uncentered second moment
+\end{quote}
+\item Look at pricing errors for 25 size and book-to-market sorted portfolios
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Britten-Jones Regression}
+  \begin{itemize}
+\item Can find empirical mean-variance frontier by linear regression of constant 1 on asset excess returns
+\item Write fitted regression as
+\begin{align*}
+1 &=  \sum_{i=1}^N \hat \beta_i (r_{i}-r_{f}) + \hat \varepsilon \\
+&= \hat z + \hat \varepsilon
+\end{align*}
+\item Max Sharpe ratio is $\bar z/ \sigma_z$
+\item Result originally due to Hansen and Richard for population: projection in population rather than regression in sample
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Britten-Jones Regression}
+  \centering
+  \includegraphics[height=0.6\textheight]{meanvar.png}
+
+\vspace{-0.2cm}
+\begin{itemize}
+\item Green dot $= (1+r_f) \hat \varepsilon - 1$
+\item Orange dot $= r_f + (1+r_f)\hat z$, the Sharpe ratio of which equals $\bar z /\sigma_z$
+\item Efficient part of frontier is $\{r_f + b\hat z \mid b \ge 0\}$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Our Implementation}
+\begin{itemize}
+\item Use known true distributions to calculate $\hat \varepsilon$.  Use as SDF (orthogonal to excess returns).
+\item In empirical factor models, use Britten-Jones regression on rolling 360 month windows (following DKKM)
+\item With many factors (maybe more than 360), use ridge penalization in Britten-Jones regression (following DKKM)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Performance Measures for Each Factor Model}
+\begin{itemize}
+\item Mean theoretical conditional max Sharpe ratio in each panel
+\item Realized HJ distance: Square root of mean value of $(\hat \varepsilon_{\text{factors}} - \hat \varepsilon_{\text{all-returns}})^2$ in each panel
+\item GRS statistic and max Sharpe ratio of unspanned returns of 25 size and book-to-market sorted portfolios
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Ridge Regression}
+\begin{itemize}
+  \item Minimize: $\frac{1}{T}\sum_{t=1}^T (1 - \beta' F_t)^2 + \alpha \beta'\beta$
+  \item Penalty parameter $\alpha$ controls shrinkage toward zero
+  \item Essential when number of factors $M$ is large relative to sample size $T$
+  \item We examine performance for various $\alpha$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Empirical Factors}
+\begin{itemize}
+\item Form factors from size, book-to-market, operating profitability, asset growth, and momentum in all models
+\item Fama-French-Carhart (FFC): usual $2\times 3$ sorts, use size/book-to-market sort to form SMB
+\item Fama-MacBeth-Rosenberg (FMR): Fama-MacBeth regressions on characteristics
+\item Didisheim-Ke-Kelly-Malamud (DKKM): random Fourier features built from the five characteristics plus market return (not penalized in ridge)
+\item In Berk-Green-Naik, include risk-free rate among DKKM characteristics
+\item In Gomes-Schmid, include leverage in all methods (for FFC, $2\times 3$ sort on size and leverage)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Fama-MacBeth-Rosenberg}
+\begin{itemize}
+  \item Fama-MacBeth (1973), Rosenberg (1976), Fama (1976)
+  \item Regression coefficients $(X'X)^{-1}X'R$ are linear combinations of returns $R$
+  \item Set $W = X(X'X)^{-1}$ so regression coefficients are $W'y$
+  \item Regression coefficients are payoffs of portfolios constituting the columns of $W$
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Diversification Property}
+\begin{itemize}
+  \item \# columns $W=$ \# characteristics $+1$.  $W$ satisfies $X'W=I$
+  \item Each portfolio has a unit inner product with the corresponding column of $X$ and is orthogonal to other columns
+  \item Except for the first (intercept) portfolio, each portfolio is a zero-investment portfolio with a unit value for one characteristic and a zero value for all others.
+  \item Many solutions $W$ of $X'W=I$, but projection $W=X(X'X)^{-1}$ solves, for each column, $\min \; w'w$ subject to orthonormal constraint
+  \item We rescale so long and short sides each sum to 1.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[c]
+  \centering
+  \Huge Results
+\end{frame}
+
+\begin{comment}
+\begin{frame}{BGN Model: Sharpe Ratios}
+  \centering
+  \begin{columns}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \input{tables/combined_sharpe_bgn.tex}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \centering
+      \input{tables/dkkm_bgn_sharpe.tex}
+
+      \vspace{0.2cm}
+      \small DKKM by $\alpha$ and \# factors
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{BGN Model: HJ Distance}
+  \centering
+  \begin{columns}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \input{tables/combined_hjd_bgn.tex}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \centering
+      \input{tables/dkkm_bgn_hjd.tex}
+
+      \vspace{0.2cm}
+      \small DKKM by $\alpha$ and \# factors
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{KP14 Model: Sharpe Ratios}
+  \centering
+  \begin{columns}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \input{tables/combined_sharpe_kp14.tex}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \centering
+      \input{tables/dkkm_kp14_sharpe.tex}
+
+      \vspace{0.2cm}
+      \small DKKM by $\alpha$ and \# factors
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{KP14 Model: HJ Distance}
+  \centering
+  \begin{columns}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \input{tables/combined_hjd_kp14.tex}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \centering
+      \input{tables/dkkm_kp14_hjd.tex}
+
+      \vspace{0.2cm}
+      \small DKKM by $\alpha$ and \# factors
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{GS21 Model: Sharpe Ratios}
+  \centering
+  \begin{columns}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \input{tables/combined_sharpe_gs21.tex}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \centering
+      \input{tables/dkkm_gs21_sharpe.tex}
+
+      \vspace{0.2cm}
+      \small DKKM by $\alpha$ and \# factors
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{GS21 Model: HJ Distance}
+  \centering
+  \begin{columns}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \input{tables/combined_hjd_gs21.tex}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \centering
+      \input{tables/dkkm_gs21_hjd.tex}
+
+      \vspace{0.2cm}
+      \small DKKM by $\alpha$ and \# factors
+    \end{column}
+  \end{columns}
+\end{frame}
+\end{comment}
+
+\begin{frame}{Berk-Green-Naik Model}
+  \centering
+  \includegraphics[width=\textwidth]{figures/dkkm_bgn.pdf}
+\end{frame}
+
+\begin{frame}{Kogan-Papanikolaou Model}
+  \centering
+  \includegraphics[width=\textwidth]{figures/dkkm_kp14.pdf}
+\end{frame}
+
+\begin{frame}{Gomes-Schmid Model}
+  \centering
+  \includegraphics[width=\textwidth]{figures/dkkm_gs21.pdf}
+\end{frame}
+
+\begin{frame}{Sharpe Ratios in Excess of FFC: BGN Model}
+  \centering
+  \includegraphics[height=0.85\textheight]{figures/sharpe_boxplot_bgn.pdf}
+\end{frame}
+
+\begin{frame}{Sharpe Ratios in Excess of FFC: KP Model}
+  \centering
+  \includegraphics[height=0.85\textheight]{figures/sharpe_boxplot_kp14.pdf}
+\end{frame}
+
+\begin{frame}{Sharpe Ratios in Excess of FFC: GS Model}
+  \centering
+  \includegraphics[height=0.85\textheight]{figures/sharpe_boxplot_gs21.pdf}
+\end{frame}
+
+\begin{frame}{HJ Distance in Excess of FFC: BGN Model}
+  \centering
+  \includegraphics[height=0.85\textheight]{figures/hjd_boxplot_bgn.pdf}
+\end{frame}
+
+\begin{frame}{HJ Distance in Excess of FFC: KP Model}
+  \centering
+  \includegraphics[height=0.85\textheight]{figures/hjd_boxplot_kp14.pdf}
+\end{frame}
+
+\begin{frame}{HJ Distance in Excess of FFC: GS21}
+  \centering
+  \includegraphics[height=0.85\textheight]{figures/hjd_boxplot_gs21.pdf}
+\end{frame}
+
+\begin{frame}{Statistical Tests: Sharpe Ratios}
+DKKM (best $\alpha$, 3600 factors) vs other methods
+
+\vspace{0.3cm}
+Paired $t$-tests across simulation panels (one-tailed)
+  \centering
+
+  \vspace{0.3cm}
+  \input{tables/ttest_sharpe.tex}
+
+  \vspace{0.3cm}
+  \raggedright
+  \small Positive diff = DKKM has higher Sharpe ratio
+\end{frame}
+
+\begin{frame}{Statistical Tests: HJ Distance}
+DKKM (best $\alpha$, 3600 factors) vs other methods
+
+\vspace{0.3cm}
+Paired $t$-tests across simulation panels (one-tailed)
+  \centering
+
+  \vspace{0.3cm}
+  \input{tables/ttest_hjd.tex}
+
+  \vspace{0.3cm}
+  \raggedright
+  \small Negative diff = DKKM has lower HJ distance (better)
+\end{frame}
+
+
+\begin{frame}[c]
+  \centering
+  \Huge Pricing 25 Size-BM Portfolios
+\end{frame}
+
+\begin{frame}{GRS Test for Pricing Errors}
+\begin{itemize}
+\item Regress each of 25 size-BM portfolio returns on factor model return:
+$$R_i = \alpha_i + \beta_i F + \varepsilon_i$$
+\item GRS statistic tests $H_0: \alpha_1 = \cdots = \alpha_{25} = 0$
+$$\text{GRS} = \frac{T-N-1}{N} \cdot \frac{1}{1+\text{SR}_F^2} \cdot \alpha'\Sigma^{-1}\alpha$$
+\item Key metric: 
+$$\alpha'\Sigma^{-1}\alpha = \text{max Sharpe ratio of} R-F\beta = \alpha + \varepsilon$$
+\item Under $H_0$: GRS $\sim F(N, T-N-1)$
+\end{itemize}
+\end{frame}
+
+\begin{comment}
+\begin{frame}{Pricing Errors: BGN Model}
+  \centering
+  \input{tables/pricing_bgn.tex}
+
+  \vspace{0.3cm}
+  \raggedright
+  \small Lower $\alpha'\Sigma^{-1}\alpha$ and GRS = better pricing of 25 portfolios
+\end{frame}
+
+\begin{frame}{Pricing Errors: KP14 Model}
+  \centering
+  \input{tables/pricing_kp14.tex}
+
+  \vspace{0.3cm}
+  \raggedright
+  \small Lower $\alpha'\Sigma^{-1}\alpha$ and GRS = better pricing of 25 portfolios
+\end{frame}
+
+\begin{frame}{Pricing Errors: GS21 Model}
+  \centering
+  \input{tables/pricing_gs21.tex}
+
+  \vspace{0.3cm}
+  \raggedright
+  \small Lower $\alpha'\Sigma^{-1}\alpha$ and GRS = better pricing of 25 portfolios
+\end{frame}
+
+\end{comment}
+\begin{frame}{$\alpha'\Sigma^{-1}\alpha$ in Excess of FFC: BGN Model}
+  \centering
+  \includegraphics[height=0.85\textheight]{figures/alpha_quad_boxplot_bgn.pdf}
+\end{frame}
+
+\begin{frame}{$\alpha'\Sigma^{-1}\alpha$ in Excess of FFC: KP Model}
+  \centering
+  \includegraphics[height=0.85\textheight]{figures/alpha_quad_boxplot_kp14.pdf}
+\end{frame}
+
+\begin{frame}{$\alpha'\Sigma^{-1}\alpha$ in Excess of FFC: GS Model}
+  \centering
+  \includegraphics[height=0.85\textheight]{figures/alpha_quad_boxplot_gs21.pdf}
+\end{frame}
+
+\begin{frame}{Statistical Tests: $\alpha'\Sigma^{-1}\alpha$}
+DKKM ($\alpha=0.001$, 3600 factors) vs other methods
+
+\vspace{0.3cm}
+Paired $t$-tests across simulation panels
+  \centering
+
+  \vspace{0.3cm}
+  \input{tables/ttest_alpha_quad.tex}
+
+  \vspace{0.3cm}
+  \raggedright
+  \small Format: diff ($t$-stat). Negative diff = DKKM has lower pricing errors (better). \\
+  \small *$p<0.10$, **$p<0.05$, ***$p<0.01$
+\end{frame}
+
+\begin{frame}{Statistical Tests: GRS Statistic}
+DKKM ($\alpha=0.001$, 3600 factors) vs other methods
+
+\vspace{0.3cm}
+Paired $t$-tests across simulation panels
+  \centering
+
+  \vspace{0.3cm}
+  \input{tables/ttest_grs.tex}
+
+  \vspace{0.3cm}
+  \raggedright
+  \small Format: diff ($t$-stat). Negative diff = DKKM has lower GRS (better). \\
+  \small *$p<0.10$, **$p<0.05$, ***$p<0.01$
+\end{frame}
+
+\begin{frame}{Conclusion}
+\begin{itemize}
+\item In theoretical economies, we know the true SDF, so can calculate the true errors of pricing models.
+\item Provides a laboratory for evaluating models
+\item Results:
+\begin{enumerate}
+\item More complexity is better
+\item Complexity beats standard models
+\end{enumerate}
+\item This is true even in simple economies!
+\end{itemize}
+\end{frame}
+
+\end{document}
