@@ -6,6 +6,7 @@ project:
     - research.qmd
     - teaching.qmd
     - books.qmd
+    - ai-tips.qmd
   resources:
     - cv.pdf
     - CBOEQuotes.txt
