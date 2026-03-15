@@ -2,13 +2,13 @@
 
 ## February 28, 2026
 
-If you ask AI to build a slide deck in beamer, ask it to then generate images of individual slides from the pdf and review them for formatting issues.  It can detect overflows from the logs, but It needs to generate images (pngs) of the slides in order to see other formatting issues (spacing between elements, etc.).
+1.  If you ask AI to build a slide deck in Beamer, ask it to then generate images of individual slides from the pdf and review them for formatting issues.  It can detect overflows from the logs, but it needs to generate images (e.g., pngs) of the slides in order to see other formatting issues (spacing between elements, etc.).
 
-Tell Claude to add to Claude.md that it should generate slide images and review them for formatting whenever it compiles beamer slide decks.  You can also add rules for how you like your slides: 'no more than 5 seconds to read,' 'no more than 3 bullet points,' or whatever.
+2.  Claude Code (and Gemini CLI and OpenAI Codex) is a universal agent.  All you have to do is add instructions/rules/Python scripts/MCP connectors or whatever in Claude.md, Claude skills, or Claude plugins.  Then just tell Claude to do things, and it will consult the instructions, etc. 
 
-More broadly, Claude Code (and, I guess, Gemini CLI and OpenAI Codex) is a universal agent.  All you have to do is add instructions/rules/Python scripts/MCP connectors or whatever in Claude.md, Claude skills, or Claude plugins.  Then just tell Claude to do things, and it will consult the instructions, etc.
+    Skills are just text files.  You can easily edit them to change the styling to whatever you prefer.  Or - even easier - just ask Claude to edit them for you.  A key thing about skills is that Claude only reads them when needed, so they don't clog up the context window.  It knows to read them because of what is in the Claude.md file (another text file that Claude always reads on startup).  So ask Claude to make sure the Claude.md file includes a description of the skill.
 
-Skills are just text files.  You can easily edit them to change the styling to whatever you prefer.  Or - even easier - just ask Claude to edit them for you.  A key thing about skills is that Claude only reads them when needed, so they don't clog up the context window.  It knows to read them because of what is in the Claude.md file (another text file that Claude always reads on startup).  So ask Claude to make sure the Claude.md file includes a description of the skill.
+    You can create a Beamer skill.  Ask Claude to do it for you.  Give it your preferences for theme and styling.  You can  add rules like: 'no more than 5 seconds to read,' 'no more than 3 bullet points,' or whatever. Tell it that it should generate slide images whenever it creates a deck and review them for formatting.  Or split the tasks if you don't always need image generation: maybe beamer-create and beamer-review.
 
 ## March 7, 2026
 
@@ -16,7 +16,7 @@ If you have an AI CLI tool (Claude Code, OpenAI Codex, Gemini CLI), lots of poss
 
 If you use git (or other version control systems, I guess), then you can also search the past.  Ask the AI tool to install git, then ask it to initialize a folder as a git repo and commit it.  Periodically, tell it "commit changes."  Each time it commits, it is saving the current version of the folder.  Later, you can say "I used to have a version of this file with a paragraph that discussed ...  Find the paragraph."  Git is great but a bit complex.  The great thing is that AI knows all about it, so we don't have to know anything.
 
-I can attest that the search abilities - present and past - are lifesavers for old people with poor memories.  Much easier than searching manually through old Dropbox or Overleaf versions.  You can also ask AI to push to GitHub if you want a remote backup - or if you want to share files or create websites using GitHub Pages, etc.
+Asking Claude to search past commits is much easier than searching manually through old Dropbox or Overleaf versions.  You can also ask AI to push to GitHub if you want a remote backup - or if you want to share files or create websites using GitHub Pages, etc.
 
 ## March 14, 2026
 
