@@ -22,29 +22,23 @@ School of Social Sciences
 
 :::: {.columns}
 
-::: {.column width="16.66%"}
-[![](genai4finance.png){width=100px}](https://genai4finance.kerryback.com)
+
+::: {.column width="25%"}
+[![](dataportal.png){width=120px}](https://data-portal.rice-business.org)
 :::
 
-::: {.column width="16.66%"}
-[![](dataportal.png){width=100px}](https://data-portal.rice-business.org)
+::: {.column width="25%"}
+[![](learninvestments.png){width=120px}](https://learn-investments.rice-business.org)
 :::
 
-::: {.column width="16.66%"}
-[![](learninvestments.png){width=100px}](https://learn-investments.rice-business.org)
+::: {.column width="25%"}
+[![](cover.png){width=120px}](https://book.derivative-securities.org)
 :::
 
-::: {.column width="16.66%"}
-[![](cover.png){width=100px}](https://book.derivative-securities.org)
+::: {.column width="25%"}
+[![](workshop.png){width=120px}](https://workshop.kerryback.com)
 :::
 
-::: {.column width="16.66%"}
-[![](workshop.png){width=100px}](https://workshop.kerryback.com)
-:::
-
-::: {.column width="16.66%"}
-[![](substack.png){width=60px}](https://kerryback.substack.com)
-:::
 
 ::::
 <br>I teach asset pricing theory to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and generative AI for finance to MBA students in the Jones School.  Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University.  I served as Senior Associate Dean at the Olin School at Washington University in St. Louis.  I am currently an associate editor of the Journal of Finance, and I'm a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of various other academic journals in economics and finance.  I've written two textbooks and numerous articles in the leading finance and economics journals.  
