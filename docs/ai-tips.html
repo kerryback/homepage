@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -136,6 +170,18 @@ ul.task-list li input[type="checkbox"] {
 <li><p>You can also ask Claude to keep a task list for you. Tell it to create a task skill that stores your tasks in categories like personal, teaching, or research. Then, you can ask, “What are my open teaching tasks?”, “Add a task to do …” Obviously, there are many to-do-list apps, and they are easy enough to use, but it simplifies things to reduce the number of apps I use and do everything inside Claude Code (the way all of personal computing will soon be, I think).</p></li>
 <li><p>Along the same lines, Canvas has an API. You have to click through Canvas and find a link to request an API key from some staff person (Claude can tell you how). Once you have the key, you don’t need to SSO login and two-factor authenticate anymore. Claude can upload files and assignments, download assignment submissions, upload the gradebook and comments, and, of course, help with grading. Ask for a complete summary of why Claude assigned the grades it did, and use that as a starting point for your grading.&nbsp;&nbsp;</p>
 <p>To be FERPA-compliant, ask for a script to upload a dummy gradebook&nbsp;and then run the script on the actual gradebook.&nbsp; Obviously, you should also anonymize assignments before asking Claude to grade them.&nbsp;</p></li>
+</ol>
+</section>
+<section id="march-21-2026" class="level2">
+<h2 class="anchored" data-anchor-id="march-21-2026">March 21, 2026</h2>
+<ol type="1">
+<li><p>If you’ve used Claude Code, you’ve probably already encountered subagents. Claude will sometimes spawn them spontaneously when a task can clearly benefit from parallelization. You can also direct Claude to do tasks with subagents. They run in the background, so you can continue your conversation, including asking for more subagents to do more things, all in parallel.</p>
+<p>I’ve found this <a href="skills/critique/SKILL.md">‘critique’ skill</a> to be useful. Claude created it at my request. Anthropic recently merged skills and slash commands. You can invoke a skill as a slash command. Here, you would give Claude the prompt <code>/critique &lt;filename&gt;</code>. It spawns three subagents. Each critiques the file (document, slide deck, …) from a different viewpoint and reports back to the main Claude agent, which then reports to you. You can ask Claude to run it in a loop, making recommended changes and critiquing again until no additional changes are needed. If you’ve set Claude to bypass permissions, it will run autonomously.</p></li>
+<li><p>To use Claude to edit files on jgsrc1 or another remote server, you can install Claude Code at the command line. Execute</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>curl <span class="op">-</span>fsSL https:<span class="op">//</span>claude.ai<span class="op">/</span>install.sh <span class="op">|</span> bash</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>in a terminal window on jgsrc1. Then execute</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>claude</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>to open Claude Code on jgsrc1. Instead of running <code>claude</code> in a terminal window, you can use VS Code. Install the Remote SSH and Claude Code extensions for VS Code, remote ssh into jgsrc1 from within VS Code, and then use Claude Code inside VS Code. You’ll be working on jgsrc1 and running Claude Code on jgsrc1 while running VS Code on your own computer.</p></li>
 </ol>
 
 

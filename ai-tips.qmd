@@ -38,3 +38,23 @@ Asking Claude to search past commits is much easier than searching manually thro
 Claude can upload files and assignments, download assignment submissions, upload the gradebook and comments, and, of course, help with grading. Ask for a complete summary of why Claude assigned the grades it did, and use that as a starting point for your grading.  
 
    To be FERPA-compliant, ask for a script to upload a dummy gradebook and then run the script on the actual gradebook.  Obviously, you should also anonymize assignments before asking Claude to grade them. 
+
+## March 21, 2026
+
+1. If you've used Claude Code, you've probably already encountered subagents.  Claude will sometimes spawn them spontaneously when a task can clearly benefit from parallelization.  You can also direct Claude to do tasks with subagents.  They run in the background, so you can continue your conversation, including asking for more subagents to do more things, all in parallel.
+
+   I've found this ['critique' skill](skills/critique/SKILL.md) to be useful.  Claude created it at my request.  Anthropic recently merged skills and slash commands.  You can invoke a skill as a slash command.  Here, you would give Claude the prompt `/critique <filename>`.  It spawns three subagents.  Each critiques the file (document, slide deck, ...) from a different viewpoint and reports back to the main Claude agent, which then reports to you.  You can ask Claude to run it in a loop, making recommended changes and critiquing again until no additional changes are needed.  If you've set Claude to bypass permissions,  it will run autonomously.
+
+2.  To use Claude to edit files on jgsrc1 or another remote server, you can install Claude Code at the command line.  Execute
+
+    ``` {.python}
+    curl -fsSL https://claude.ai/install.sh | bash
+    ``` 
+
+    in a terminal window on jgsrc1.  Then execute 
+
+    ``` {.python} 
+    claude
+    ```
+
+    to open Claude Code on jgsrc1.  Instead of running `claude` in a terminal window, you can use VS Code.  Install the Remote SSH and Claude Code extensions for VS Code, remote ssh into jgsrc1 from within VS Code, and then use Claude Code inside VS Code.  You'll be working on jgsrc1 and running Claude Code on jgsrc1 while running VS Code on your own computer.
