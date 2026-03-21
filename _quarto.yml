@@ -16,7 +16,7 @@ project:
     - utep-slides/utep.pdf
     - m1-ai-in-finance.pdf
     - m1-ai-in-finance.pptx
-    - skills/*
+    - skills/**
 
     
 
