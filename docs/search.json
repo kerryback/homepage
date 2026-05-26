@@ -1,5 +1,40 @@
 [
   {
+    "objectID": "bi2ai.html",
+    "href": "bi2ai.html",
+    "title": "From BI to AI: Making Data-Driven Decisions with Agentic AI",
+    "section": "",
+    "text": "Instructor\nKerry Back (kerry.e.back@rice.edu) J. Howard Creekmore Professor of Finance and Professor of Economics\n\n\nCourse Description\nThis course covers how AI agents can be used for personal productivity, enterprise data analysis, and organizational decision-making. It is organized in eight sessions over four weeks.\nLearn the latest AI models and tools and how they can be used for data-driven decision-making. The course covers the use of AI for data handling, data analysis, optimization, generating Excel, PowerPoint, and Word files, and personal productivity. It also explains how to build AI agents, how to ensure data security, and how to augment AI with document retrieval.\nThe AI Lab provides each participant with access to Claude Code, currently the most popular AI coding tool. Through the lab, participants get hands-on exposure to AI coding without needing to install any software or subscribe to an AI provider.\n\n\nSession Outline\nSession 1: The AI Landscape. What AI can do today: chatbots, code agents, and the tools they produce. Participants use AI to generate charts, Excel workbooks, PowerPoint decks, and Word documents from plain-English prompts. Includes a primer on how large language models, chatbots, and agents work.\nSession 2: Data Wrangling. Working with data across formats — CSV, Excel, SQL databases, and Parquet files. Participants use AI to query databases, merge and filter tables, and build visualizations. Covers the difference between sandboxed chatbots and CLI agents that can access remote data sources.\nSession 3: Decision Making. Using AI for optimization and multi-objective decision-making. Participants use AI to assess current state, explore what-if scenarios, run optimization, and stress-test assumptions.\nSession 4: Building AI Agents. How AI agents work under the hood: the agent loop of prompt, tool call, execute, and review. Covers system prompts, tool definitions, and API calls.\nSession 5: Deployment and Governance. Moving from prototype to production. Covers three architecture options — cloud API, on-premise, and hybrid — with their cost, security, and compliance tradeoffs. Includes a build-vs-buy evaluation framework and what production deployment requires: authentication, logging, error handling, and monitoring.\nSession 6: Small Language Models. The cost and privacy tradeoff between frontier models via cloud APIs and small local models that run on-premise. Covers when small models are sufficient, fine-tuning for domain-specific tasks, and hybrid architectures that route queries to different models based on complexity.\nSession 7: Predictive Modeling. Using AI to build machine learning models for problems such as customer churn, revenue forecasting, and deal propensity. Covers model evaluation, feature importance, and when to trust or distrust model output.\nSession 8: Capstone. Participants present a scoped AI adoption strategy for their organization, synthesizing use cases, deployment approach, governance plan, and success metrics from across the course."
+  },
+  {
+    "objectID": "books.html",
+    "href": "books.html",
+    "title": "",
+    "section": "",
+    "text": ",\n\nOnline, in progress\n\n\n\n\n\n\n\nErrata\n\n\n\n\n\n\n\nExcel workbook with VBA code Errata Data for an exercise"
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "",
+    "section": "",
+    "text": "Working Papers\nBack, K., and A. Ober, 2025, Performance of Factor Models in a Simple Economy.\nBack, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2025, Segmented Trading Markets.\nBack, K., Cocquemas, F., Ekren, I., and A. Lioui, 2024, Optimal Transport and Informed Trading in Securities Markets.\n\n\nRecent Publications\nBack, K., Carlin, B., Kazempour, S. M., and C. Xie, 2024, Discretionary Announcement Timing and Stock Returns Journal of Finance, forthcoming.\nBack, K., Crotty, K., and S. M. Kazempour, 2022, Validity, Tightness, and Forecasting Power of Risk Premium Bounds, Journal of Financial Economics, 144, 732–760.\nBack, K., and P. Barton, 2022, Mediation and Strategic Delay in Bargaining and Markets, Journal of Economic Dynamics and Control, 141.\nBack, K., Liu, R., and A. Teguia, 2020, Signaling in OTC Markets: Benefits and Costs of Transparency, Journal of Financial and Quantitative Analysis, 55, 47–75.\nBack, K., Liu, R., and A. Teguia, 2019, Increasing Risk Aversion and Life-Cycle Investing Mathematics and Financial Economics, 13, 287–302.\nBack, K., Collin-Dufresne, P., Fos, V., Li, T., and A. Ljungqvist, 2018, Activism, Strategic Trading, and Liquidity, Econometrica, 86, 1431–1463.\nBack, K., Crane, A., and K. Crotty, 2018, Skewness Consequences of Seeking Alpha, Review of Financial Studies, 31, 4720–4761.\nBack, K., Crotty, K., and T. Li, 2018, Identifying Information Asymmetry in Securities Markets, Review of Financial Studies, 31, 2277–2325.\nBack, K., and K. Crotty, 2015, The Informational Role of Stock and Bond Volume, Review of Financial Studies, 28, 1381–1427.\nBack, K., 2014, A Characterization of the Coskewness-Cokurtosis Pricing Model Economics Letters 125, 219–222.\nBack, K., and S. Baruch, 2013, Strategic Liquidity Provision in Limit Order Markets, Econometrica, 81, 363–392."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "J. Howard Creekmore Professor of Finance  Jones Graduate School of Business Professor of Economics  School of Social Sciences\n\n\n\n\n\n\n\n\n\n\n\nFrom BI to AI: Making Data-Driven Decisions with Agentic AI\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nI teach asset pricing theory to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and generative AI for finance and quantitative investments to MBA students in the Jones School. I am also currently an executive education course (two online sessions per week for four weeks) called From BI to AI: Making Data-Driven Decisions with Agentic AI.\nBefore joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University. I served as Senior Associate Dean at the Olin School at Washington University in St. Louis. I’m a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of the Journal of Finance various other academic journals in economics and finance. I’ve written two textbooks and numerous articles in the leading finance and economics journals.\n I served as the Finance Ph.D. Coordinator for the Jones School for 2009 through 2026. Currently, I serve as the Area Coordinator for the finance faculty group and as the Academic Director of the soon-to-be-launched Master of Finance program. Recently, I’ve been doing research on disclosure policies, security market design, and complexity and momentum in asset pricing. I’ve also been advising several strong Ph.D. students."
+  },
+  {
+    "objectID": "teaching.html",
+    "href": "teaching.html",
+    "title": "",
+    "section": "",
+    "text": "PhD\nBUSI 520: Python for Business Research BUSI 521/ECON 505: Asset Pricing Theory/Financial Economics I\n\n\nMBA\nMGMT 638: Gen AI and Quantitative Investing MGMT 675: Generative AI for Finance\n\n\nMasters in Data Science\nBUSI 721: Data-Driven Finance I BUSI 722: Data-Driven Finance II"
+  },
+  {
     "objectID": "ai-tips.html",
     "href": "ai-tips.html",
     "title": "AI Tips for Faculty",
@@ -40,33 +75,5 @@
     "title": "AI Tips for Faculty",
     "section": "",
     "text": "There has been a lot of chatter online about using Claude Code with the note-taking/organization app Obsidian and also about using Obsidian in conjunction with Andrej Karpathy’s LLM wiki idea. A couple of links are posted below, but just ask Claude if it would be a good idea for you and then ask Claude to implement it.\nThe benefit of using Obsidian rather than a task skill is minor, I think — Obsidian just gives a visual view of everything. The wiki might be more useful. When I asked Claude how I would use it, I got this response:\n\nThe wiki is for me more than for you. When you ask me to help with a research project, I can scan the wiki index to instantly know what papers you have, how they connect, and what’s relevant — without reading 135 PDFs from scratch each time. For example:\n\n“What papers do we have on momentum crashes?” — I check the wiki, find Daniel-Moskowitz 2016, Barroso-Santa-Clara 2015, etc., and summarize what they say.\n“How should we position the credit ratings paper relative to existing work?” — I read the relevant wiki notes and draft a literature positioning.\n“Write a lit review section for the strategy paper” — I pull from wiki notes tagged to back-crotty-dittmar and draft it.\n\nYour process stays the same: You tell me what you need, and the wiki makes me faster and more accurate at helping. You don’t need to browse the wiki yourself (though you can — it’s all readable markdown in Obsidian with cross-links).\nWhere it compounds over time:\n\nWhen you drop in a new paper, I compile a wiki note and link it to your projects\nWhen you have a conversation about a paper with a collaborator, I update the wiki note with your insights\nOver months, the wiki accumulates your perspective on the literature, not just abstracts\n\nThe wiki is a background layer that makes me a better research assistant.\n\nLinks:\n\nHow I Took Karpathy’s LLM Wiki and Built an AI-Powered Second Brain in Obsidian\nClaude Code + Obsidian: Build the Ultimate AI Knowledge Base"
-  },
-  {
-    "objectID": "teaching.html",
-    "href": "teaching.html",
-    "title": "",
-    "section": "",
-    "text": "PhD\nBUSI 520: Python for Business Research BUSI 521/ECON 505: Asset Pricing Theory/Financial Economics I\n\n\nMBA\nMGMT 638: Gen AI and Quantitative Investing MGMT 675: Generative AI for Finance\n\n\nMasters in Data Science\nBUSI 721: Data-Driven Finance I BUSI 722: Data-Driven Finance II"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "",
-    "section": "",
-    "text": "J. Howard Creekmore Professor of Finance  Jones Graduate School of Business Professor of Economics  School of Social Sciences\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nI teach asset pricing theory to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and generative AI for finance to MBA students in the Jones School. Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University. I served as Senior Associate Dean at the Olin School at Washington University in St. Louis. I am currently an associate editor of the Journal of Finance, and I’m a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of various other academic journals in economics and finance. I’ve written two textbooks and numerous articles in the leading finance and economics journals.\n I have served as the Finance Ph.D. Coordinator for the Jones School since 2009. Currently, I am also the Finance Group Coordinator. Recently, I’ve been doing research on disclosure policies, optimal contracting, security market design, and information asymmetry in option markets and advising several strong Ph.D. students."
-  },
-  {
-    "objectID": "research.html",
-    "href": "research.html",
-    "title": "",
-    "section": "",
-    "text": "Working Papers\nBack, K., and A. Ober, 2025, Performance of Factor Models in a Simple Economy.\nBack, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2025, Segmented Trading Markets.\nBack, K., Cocquemas, F., Ekren, I., and A. Lioui, 2024, Optimal Transport and Informed Trading in Securities Markets.\n\n\nRecent Publications\nBack, K., Carlin, B., Kazempour, S. M., and C. Xie, 2024, Discretionary Announcement Timing and Stock Returns Journal of Finance, forthcoming.\nBack, K., Crotty, K., and S. M. Kazempour, 2022, Validity, Tightness, and Forecasting Power of Risk Premium Bounds, Journal of Financial Economics, 144, 732–760.\nBack, K., and P. Barton, 2022, Mediation and Strategic Delay in Bargaining and Markets, Journal of Economic Dynamics and Control, 141.\nBack, K., Liu, R., and A. Teguia, 2020, Signaling in OTC Markets: Benefits and Costs of Transparency, Journal of Financial and Quantitative Analysis, 55, 47–75.\nBack, K., Liu, R., and A. Teguia, 2019, Increasing Risk Aversion and Life-Cycle Investing Mathematics and Financial Economics, 13, 287–302.\nBack, K., Collin-Dufresne, P., Fos, V., Li, T., and A. Ljungqvist, 2018, Activism, Strategic Trading, and Liquidity, Econometrica, 86, 1431–1463.\nBack, K., Crane, A., and K. Crotty, 2018, Skewness Consequences of Seeking Alpha, Review of Financial Studies, 31, 4720–4761.\nBack, K., Crotty, K., and T. Li, 2018, Identifying Information Asymmetry in Securities Markets, Review of Financial Studies, 31, 2277–2325.\nBack, K., and K. Crotty, 2015, The Informational Role of Stock and Bond Volume, Review of Financial Studies, 28, 1381–1427.\nBack, K., 2014, A Characterization of the Coskewness-Cokurtosis Pricing Model Economics Letters 125, 219–222.\nBack, K., and S. Baruch, 2013, Strategic Liquidity Provision in Limit Order Markets, Econometrica, 81, 363–392."
-  },
-  {
-    "objectID": "books.html",
-    "href": "books.html",
-    "title": "",
-    "section": "",
-    "text": ",\n\nOnline, in progress\n\n\n\n\n\n\n\nErrata\n\n\n\n\n\n\n\nExcel workbook with VBA code Errata Data for an exercise"
   }
 ]
