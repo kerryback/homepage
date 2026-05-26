@@ -9,13 +9,13 @@ format:
           </style>
 ---
 
-<h1 style="text-align: center;">From BI to AI:<br>Making Data-Driven Decisions with Agentic AI</h1>
+<h2 style="text-align: center;">From BI to AI:<br>Making Data-Driven Decisions with Agentic AI</h1>
 
 <center>
 ![](RiceBusiness-transparent-logo-sm.png){width=30%}
 </center>
 
-
+---
 
 :::: {style="display: flex; align-items: center; gap: 2em;"}
 ::: {}
