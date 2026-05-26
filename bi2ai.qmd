@@ -5,6 +5,7 @@ format:
       - text: |
           <style>
           .navbar-nav .nav-item { display: none !important; }
+          .navbar-brand { display: none !important; }
           </style>
 ---
 
