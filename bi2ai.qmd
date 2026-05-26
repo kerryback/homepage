@@ -1,11 +1,16 @@
 ---
 format: html
+navbar:
+  title: Kerry Back
+  right:
+    - text: "Home"
+      file: index.qmd
 ---
 
 <h1 style="text-align: center;">From BI to AI:<br>Making Data-Driven Decisions with Agentic AI</h1>
 
 <center>
-![](RiceBusiness-transparent-logo-sm.png){width=40%}
+![](RiceBusiness-transparent-logo-sm.png){width=30%}
 </center>
 
 
@@ -23,6 +28,7 @@ J. Howard Creekmore Professor of Finance and Professor of Economics
 :::
 ::::
 
+---
 
 AI agents that understand plain English, query your data, and deliver answers instantly are transforming how organizations make decisions. This eight-session course gives you hands-on experience building and using these tools — no coding background required.
 
