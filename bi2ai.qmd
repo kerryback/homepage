@@ -23,7 +23,6 @@ J. Howard Creekmore Professor of Finance and Professor of Economics
 :::
 ::::
 
-### Course Description
 
 AI agents that understand plain English, query your data, and deliver answers instantly are transforming how organizations make decisions. This eight-session course gives you hands-on experience building and using these tools — no coding background required.
 
@@ -31,7 +30,13 @@ You'll use AI to wrangle data, generate charts and reports, solve optimization p
 
 The AI Lab provides each participant with cloud-based access to Claude Code so you can work with AI tools without installing software or subscribing to an AI provider.
 
-### Session Outline
+<br>
+
+<div style="display: flex; align-items: center; justify-content: center; background-color: #4e5d6c; padding: 10px; border-radius: 8px;"><style>div[style*='background-color'] p { margin: 0; }</style>
+<span style="font-size: 1.0em; font-weight: 600; line-height: 1;"><a href="https://business.rice.edu/executive-education/open-enrollment-programs/business-intelligence-artificial-intelligence" style="color: #71f0e9; text-decoration: none;">Enroll &rarr;</a></span>
+</div>
+ <br>
+
 
 **Session 1: The AI Landscape.** The major models, what AI agents can create, and where to trust (or verify) their output.
 
@@ -51,8 +56,3 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
 
 Each session is 90 minutes and includes instruction, demos, hands-on exercises, and group discussion.
 
-<br>
-
-<div style="display: flex; align-items: center; justify-content: center; background-color: #4e5d6c; padding: 10px; border-radius: 8px;"><style>div[style*='background-color'] p { margin: 0; }</style>
-<span style="font-size: 1.0em; font-weight: 600; line-height: 1;"><a href="https://business.rice.edu/executive-education/open-enrollment-programs/business-intelligence-artificial-intelligence" style="color: #DF691A; text-decoration: none;">Enroll &rarr;</a></span>
-</div>

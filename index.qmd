@@ -21,7 +21,7 @@ School of Social Sciences
 <br>
 
 <div style="display: flex; align-items: center; justify-content: center; background-color: #4e5d6c; padding: 10px; border-radius: 8px;"><style>div[style*='background-color'] p { margin: 0; }</style>
-<span style="font-size: 1.0em; font-weight: 600; line-height: 1;"><a href="bi2ai.html" style="color: #DF691A; text-decoration: none;">New Executive Education Course: From BI to AI &rarr;</a></span>
+<span style="font-size: 1.0em; font-weight: 600; line-height: 1;"><a href="bi2ai.html" style="color: #71f0e9; text-decoration: none;">New Executive Education Course: From BI to AI &rarr;</a></span>
 </div>
 
 <br>
