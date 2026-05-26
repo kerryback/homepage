@@ -1,10 +1,11 @@
 ---
-format: html
-navbar:
-  title: Kerry Back
-  right:
-    - text: "Home"
-      file: index.qmd
+format:
+  html:
+    include-in-header:
+      - text: |
+          <style>
+          .navbar-nav .nav-item { display: none !important; }
+          </style>
 ---
 
 <h1 style="text-align: center;">From BI to AI:<br>Making Data-Driven Decisions with Agentic AI</h1>
