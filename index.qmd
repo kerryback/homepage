@@ -20,12 +20,19 @@ School of Social Sciences
 
 <br>
 
-::: {.callout-note appearance="minimal"}
-## [From BI to AI: Making Data-Driven Decisions with Agentic AI](bi2ai.html)
-:::
+<div style="display: flex; align-items: center; justify-content: center; background-color: #4e5d6c; padding: 10px; border-radius: 8px;"><style>div[style*='background-color'] p { margin: 0; }</style>
+<span style="font-size: 1.0em; font-weight: 600; line-height: 1;"><a href="bi2ai.html" style="color: #DF691A; text-decoration: none;">New Executive Education Course: From BI to AI &rarr;</a></span>
+</div>
+
+<br>
+I teach asset pricing theory to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and generative AI for finance and quantitative investments to MBA students in the Jones School.  I am also currently teaching monthly sections of an online executive education course on agentic AI --- two online sessions per week for four weeks, linked above.
+<br>
+
+Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University.  I served as Senior Associate Dean at the Olin School at Washington University in St. Louis.  I'm a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of the Journal of Finance and various other academic journals in economics and finance.  I've written two textbooks and numerous articles in the leading finance and economics journals.  
+<br>
+I served as the Finance Ph.D. Coordinator for the Jones School for 2009 through 2026.  Currently, I serve as the Area Coordinator for the finance faculty group and as the Academic Director of the soon-to-be-launched Master of Finance program.  Recently, I've been doing research on disclosure policies, security market design, and complexity and momentum in asset pricing.  I've also been advising several strong Ph.D. students.
 
 :::: {.columns}
-
 
 ::: {.column width="25%"}
 [![](dataportal.png){width=120px}](https://data-portal.rice-business.org)
@@ -43,13 +50,4 @@ School of Social Sciences
 [![](workshop.png){width=120px}](https://workshop.kerryback.com)
 :::
 
-
 ::::
-<br>I teach asset pricing theory to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and generative AI for finance and quantitative investments to MBA students in the Jones School.  I am also currently an executive education course (two online sessions per week for four weeks) called [From BI to AI: Making Data-Driven Decisions with Agentic AI](bi2ai.html).
-
-Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University.  I served as Senior Associate Dean at the Olin School at Washington University in St. Louis.  I'm a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of the Journal of Finance various other academic journals in economics and finance.  I've written two textbooks and numerous articles in the leading finance and economics journals.  
-<br>
-I served as the Finance Ph.D. Coordinator for the Jones School for 2009 through 2026.  Currently, I serve as the Area Coordinator for the finance faculty group and as the Academic Director of the soon-to-be-launched Master of Finance program.  Recently, I've been doing research on disclosure policies, security market design, and complexity and momentum in asset pricing.  I've also been advising several strong Ph.D. students.  
-
-
-

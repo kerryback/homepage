@@ -1,37 +1,58 @@
 ---
-title: "From BI to AI: Making Data-Driven Decisions with Agentic AI"
 format: html
 ---
 
+<h1 style="text-align: center;">From BI to AI:<br>Making Data-Driven Decisions with Agentic AI</h1>
+
+<center>
 ![](RiceBusiness-transparent-logo-sm.png){width=40%}
+</center>
+
+
+
+:::: {style="display: flex; align-items: center; gap: 2em;"}
+::: {}
 
 ### Instructor
 
-[Kerry Back](https://kerryback.com)<br> (<a href="mailto:kerry.e.back@rice.edu">kerry.e.back@rice.edu)</a><br>
+[Kerry Back](https://kerryback.com)<br> <a href="mailto:kerry.e.back@rice.edu">kerry.e.back@rice.edu</a><br>
 J. Howard Creekmore Professor of Finance and Professor of Economics
+:::
+::: {}
+![](headshot-keeper-cropped2.png){width=150px style="border-radius: 8px;"}
+:::
+::::
 
 ### Course Description
 
-This course covers how AI agents can be used for personal productivity, enterprise data analysis, and organizational decision-making.  It is organized in eight sessions over four weeks.
+AI agents that understand plain English, query your data, and deliver answers instantly are transforming how organizations make decisions. This eight-session course gives you hands-on experience building and using these tools — no coding background required.
 
-Learn the latest AI models and tools and how they can be used for data-driven decision-making.  The course covers the use of AI for data handling, data analysis, optimization, generating Excel, PowerPoint, and Word files, and personal productivity.  It also explains how to build AI agents, how to ensure data security, and how to augment AI with document retrieval.
+You'll use AI to wrangle data, generate charts and reports, solve optimization problems, and automate workflows. You'll learn how to build custom AI agents that connect to databases and documents, how to secure them for enterprise use, and how to develop an implementation plan for your organization.
 
-The AI Lab provides each participant with access to Claude Code, currently the most popular AI coding tool.  Through the lab, participants get hands-on exposure to AI coding without needing to install any software or subscribe to an AI provider.
+The AI Lab provides each participant with cloud-based access to Claude Code so you can work with AI tools without installing software or subscribing to an AI provider.
 
 ### Session Outline
 
-**Session 1: The AI Landscape.** What AI can do today: chatbots, code agents, and the tools they produce.  Participants use AI to generate charts, Excel workbooks, PowerPoint decks, and Word documents from plain-English prompts.  Includes a primer on how large language models, chatbots, and agents work.
+**Session 1: The AI Landscape.** The major models, what AI agents can create, and where to trust (or verify) their output.
 
-**Session 2: Data Wrangling.** Working with data across formats --- CSV, Excel, SQL databases, and Parquet files.  Participants use AI to query databases, merge and filter tables, and build visualizations.  Covers the difference between sandboxed chatbots and CLI agents that can access remote data sources.
+**Session 2: Data Wrangling.** Querying databases, merging and filtering data, generating charts and Excel workbooks.
 
-**Session 3: Decision Making.** Using AI for optimization and multi-objective decision-making.  Participants use AI to assess current state, explore what-if scenarios, run optimization, and stress-test assumptions.
+**Session 3: Decision Making.** Optimization, resource allocation, and exploring tradeoffs between competing objectives.
 
-**Session 4: Building AI Agents.** How AI agents work under the hood: the agent loop of prompt, tool call, execute, and review.  Covers system prompts, tool definitions, and API calls.
+**Session 4: Automating Workflows.** Building AI skills for repeatable tasks and web apps that produce analysis on demand.
 
-**Session 5: Deployment and Governance.** Moving from prototype to production.  Covers three architecture options --- cloud API, on-premise, and hybrid --- with their cost, security, and compliance tradeoffs.  Includes a build-vs-buy evaluation framework and what production deployment requires: authentication, logging, error handling, and monitoring.
+**Session 5: AI Security.** Enterprise data agreements, prompt injection, and data exfiltration defenses.
 
-**Session 6: Small Language Models.** The cost and privacy tradeoff between frontier models via cloud APIs and small local models that run on-premise.  Covers when small models are sufficient, fine-tuning for domain-specific tasks, and hybrid architectures that route queries to different models based on complexity.
+**Session 6: Agents and Connectors.** Building agents that query databases, search documents, and connect to external services.
 
-**Session 7: Predictive Modeling.** Using AI to build machine learning models for problems such as customer churn, revenue forecasting, and deal propensity.  Covers model evaluation, feature importance, and when to trust or distrust model output.
+**Session 7: Special Topics.** Teaching AI your company's documents, predictive modeling, and fine-tuning.
 
-**Session 8: Capstone.** Participants present a scoped AI adoption strategy for their organization, synthesizing use cases, deployment approach, governance plan, and success metrics from across the course.
+**Session 8: Capstone.** Pitch your implementation plan and get peer feedback.
+
+Each session is 90 minutes and includes instruction, demos, hands-on exercises, and group discussion.
+
+<br>
+
+<div style="display: flex; align-items: center; justify-content: center; background-color: #4e5d6c; padding: 10px; border-radius: 8px;"><style>div[style*='background-color'] p { margin: 0; }</style>
+<span style="font-size: 1.0em; font-weight: 600; line-height: 1;"><a href="https://business.rice.edu/executive-education/open-enrollment-programs/business-intelligence-artificial-intelligence" style="color: #DF691A; text-decoration: none;">Enroll &rarr;</a></span>
+</div>
