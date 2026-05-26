@@ -46,7 +46,7 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
  <br>
 
 
-**Session 1: The AI Landscape.** The major models, what AI agents can create, and where to trust (or verify) their output.
+**Session 1: The AI Landscape.** The major models, API calls, what AI agents can create, and where to trust (or verify) their output.
 
 **Session 2: Data Wrangling.** Querying databases, merging and filtering data, generating charts and Excel workbooks.
 
