@@ -35,10 +35,6 @@ I served as the Finance Ph.D. Coordinator for the Jones School for 2009 through 
 :::: {.columns}
 
 ::: {.column width="25%"}
-[![](dataportal.png){width=120px}](https://data-portal.rice-business.org)
-:::
-
-::: {.column width="25%"}
 [![](learninvestments.png){width=120px}](https://learn-investments.rice-business.org)
 :::
 
@@ -48,6 +44,10 @@ I served as the Finance Ph.D. Coordinator for the Jones School for 2009 through 
 
 ::: {.column width="25%"}
 [![](workshop.png){width=120px}](https://workshop.kerryback.com)
+:::
+
+::: {.column width="25%"}
+[![](dataportal.png){width=120px}](https://data-portal.rice-business.org)
 :::
 
 ::::
