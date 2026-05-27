@@ -46,9 +46,9 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
  <br>
 
 
-**Session 1: The AI Landscape.** The major models, API calls, what AI agents can create, and where to trust (or verify) their output.
+**Session 1: The AI Landscape.** Chatbots and agents, the major models, large language models from 30,000 feet, API calls, Claude skills and connectors, AI reliability.
 
-**Session 2: Data Wrangling.** Querying databases, merging and filtering data, generating charts and Excel workbooks.
+**Session 2: Python and Data Wrangling.** Terminal commands and Python scripts.  Querying databases, merging and filtering data, generating charts and Excel workbooks.
 
 **Session 3: Decision Making.** Optimization, resource allocation, and exploring tradeoffs between competing objectives.
 
@@ -56,9 +56,9 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
 
 **Session 5: AI Security.** Enterprise data agreements, prompt injection, and data exfiltration defenses.
 
-**Session 6: Agents and Connectors.** Building agents that query databases, search documents, and connect to external services.
+**Session 6: Agents and Connectors.** Building agents that connect to external services, query databases, and run scripts for data analysis and optimization.
 
-**Session 7: Special Topics.** Teaching AI your company's documents, predictive modeling, and fine-tuning.
+**Session 7: Special Topics.** Teaching AI your company's documents, predictive modeling, running open-source models locally, and fine-tuning.
 
 **Session 8: Capstone.** Pitch your implementation plan and get peer feedback.
 
