@@ -1,0 +1,259 @@
+---
+format:
+  typst:
+    font-size: 10.5pt
+    margin:
+      x: 1in
+      y: 0.85in
+    include-before-body:
+      - text: |
+          #set document(title: "Kerry Back - Curriculum Vitae")
+---
+
+```{=typst}
+#set text(font: "Libertinus Serif", size: 10.5pt)
+#set par(justify: true, leading: 0.65em)
+#show heading.where(level: 1): it => {
+  v(0.6em)
+  text(size: 11.5pt, weight: "bold", fill: rgb("#2c3e50"))[#it.body]
+  v(-0.2em)
+  line(length: 100%, stroke: 0.5pt + rgb("#bdc3c7"))
+  v(0.3em)
+}
+#show link: set text(fill: rgb("#2c5f8a"))
+
+#let entry(body) = {
+  block(above: 0.45em, below: 0.45em, body)
+}
+
+// Header
+#align(center)[
+  #text(size: 22pt, weight: "bold", fill: rgb("#2c3e50"))[Kerry Back]
+  #v(-0.3em)
+  #text(size: 10pt, fill: rgb("#7f8c8d"))[
+    J. Howard Creekmore Professor of Finance and Professor of Economics \
+    Jones Graduate School of Business #sym.dot.c Rice University \
+    #link("mailto:kerry.e.back@rice.edu")[kerry.e.back\@rice.edu]
+  ]
+  #v(-0.5em)
+  #line(length: 40%, stroke: 1pt + rgb("#2c3e50"))
+]
+
+= Education
+
+#entry[*Ph.D., Economics* #h(1fr) University of Kentucky, 1983]
+#entry[*B.A., Economics* #h(1fr) Western Kentucky University, 1978]
+
+= Employment
+
+#entry[
+  *Rice University* #h(1fr) 2009 -- \
+  #h(1em) Finance Area Coordinator, 2023 -- \
+  #h(1em) J. Howard Creekmore Professor of Finance and Professor of Economics, 2014 -- \
+  #h(1em) J. Howard Creekmore Professor of Finance, 2009--2014
+]
+
+#entry[
+  *Texas A&M University* #h(1fr) 2004--2009 \
+  #h(1em) Jerry and Kay Cox Chair in Business and Thomas W. Leland Memorial Chair in Finance
+]
+
+#entry[
+  *Washington University in Saint Louis* #h(1fr) 1989--2004 \
+  #h(1em) Senior Associate Dean, Academic Affairs, 1996--2001, 2002--2003 \
+  #h(1em) Vernon W. and Marion K. Piper Professor of Financial Economics, 1996--2004 \
+  #h(1em) Visiting Associate, Associate, and Professor of Finance, 1989--1996
+]
+
+#entry[
+  *Indiana University* #h(1fr) 1987--1990 \
+  #h(1em) Associate Professor of Finance
+]
+
+#entry[
+  *University of Pennsylvania* #h(1fr) 1988--1989 \
+  #h(1em) Visiting Assistant Professor of Economics
+]
+
+#entry[
+  *Northwestern University* #h(1fr) 1982--1987 \
+  #h(1em) Assistant Professor of Economics
+]
+
+= Books
+
++ Back, K., Liu, H., and M. Loewenstein, 2025, #link("https://book.derivative-securities.org")[_Pricing and Hedging Derivative Securities_].
+
++ Back, K., 2016, _Asset Pricing and Portfolio Choice Theory_, Oxford University Press, 2nd ed.
+
++ Back, K., 2005, _A Course in Derivative Securities: Introduction to Theory and Computation_, Springer. Chinese translation by Shanghai People's Publishing House.
+
+= Refereed Articles
+
++ Back, K., Carlin, B., Kazempour, S. M., and C. Xie, forthcoming, "Discretionary Announcement Timing and Stock Returns," _Journal of Finance_.
+
++ Back, K., Crotty, K., and S. M. Kazempour, 2022, "Validity, Tightness, and Forecasting Power of Risk Premium Bounds," _Journal of Financial Economics_, *144*, 732--760.
+
++ Back, K., and P. Barton, 2022, "Mediation and Strategic Delay in Bargaining and Markets," _Journal of Economic Dynamics and Control_, *141*.
+
++ Back, K., Liu, R., and A. Teguia, 2020, "Signaling in OTC Markets: Benefits and Costs of Transparency," _Journal of Financial and Quantitative Analysis_, *55*, 47--75.
+
++ Back, K., Liu, R., and A. Teguia, 2019, "Increasing Risk Aversion and Life-Cycle Investing," _Mathematics and Financial Economics_, *13*, 287--302.
+
++ Back, K., Collin-Dufresne, P., Fos, V., Li, T., and A. Ljungqvist, 2018, "Activism, Strategic Trading, and Liquidity," _Econometrica_, *86*, 1431--1463.
+
++ Back, K., Crane, A., and K. Crotty, 2018, "Skewness Consequences of Seeking Alpha," _Review of Financial Studies_, *31*, 4720--4761.
+
++ Back, K., Crotty, K., and T. Li, 2018, "Identifying Information Asymmetry in Securities Markets," _Review of Financial Studies_, *31*, 2277--2325.
+
++ Back, K., and K. Crotty, 2015, "The Informational Role of Stock and Bond Volume," _Review of Financial Studies_, *28*, 1381--1427.
+
++ Back, K., 2014, "A Characterization of the Coskewness-Cokurtosis Pricing Model," _Economics Letters_, *125*, 219--222.
+
++ Back, K., and S. Baruch, 2013, "Strategic Liquidity Provision in Limit Order Markets," _Econometrica_, *81*, 363--392.
+
++ Back, K., and D. Paulsen, 2009, "Open Loop Equilibria and Perfect Competition in Option Exercise Games," _Review of Financial Studies_, *22*, 4531--4552.
+
++ Back, K., and S. Baruch, 2007, "Working Orders in Limit Order Markets and Floor Exchanges," _Journal of Finance_, *61*, 1589--1621.
+
++ Back, K., and S. Baruch, 2004, "Information in Securities Markets: Kyle Meets Glosten and Milgrom," _Econometrica_, *72*, 433--465.
+
++ Back, K., and J. Zender, 2001, "Auctions of Divisible Goods with Endogenous Supply," _Economics Letters_, *73*, 29--34.
+
++ Back, K., Cao, H., and G. Willard, 2000, "Imperfect Competition among Informed Traders," _Journal of Finance_, *55*, 2117--2155.
+
++ Dybvig, P. H., Rogers, L. C. G., and K. Back, 1999, "Portfolio Turnpikes," _Review of Financial Studies_, *12*, 165--195.
+
++ Back, K., and H. Pedersen, 1998, "Long-Lived Information and Intraday Patterns," _Journal of Financial Markets_, *1*, 385--402.
+
++ Back, K., and J. F. Zender, 1993, "Auctions of Divisible Goods: On the Rationale for the Treasury Experiment," _Review of Financial Studies_, *6*, 733--764.
+
++ Back, K., 1993, "Asymmetric Information and Options," _Review of Financial Studies_, *6*, 435--472.
+
++ Back, K., and D. P. Brown, 1993, "Implied Probabilities in GMM Estimators," _Econometrica_, *61*, 971--975.
+
++ Back, K., 1993, "Incomplete Markets and Individual Risks," _Economic Theory_, *3*, 35--42.
+
++ Back, K., and D. P. Brown, 1992, "GMM, Maximum Likelihood, and Nonparametric Efficiency," _Economics Letters_, *39*, 23--28.
+
++ Back, K., 1992, "Insider Trading in Continuous Time," _Review of Financial Studies_, *5*, 387--409.
+
++ Back, K., 1991, "Asset Pricing for General Processes," _Journal of Mathematical Economics_, *20*, 371--395.
+
++ Back, K., and S. R. Pliska, 1991, "On the Fundamental Theorem of Asset Pricing with an Infinite State Space," _Journal of Mathematical Economics_, *20*, 1--18.
+
++ Back, K., 1988, "Structure of Consumption Sets and Existence of Equilibria in Infinite Dimensional Spaces," _Journal of Mathematical Economics_, *17*, 39--49.
+
++ Back, K., 1988, "Convergence of Lagrange Multipliers and Dual Variables for Convex Optimization Problems," _Mathematics of Operations Research_, *13*, 74--79.
+
++ Back, K., and S. R. Pliska, 1987, "The Shadow Price of Information in Continuous Time Decision Problems," _Stochastics_, *22*, 151--186.
+
++ Back, K., 1987, "A Compact Space of Transitive Locally Non-Satiated Preference Relations," _Economics Letters_, *24*, 253--256.
+
++ Back, K., 1986, "Concepts of Similarity for Utility Functions," _Journal of Mathematical Economics_, *15*, 129--142.
+
++ Back, K., 1986, "Continuity of the Fenchel Transform of Convex Functions," _Proceedings of the American Mathematical Society_, *97*, 661--667.
+
+= Working Papers
+
++ Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2025, "Optimal Transport and Informed Trading in Securities Markets," R&R at _Operations Research_.
+
++ Back, K., Ober, A., and S. Pruitt, 2025, "The Virtue of Complexity in Simple Economic Models."
+
++ Back, K., Çelebi, O., Kakhbod, A., and A. M. Reppen, 2025, "Segmented Trading Markets."
+
+= Other Publications
+
++ Back, K., 2010, "Martingale Pricing," _Annual Review of Financial Economics_, *2*, 235--250.
+
++ Back, K., and S. Baruch, 2010, "The Kyle Model," in R. Cont, ed., _Encyclopedia of Quantitative Finance_, Wiley.
+
++ Back, K., 2004, "Incomplete and Asymmetric Information in Asset Pricing Theory," in M. Frittelli and W. Runggaldier, eds., _Stochastic Methods in Finance_, Lecture Notes in Mathematics, Springer.
+
++ Back, K., 1996, "Yield Curve Models: A Mathematical Review," in I. Nelkin, ed., _Option Embedded Bonds_, Irwin, 3--36.
+
++ Back, K., 1995, "Continuous Trading with Asymmetric Information and Imperfect Competition," in M. Davis et al., eds., _Mathematical Finance_, IMA Volumes, Springer-Verlag.
+
++ Back, K., 1994, "Review of _Dynamic Asset Pricing Theory_ by Darrell Duffie," _Journal of Economic Literature_, *32*, 708--709.
+
++ Back, K., 1991, "Review of _Prices in Financial Markets_ by Michael U. Dothan," _Review of Financial Studies_, *4*, 221--226.
+
+= Editorial Positions
+
+#entry[Editor, Review of Financial Studies #h(1fr) 1994--1997]
+#entry[Co-Editor, Finance and Stochastics #h(1fr) 2001--2011]
+
+#entry[Associate Editor, Journal of Finance #h(1fr) 2022--2025]
+#entry[Associate Editor, Mathematics and Financial Economics #h(1fr) 2006--2021]
+#entry[Associate Editor, Review of Asset Pricing Studies #h(1fr) 2015--2020]
+#entry[Associate Editor, Journal of Finance #h(1fr) 2003--2012]
+#entry[Associate Editor, Journal of Economic Dynamics and Control #h(1fr) 1995--1996]
+#entry[Associate Editor, Journal of Economic Theory #h(1fr) 1993--1996]
+#entry[Associate Editor, Mathematical Finance #h(1fr) 1990--1996]
+#entry[Associate Editor, Review of Financial Studies #h(1fr) 1992--1994]
+
+#entry[Advisory Board, Finance and Stochastics #h(1fr) 2012--2019]
+#entry[Advisory Board, FMA Survey and Synthesis Series #h(1fr) 2012--2015]
+
+= Ph.D. Committees Chaired and Initial Placements
+
+*Rice University* \
+#h(1em) Patrick Blonien (Carnegie Mellon) #sym.dot.c
+Seyed Mohammad Kazempour (LSU) #sym.dot.c
+Paul Barton (SEC) #sym.dot.c
+Alberto Teguia (University of British Columbia) #sym.dot.c
+Ron Liu (University of Nebraska) #sym.dot.c
+Morad Zekhnini (Tulane)
+
+#v(0.3em)
+
+*Texas A&M University* \
+#h(1em) Philipp Illeditsch (Wharton School, University of Pennsylvania)
+
+#v(0.3em)
+
+*Washington University in St. Louis* \
+#h(1em) Chris Yung (University of Colorado) #sym.dot.c
+Tao Li (Chinese University of Hong Kong) #sym.dot.c
+Shmuel Baruch (London Business School) #sym.dot.c
+Hal Pedersen (Georgia State)
+
+= Teaching Awards
+
+#entry[Financial Management Association Innovation in Teaching Award #h(1fr) 2025]
+#entry[Financial Management Association Innovation in Teaching Award (with Kevin Crotty) #h(1fr) 2023]
+#entry[Executive Masters in Manufacturing Management Reid Teaching Award, Olin School #h(1fr) 2001]
+#entry[Executive M.B.A. Reid Teaching Award, Olin School #h(1fr) 1999]
+#entry[Professional M.B.A. Reid Teaching Award, Olin School #h(1fr) 1998]
+#entry[Executive M.B.A. Reid Teaching Award, Olin School #h(1fr) 1997]
+
+= Other Teaching Contributions
+
+- JGSB Finance Ph.D. Coordinator, 2009--2026
+- #link("http://learn-investments.rice-business.org")[Learn Investments at Rice Business]
+- Advisor to Rice MBA teams that won the #link("https://www.cqa.org/investment_challenge")[Chicago Quantitative Alliance Investment Challenge] in 2021--22 and 2022--23.
+
+= Awards and Honors
+
+#entry[Western Finance Association Keynote Speaker #h(1fr) 2024]
+#entry[Member, Foundation for the Advancement of Research in Financial Economics #h(1fr) 2018 --]
+#entry[Fellow of the Finance Theory Group #h(1fr) 2017 --]
+#entry[Nominated for AFA Board of Directors #h(1fr) 2016]
+#entry[Charles River Associates Prize for Best Paper in Corporate Finance, WFA #h(1fr) 2014 \
+#h(1em) _"Liquidity and Governance"_ (with Tao Li and Alexander Ljungqvist)]
+#entry[University of Kentucky Gatton School of Business Alumni Hall of Fame #h(1fr) 2013]
+#entry[Jones Graduate School of Business Scholarship Excellence Award #h(1fr) 2013, 2019]
+#entry[Mays Business School Outstanding Research Award #h(1fr) 2007]
+#entry[Kentucky Economic Association Distinguished Economist #h(1fr) 2000]
+#entry[Washington University Distinguished Faculty Member #h(1fr) 1999]
+#entry[Best Paper in _Review of Financial Studies_ #h(1fr) 1993 \
+#h(1em) _"Asymmetric Information and Options"_]
+#entry[Batterymarch Fellow #h(1fr) 1991--1992]
+
+= Other Professional Activities
+
+#entry[Distinguished Visiting Scholar, Securities and Exchange Commission #h(1fr) 2015]
+#entry[Jon M. Huntsman Presidential Visiting Professor, Utah State University #h(1fr) 2013--2014]
+#entry[AFA Editor Search Committee #h(1fr) 2010--2011]
+#entry[AFA Director Nomination Committee #h(1fr) 1994]
+```
