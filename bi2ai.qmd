@@ -50,7 +50,7 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
 
 **Session 2: Working with AI.** Terminal commands and Python scripts, querying databases, common data operations, generating charts, Excel workbooks, PowerPoint decks, and text output.
 
-**Session 3: Decision Making.** Optimization, resource allocation, and exploring tradeoffs between competing objectives.
+**Session 3: Decision Making with AI.** Optimization, resource allocation, and exploring tradeoffs between competing objectives.
 
 **Session 4: Automating Workflows.** Building AI skills for repeatable tasks and web apps that produce analysis on demand.
 
