@@ -48,7 +48,7 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
 
 **Session 1: The AI Landscape.** Chatbots and agents, the major models, large language models from 30,000 feet, API calls, Claude skills and connectors, AI reliability.
 
-**Session 2: Code Execution and Data Wrangling.** Terminal commands and Python and SQL scripts.  Querying databases, merging and filtering data, generating charts and Excel workbooks.
+**Session 2: Working with AI.** Terminal commands and Python scripts, querying databases, common data operations, generating charts, Excel workbooks, PowerPoint decks, and text output.
 
 **Session 3: Decision Making.** Optimization, resource allocation, and exploring tradeoffs between competing objectives.
 
