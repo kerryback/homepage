@@ -58,7 +58,7 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
 
 **Session 6: Agents and Connectors.** Building agents that connect to external services, query databases, and run scripts for data analysis and optimization.
 
-**Session 7: Special Topics.** Teaching AI your company's documents, predictive modeling, running open-source models locally, and fine-tuning.
+**Session 7: Additional Topics.** Teaching AI your company's documents, predictive modeling, running open-source models locally, and fine-tuning.
 
 **Session 8: Capstone.** Pitch your implementation plan and get peer feedback.
 
