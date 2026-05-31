@@ -52,15 +52,15 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
 
 **Session 3: Decision Making with AI.** Optimization, resource allocation, and exploring tradeoffs between competing objectives.
 
-**Session 4: Automating Workflows.** Building AI skills for repeatable tasks and web apps that produce analysis on demand.
+**Session 4: Automating Workflows.** Build AI skills for repeatable tasks and web apps that produce analysis on demand.
 
 **Session 5: AI Security.** Enterprise data agreements, prompt injection, and data exfiltration defenses.
 
-**Session 6: Agents and Connectors.** Building agents that connect to external services, query databases, and run scripts for data analysis and optimization.
+**Session 6: Creating Agents.** Build a personal-assistant agent.  Build agents that query databases, perform data analysis, and generate reports.
 
-**Session 7: Additional Topics.** Teaching AI your company's documents, predictive modeling, running open-source models locally, and fine-tuning.
+**Session 7: Additional Topics.** Teach AI your company's documents, perform predictive modeling, runn open-source models locally, and fine-tune small models.
 
 **Session 8: Capstone.** Pitch your implementation plan and get peer feedback.
 
-Each session is 90 minutes and includes instruction, demos, hands-on exercises, and group discussion.
+Each session is 90 minutes and includes instruction, demos, and group discussion.
 
