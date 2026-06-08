@@ -46,19 +46,19 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
  <br>
 
 
-**Session 1: The AI Landscape.** Chatbots and agents, the major models, large language models from 30,000 feet, API calls, Claude skills and connectors, AI reliability.
+**Session 1: The AI Landscape.** Chatbots and agents, the major models, large language models from 30,000 feet, Claude Desktop: Chat/Cowork/Code, API calls, Claude skills and connectors, prompting techniques.
 
 **Session 2: Working with AI.** Terminal commands and Python scripts, querying databases, common data operations, generating charts, Excel workbooks, PowerPoint decks, and text output.
 
-**Session 3: Decision Making with AI.** Optimization, resource allocation, and exploring tradeoffs between competing objectives.
+**Session 3: Decision Making with AI.** Optimization, exploring tradeoffs between competing objectives, simulation.
 
-**Session 4: Automating Workflows.** Build AI skills for repeatable tasks and web apps that produce analysis on demand.
+**Session 4: Introduction to Agents.** From Python scripts to software apps to AI agents.  System prompt, tools, and connections.  Prompt-driven data retrieval, analysis, charts, and reports.
 
-**Session 5: AI Security.** Enterprise data agreements, prompt injection, and data exfiltration defenses.
+**Session 5: AI Security.** Enterprise data agreements, prompt injection, and data exfiltration defenses. Risks with Claude Cowork vs Claude Code.  Mitigating risks with custom agents.  Anonymization and containers.
 
-**Session 6: Creating Agents.** Build a personal-assistant agent.  Build agents that query databases, perform data analysis, and generate reports.
+**Session 6: Deep Dive into Agents.** Build a personal-assistant agent.  Build secure agents that query databases, perform data analysis, and generate reports.
 
-**Session 7: Additional Topics.** Teach AI your company's documents, perform predictive modeling, runn open-source models locally, and fine-tune small models.
+**Session 7: Additional Topics.** Teach AI your company's documents, perform predictive modeling, run open-source models locally, and fine-tune small models.
 
 **Session 8: Capstone.** Pitch your implementation plan and get peer feedback.
 
