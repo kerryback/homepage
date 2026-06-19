@@ -54,9 +54,9 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
 
 **Session 4: Introduction to Agents.** From Python scripts to software apps to AI agents.  System prompt, tools, and connections.  Prompt-driven data retrieval, analysis, charts, and reports.
 
-**Session 5: AI Security.** Enterprise data agreements, prompt injection, and data exfiltration defenses. Risks with Claude Cowork vs Claude Code.  Mitigating risks with custom agents.  Anonymization and containers.
+**Session 5: AI Security.** Enterprise data agreements, prompt injection, and data exfiltration defenses.  Mitigating risks with custom agents.  Anonymization and containers.
 
-**Session 6: Deep Dive into Agents.** Build a personal-assistant agent.  Build secure agents that query databases, perform data analysis, and generate reports.
+**Session 6: Deep Dive into Agents.** Containerize and network agents to create secure comprehensive agents that query the web, query confidential databases, perform data analysis, and generate reports.  Build a secure personal-assistant agent.  
 
 **Session 7: Additional Topics.** Teach AI your company's documents, perform predictive modeling, run open-source models locally, and fine-tune small models.
 
