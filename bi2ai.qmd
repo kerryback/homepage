@@ -46,19 +46,19 @@ The AI Lab provides each participant with cloud-based access to Claude Code so y
  <br>
 
 
-**Session 1: The AI Landscape.** Chatbots and agents, the major models, large language models from 30,000 feet, Claude Desktop: Chat/Cowork/Code, API calls, Claude skills and connectors, prompting techniques.
+**Session 1: The AI Landscape.** Chatbots and agents; the major models; large language models from 30,000 feet; Claude Desktop: Chat/Cowork/Code; API calls; prompting techniques.
 
-**Session 2: Working with AI.** Terminal commands and Python scripts, querying databases, common data operations, generating charts, Excel workbooks, PowerPoint decks, and text output.
+**Session 2: Working with AI.** Terminal commands and Python scripts; querying databases; common data operations; generating charts, Excel workbooks, PowerPoint decks, and text output; Claude skills and connectors.
 
-**Session 3: Decision Making with AI.** Optimization, exploring tradeoffs between competing objectives, simulation.
+**Session 3: Optimization and Prediction with AI.** Optimization; exploring tradeoffs between competing objectives; simulation; predictive models; train/test; evaluation of predictive models.
 
-**Session 4: Introduction to Agents.** From Python scripts to software apps to AI agents.  System prompt, tools, and connections.  Prompt-driven data retrieval, analysis, charts, and reports.
+**Session 4: Automating Workflows with AI.** How software works; building database interfaces and dashboards; automatic table, chart, and document production; containers and deployment. 
 
-**Session 5: AI Security.** Enterprise data agreements, prompt injection, and data exfiltration defenses.  Mitigating risks with custom agents.  Anonymization and containers.
+**Session 5: AI Agents and Security.** Claude Agent SDK, data processing agreements, prompt injection and data exfiltration defenses.  Containers and proxies.
 
-**Session 6: Deep Dive into Agents.** Containerize and network agents to create secure comprehensive agents that query the web, query confidential databases, perform data analysis, and generate reports.  Build a secure personal-assistant agent.  
+**Session 6: Deep Dive into Agents.** Building teams of agents; using containers to implement least privilege; build a secure personal-assistant agent.  
 
-**Session 7: Additional Topics.** Teach AI your company's documents, perform predictive modeling, run open-source models locally, and fine-tune small models.
+**Session 7: Additional Topics.** Retrieval augmented generation, virtues of small language models, running models locally, fine tuning.  
 
 **Session 8: Capstone.** Pitch your implementation plan and get peer feedback.
 
