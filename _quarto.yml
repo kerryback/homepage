@@ -8,6 +8,7 @@ project:
     - books.qmd
     - ai-tips.qmd
     - bi2ai.qmd
+    - academic_studio.qmd
   resources:
     - cv.pdf
     - CBOEQuotes.txt

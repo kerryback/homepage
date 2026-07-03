@@ -13,7 +13,19 @@
       "Bash(timeout 5 curl -s http://localhost:4040/api/tunnels)",
       "Bash(pdflatex:*)",
       "Bash(dir:*)",
-      "Bash(nul)"
+      "Bash(nul)",
+      "Bash(ls -la /Users/kerryback/repos/academic_code/ 2>/dev/null | head -40; echo \"---icons---\"; find /Users/kerryback/repos/academic_code -iname \"*icon*\" -o -iname \"*logo*\" 2>/dev/null | head)",
+      "Read(//Users/kerryback/repos/academic_code/**)",
+      "Bash(ls -la /Users/kerryback/repos/academic_code/overlay/icons /Users/kerryback/repos/academic_code/build-engine/icons 2>/dev/null | head -50)",
+      "Read(//Users/kerryback/repos/academic_code/overlay/icons/**)",
+      "Bash(cp /Users/kerryback/repos/academic_code/overlay/icons/academic-studio.png /Users/kerryback/repos/homepage/academic-studio.png)",
+      "Bash(sips -g hasAlpha /Users/kerryback/repos/homepage/academic-studio.png)",
+      "mcp__plugin_playwright_playwright__browser_evaluate",
+      "mcp__plugin_playwright_playwright__browser_take_screenshot",
+      "Bash(rm -f row.png row2.png row3.png docs/row.png docs/row2.png docs/row3.png)",
+      "Bash(rm -rf .playwright-mcp docs/.playwright-mcp)",
+      "Bash(pkill -f \"http.server 8877\")",
+      "Bash(git add *)"
     ],
     "deny": [],
     "ask": []

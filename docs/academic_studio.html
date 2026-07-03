@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>teaching</title>
+<title>academic_studio</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -245,7 +245,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./teaching.html" aria-current="page"> 
+    <a class="nav-link" href="./teaching.html"> 
 <span class="menu-text">Teaching</span></a>
   </li>  
   <li class="nav-item">
@@ -276,23 +276,58 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="phd" class="level3">
-<h3 class="anchored" data-anchor-id="phd">PhD</h3>
-<p><a href="https://busi520.kerryback.com/">BUSI 520</a>: Python for Business Research<br> <a href="https://busi521.kerryback.com/">BUSI 521/ECON 505</a>: Asset Pricing Theory/Financial Economics I</p>
+<section id="academic-studio" class="level1">
+<h1>Academic Studio</h1>
+<p>Academic Studio is a bundle of Claude Code, a file browser, a file viewer and editor, and a simplified install method for extensions and supporting software that are especially useful for business professionals, students, and teachers. Claude Code launches on startup.</p>
+<p>On first startup, if your computer is not already logged in to Anthropic, you should enter <code>/login</code> in the Claude prompt window to initiate the login process. Open this guide any time from Help → Academic Studio Help.</p>
+<section id="features" class="level2">
+<h2 class="anchored" data-anchor-id="features">Features</h2>
+<ul>
+<li>Claude Code, built in. The Claude Code assistant opens automatically and works alongside your files. Ask it to write, analyze data, build slides, or create documents.</li>
+<li>Real documents. Claude can create and edit Excel, Word, PowerPoint, PDF, LaTeX, and Quarto files using its document skills — ask for “a budget spreadsheet” or “a 10-slide deck” and you get an actual file you can open and share.</li>
+<li>A workspace, not just a chat. Open a folder and your files and your conversation history live with that project — your work persists.</li>
+<li>Python, Jupyter, R, LaTeX, Quarto. Bundled support for data analysis, notebooks, statistics, typesetting, and HTML document creation.</li>
+<li>Slides with Quarto + reveal.js. Write a <code>.qmd</code> file with <code>format: revealjs</code>; Claude is great at these, and the plain text stays easy to edit afterward.</li>
+<li>One-stop setup. Help → Run Setup… lets you pick your profile (Faculty or Students &amp; Professionals), choose which extensions are active, and install supporting programs (Python, Node.js, Quarto, R, TinyTeX) with one click.</li>
+<li>Installation of important Python libraries: the scientific stack plus libraries to create Office documents.</li>
+</ul>
+<section id="getting-started" class="level3">
+<h3 class="anchored" data-anchor-id="getting-started">Getting started</h3>
+<ol type="1">
+<li>Open a folder: File → Open Folder… — your files appear in the Explorer on the left.</li>
+<li>Talk to Claude in the panel that opens on startup — ask it to create a file, write some code, or build a document.</li>
+<li>Files save automatically a moment after you stop typing.</li>
+</ol>
 </section>
-<section id="mba" class="level3">
-<h3 class="anchored" data-anchor-id="mba">MBA</h3>
-<p>MGMT 638: Gen AI and Quantitative Investing<br> <a href="https://mgmt675.kerryback.com">MGMT 675</a>: Generative AI for Finance<br></p>
 </section>
-<section id="masters-in-data-science" class="level3">
-<h3 class="anchored" data-anchor-id="masters-in-data-science">Masters in Data Science</h3>
-<p><a href="https://busi721-901.kerryback.com/">BUSI 721</a>: Data-Driven Finance I<br> <a href="https://busi722-901.kerryback.com/">BUSI 722</a>: Data-Driven Finance II</p>
+<section id="compared-to-claude-desktop" class="level2">
+<h2 class="anchored" data-anchor-id="compared-to-claude-desktop">Compared to Claude Desktop</h2>
+<p>Academic Studio runs Claude Code like the Code mode of Claude Desktop. The principal benefits for business professionals and students of Academic Studio relative to Claude Desktop Code are the integrated file browser and file viewer/editor and the one-stop install of Python and Node.js.</p>
+<p>For faculty and researchers, the one-click run/build for LaTeX, Quarto, Python, R, and Jupyter are the most important benefits.</p>
+<p>Unlike Claude Desktop, Academic Studio does not use point-and-click to install skills, MCP connectors, and plugins. However, there is an easier method — just ask Claude to install them.</p>
 </section>
-<section id="miscellaneous" class="level3">
-<h3 class="anchored" data-anchor-id="miscellaneous">Miscellaneous</h3>
-<p><a href="https://workshop.kerryback.com">Python Workshop</a> Short <em>Intro to Python</em> workshop for MBA students</p>
+<section id="compared-to-vs-code" class="level2">
+<h2 class="anchored" data-anchor-id="compared-to-vs-code">Compared to VS Code</h2>
+<p>Under the hood Academic Studio is VS Code (via the open-source VSCodium), so it will feel familiar if you’ve used VS Code — but it’s simplified for getting work done:</p>
+<ul>
+<li>Menus and toolbars are trimmed, with beginner-friendly defaults.</li>
+<li>Files auto-save a second after you stop typing (auto-save is off by default in standard VS Code).</li>
+<li>Claude Code is built in and opens on startup.</li>
+<li>One-stop installation for important tools — Office Viewer, PDF, Quarto, Python, Jupyter, R, LaTeX — so there’s no hunting for extensions.</li>
+<li>Help → Run Setup… installs the supporting programs (Python, Quarto, R, TinyTeX, Node.js) for you.</li>
+<li>No telemetry and no Copilot; extensions come from the open <a href="https://open-vsx.org">Open VSX</a> registry.</li>
+</ul>
+</section>
+<section id="tips" class="level2">
+<h2 class="anchored" data-anchor-id="tips">Tips</h2>
+<ul>
+<li>Command Palette (every command): press F1.</li>
+<li>Re-run setup any time from Help → Run Setup… to change your extensions or install more programs.</li>
+<li>R IntelliSense needs the R <code>languageserver</code> package: install R, then run <code>install.packages("languageserver")</code> in R.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

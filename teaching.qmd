@@ -6,10 +6,14 @@
 
 ### MBA
 
-[MGMT 638](https://mgmt638.kerryback.com/): Gen AI and Quantitative Investing<br>
+MGMT 638: Gen AI and Quantitative Investing<br>
 [MGMT 675](https://mgmt675.kerryback.com): Generative AI for Finance<br>
 
 ### Masters in Data Science
 
 [BUSI 721](https://busi721-901.kerryback.com/): Data-Driven Finance I<br>
 [BUSI 722](https://busi722-901.kerryback.com/): Data-Driven Finance II
+
+### Miscellaneous
+
+[Python Workshop](https://workshop.kerryback.com) Short *Intro to Python* workshop for MBA students

@@ -21,7 +21,7 @@ School of Social Sciences
 <br>
 
 <div style="display: flex; align-items: center; justify-content: center; background-color: #4e5d6c; padding: 10px; border-radius: 8px;"><style>div[style*='background-color'] p { margin: 0; }</style>
-<span style="font-size: 1.0em; font-weight: 600; line-height: 1;"><a href="bi2ai.html" style="color: #71f0e9; text-decoration: none;">New Executive Education Course: From BI to AI &rarr;</a></span>
+<span style="font-size: 1.0em; font-weight: 600; line-height: 1;"><a href="bi2ai.html" style="color: #71f0e9; text-decoration: none;">Executive Education Course: From BI to AI &rarr;</a></span>
 </div>
 
 <br>
@@ -29,25 +29,30 @@ I teach asset pricing theory to PhD students in the Jones School and the Departm
 <br>
 
 Before joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University.  I served as Senior Associate Dean at the Olin School at Washington University in St. Louis.  I'm a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of the Journal of Finance and various other academic journals in economics and finance.  I've written two textbooks and numerous articles in the leading finance and economics journals.  My papers received the Best Paper Award at the Review of Financial Studies (1993) and the Best Paper in Corporate Finance Award at the Western Finance Association (2014).
+
 <br>
-I served as the Finance Ph.D. Coordinator for the Jones School for 2009 through 2026.  Currently, I serve as the Area Coordinator for the finance faculty group.  Recently, I've been doing research on disclosure policies, security market design, and complexity and momentum in asset pricing.  I've also been advising several strong Ph.D. students.  Among other teaching awards, I received the Financial Management Association Innovation in Teaching Award in 2023 and 2025 and the Jones Graduate School of Business Ph.D. Mentoring Award in 2023 and 2025.
+I served as the Finance Ph.D. Coordinator for the Jones School for 2009 through 2026 and as the Area Coordinator for the finance faculty group for 2023 through 2026.  Recently, I've been doing research on disclosure policies, security market design, and complexity and momentum in asset pricing.  I've also been advising several strong Ph.D. students.  Among other teaching awards, I received the Financial Management Association Innovation in Teaching Award in 2023 and 2025 and the Jones Graduate School of Business Ph.D. Mentoring Award in 2024 and 2026.
 
-:::: {.columns}
+<br>
 
-::: {.column width="25%"}
-[![](learninvestments.png){width=120px}](https://learn-investments.rice-business.org)
+:::: {.columns style="align-items: center;"}
+
+::: {.column width="33%"}
+::: {style="text-align: center;"}
+[![](learninvestments.png "Learn Investments @ Rice Business"){height=120px style="border-radius:20px;"}](https://learn-investments.rice-business.org)
+:::
 :::
 
-::: {.column width="25%"}
-[![](cover.png){width=120px}](https://book.derivative-securities.org)
+::: {.column width="33%"}
+::: {style="text-align: center;"}
+[![](academic-studio.png "Academic Studio"){style="height:120px; width:180px; object-fit:contain; background:#ffffff; border-radius:20px;"}](https://academic-studio.com)
+:::
 :::
 
-::: {.column width="25%"}
-[![](workshop.png){width=120px}](https://workshop.kerryback.com)
+::: {.column width="33%"}
+::: {style="text-align: center;"}
+[![](cover.png "Pricing and Hedging Derivative Securities"){height=120px style="border-radius:20px;"}](https://book.derivative-securities.org)
 :::
-
-::: {.column width="25%"}
-[![](dataportal.png){width=120px}](https://data-portal.rice-business.org)
 :::
 
 ::::
