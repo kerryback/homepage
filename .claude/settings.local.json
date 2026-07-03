@@ -25,7 +25,9 @@
       "Bash(rm -f row.png row2.png row3.png docs/row.png docs/row2.png docs/row3.png)",
       "Bash(rm -rf .playwright-mcp docs/.playwright-mcp)",
       "Bash(pkill -f \"http.server 8877\")",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -q -m 'Add Academic Studio icon to homepage links row *)",
+      "Bash(git push *)"
     ],
     "deny": [],
     "ask": []
