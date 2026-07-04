@@ -58,7 +58,7 @@ Our AI Lab provides each participant with cloud-based access to Claude Code so y
 
 **Session 6: Deep Dive into Agents.** Build teams of agents; use containers to implement least privilege; build a secure personal-assistant agent.  
 
-**Session 7: Additional Topics.** Retrieval augmented generation; virtues of small language models; running models locally; fine tuning.  
+**Session 7: Make Your AI Smarter.** Retrieval augmented generation; graph databases; fine tuning.  
 
 **Session 8: Capstone.** Pitch your implementation plan and get peer feedback.
 
