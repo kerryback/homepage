@@ -47,7 +47,7 @@ ln -s "$(pwd)/skills/plugins/voiceover/skills/voiceover" ~/.claude/skills/voiceo
 ## How it works
 
 1. Launch on a slide deck. Point the skill at a PDF (`/voiceover deck.pdf`). A small local app opens in your browser on the Narration step.
-2. Claude drafts the narration. Claude reads the deck and writes spoken narration for every slide, one continuous lecture. It appears in the app within a few seconds.
+2. Claude drafts the narration. Claude reads the deck and writes narration for every slide. It appears in the app within a few seconds.
 3. Review and revise. Change the script either way: edit any slide's text directly in the app (it autosaves), or just tell Claude what you want --- "tighten slide 3," "warmer tone on the intro," "add a worked example here" --- and Claude revises it. Iterate until it reads well.
 4. Pick a voice and generate. On the Generate step, choose an ElevenLabs voice (including your own cloned voices) and build the video.
 5. Preview and share. Watch the result on the Preview step. Each build writes `<name>.mp4` and `<name>.txt` to your project folder, ready to share however you distribute course materials --- your LMS, a shared drive, YouTube, or a NotebookLM notebook.
