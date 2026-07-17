@@ -20,20 +20,29 @@ Handled for you: Python (the first launch builds a small virtual environment), f
 
 ## Install
 
-As a Claude Code plugin:
+Use any one of these, then invoke it in Claude Code with `/voiceover` on a PDF slide deck.
+
+### 1. npx (skills CLI)
+
+```
+npx skills@latest add kerryback/skills
+```
+
+Pick `voiceover` from the menu (add `--list` to preview). Installs into `~/.claude/skills/`.
+
+### 2. Claude Code plugin marketplace
 
 ```
 /plugin marketplace add kerryback/skills
 /plugin install voiceover@kerryback-skills
 ```
 
-Or with the `skills` CLI:
+### 3. Manual (clone and symlink)
 
 ```
-npx skills@latest add kerryback/skills
+git clone https://github.com/kerryback/skills.git
+ln -s "$(pwd)/skills/plugins/voiceover/skills/voiceover" ~/.claude/skills/voiceover
 ```
-
-Then invoke it in Claude Code with `/voiceover` on a PDF slide deck.
 
 ## How it works
 
