@@ -1,0 +1,50 @@
+# Voiceover
+
+Voiceover turns a PDF slide deck into a narrated MP4 video plus a transcript. It is a [Claude Code](https://claude.com/claude-code) skill: Claude writes the per-slide narration, you review and revise it --- edit it yourself or just tell Claude what to change --- then pick an AI voice and generate the video. It is designed for instructors who want to turn lecture slides into self-paced narrated videos, but it works for any slide deck.
+
+Source and issues: [github.com/kerryback/skills](https://github.com/kerryback/skills) (the `voiceover` plugin).
+
+## Two roles
+
+- Instructor --- runs the skill locally to author the video. Claude writes the narration; the instructor reviews it, picks a voice, and generates.
+- Students --- run nothing. They receive two files, `<name>.mp4` (the narrated video) and `<name>.txt` (the transcript), and view them like any other course material.
+
+## What you need
+
+Two things you provide; everything else is handled for you.
+
+- Quarto on your PATH --- renders the deck for the video. Install from [quarto.org](https://quarto.org/docs/get-started/).
+- An ElevenLabs API key in `ELEVENLABS_API_KEY` --- the text-to-speech voice. Get a free key at [elevenlabs.io](https://elevenlabs.io).
+
+Handled for you: Python (the first launch builds a small virtual environment), ffmpeg (ships with the Python dependencies), and the web interface (ships prebuilt). No Anthropic API key is needed for the narration --- Claude Code writes it. The skill checks for Quarto and the ElevenLabs key on first use and offers to help set them up.
+
+## Install
+
+As a Claude Code plugin:
+
+```
+/plugin marketplace add kerryback/skills
+/plugin install voiceover@kerryback-skills
+```
+
+Or with the `skills` CLI:
+
+```
+npx skills@latest add kerryback/skills
+```
+
+Then invoke it in Claude Code with `/voiceover` on a PDF slide deck.
+
+## How it works
+
+1. Launch on a slide deck. Point the skill at a PDF (`/voiceover deck.pdf`). A small local app opens in your browser on the Narration step.
+2. Claude drafts the narration. Claude reads the deck and writes spoken narration for every slide, one continuous lecture. It appears in the app within a few seconds.
+3. Review and revise. Change the script either way: edit any slide's text directly in the app (it autosaves), or just tell Claude what you want --- "tighten slide 3," "warmer tone on the intro," "add a worked example here" --- and Claude revises it. Iterate until it reads well.
+4. Pick a voice and generate. On the Generate step, choose an ElevenLabs voice (including your own cloned voices) and build the video.
+5. Preview and share. Watch the result on the Preview step. Each build writes `<name>.mp4` and `<name>.txt` to your project folder, ready to share however you distribute course materials --- your LMS, a shared drive, YouTube, or a NotebookLM notebook.
+
+Each deck is saved by name, so you can reopen it later to edit the narration and regenerate the video.
+
+## Privacy and grounding
+
+The narration is written by Claude Code from your deck; the app makes no model calls of its own and stores nothing outside your project folder. The finished video and transcript are ordinary files on your machine.

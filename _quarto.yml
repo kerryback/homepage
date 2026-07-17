@@ -9,6 +9,7 @@ project:
     - ai-tips.qmd
     - bi2ai.qmd
     - academic_studio.qmd
+    - voiceover.qmd
   resources:
     - cv.pdf
     - CBOEQuotes.txt
