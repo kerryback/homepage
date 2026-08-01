@@ -6,9 +6,9 @@
 
 ### MBA
 
-MGMT 638: Gen AI and Quantitative Investing<br>
-MGMT 648: Applied Finance<br>
-MGMT 803: Gen AI for Business<br>
+[MGMT 638](https://mgmt638.kerryback.com): Gen AI and Quantitative Investing<br>
+[MGMT 648](https://mgmt648.kerryback.com): Applied Finance<br>
+[MGMT 803](https://mgmt803.kerryback.com): Gen AI for Business<br>
 MGMT 675: Gen AI, Data, and Decisions<br>
 [Python Workshop](https://workshop.kerryback.com) Short *Intro to Python* workshop for MBA students
 
