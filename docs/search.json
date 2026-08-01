@@ -1,38 +1,45 @@
 [
   {
-    "objectID": "bi2ai.html",
-    "href": "bi2ai.html",
-    "title": "",
+    "objectID": "voiceover.html",
+    "href": "voiceover.html",
+    "title": "Voiceover",
     "section": "",
-    "text": "From BI to AI:Making Data-Driven Decisions with Agentic AI\n\n\n\n\n\n\n\nInstructor\nKerry Back kerry.e.back@rice.edu J. Howard Creekmore Professor of Finance and Professor of Economics\n\n\n\n\n\n\nAI agents that understand plain English, query your data, and deliver answers instantly are transforming how organizations make decisions. This eight-session course gives you hands-on experience building and using these tools — no coding background required.\nYou’ll use AI to wrangle data, generate charts and reports, and solve optimization and prediction problems. You’ll learn how to build custom AI agents that connect to databases and documents, how to secure them for enterprise use, and how to make them smarter with retrieval and memory. 90 minute Zoom sessions twice weekly for four weeks.\nOur AI Lab provides each participant with cloud-based access to Claude Code so you can work with AI tools without installing software or subscribing to an AI provider.\n\n\n\nEnroll →\n\n\nSession 1: The AI Landscape. How large language models work; chatbots and agents; the major models and how they compare; Claude Desktop: Chat, Cowork, and Code; MCP connectors; prompting techniques and slash commands.\nSession 2: AI Tools. Running Python and executing code; querying databases with SQL; generating charts, Excel workbooks, Word documents, and PowerPoint decks; web search and fetch; the browser tool; command-line execution; common pitfalls.\nSession 3: Skills, Plugins, and Apps. Building and using Claude skills; sharing skills through plugin marketplaces; how software works; turning problems into simple apps; publishing to GitHub and GitHub Pages.\nSession 4: AI Agents and Security. Why build your own agent; building custom agents with the Claude Agent SDK; adding tools; what happens when you send data to an LLM; prompt injection, data exfiltration, and the lethal trifecta; data processing agreements and running models in your own cloud.\nSession 5: Deep Dive into Agents. Configuring tools and permissions; web-reading and database agents; a unified personal-assistant agent; conversations and memory; agent calls as tools — the foundation of multi-agent systems; putting least privilege into practice with multiple agents and containers; Docker and deployment; red-teaming.\nSession 6: Make Your AI Smarter. Retrieval-augmented generation; graph databases of notes; building a personal-assistant agent; using smaller, non-frontier and open-source models.\nSession 7: Decisions and Predictions. Optimization and scheduling; exploring tradeoffs between competing objectives; simulation; machine learning for prediction; evaluating predictive models.\nSession 8: Capstone. Present your own plan for implementing AI personally and in your company; learn from others’ plans; course wrap-up."
+    "text": "Voiceover turns a PDF slide deck into a narrated MP4 video plus a transcript. It is a Claude Code skill: Claude writes the per-slide narration, you review and revise it — edit it yourself or just tell Claude what to change — then pick an AI voice and generate the video. It is designed for instructors who want to turn lecture slides into self-paced narrated videos, but it works for any slide deck.\nSource and issues: github.com/kerryback/skills (the voiceover plugin).\n\n\n\nInstructor — runs the skill locally to author the video. Claude writes the narration; the instructor reviews it, picks a voice, and generates.\nStudents — run nothing. They receive two files, &lt;name&gt;.mp4 (the narrated video) and &lt;name&gt;.txt (the transcript), and view them like any other course material.\n\n\n\n\nTwo things you provide; everything else is handled for you.\n\nQuarto on your PATH — renders the deck for the video. Install from quarto.org.\nAn ElevenLabs API key in ELEVENLABS_API_KEY — the text-to-speech voice. Get a free key at elevenlabs.io.\n\nHandled for you: Python (the first launch builds a small virtual environment), ffmpeg (ships with the Python dependencies), and the web interface (ships prebuilt). No Anthropic API key is needed for the narration — Claude Code writes it. The skill checks for Quarto and the ElevenLabs key on first use and offers to help set them up.\n\n\n\nUse any one of these, then invoke it in Claude Code with /voiceover on a PDF slide deck.\n\n\nnpx skills@latest add kerryback/skills\nPick voiceover from the menu (add --list to preview). Installs into ~/.claude/skills/.\n\n\n\n/plugin marketplace add kerryback/skills\n/plugin install voiceover@kerryback-skills\n\n\n\ngit clone https://github.com/kerryback/skills.git\nln -s \"$(pwd)/skills/plugins/voiceover/skills/voiceover\" ~/.claude/skills/voiceover\n\n\n\n\n\nLaunch on a slide deck. Point the skill at a PDF (/voiceover deck.pdf). A small local app opens in your browser on the Narration step.\nClaude drafts the narration. Claude reads the deck and writes narration for every slide. It appears in the app within a few seconds.\nReview and revise. Change the script either way: edit any slide’s text directly in the app (it autosaves), or just tell Claude what you want — “tighten slide 3,” “warmer tone on the intro,” “add a worked example here” — and Claude revises it. Iterate until it reads well.\nPick a voice and generate. On the Generate step, choose an ElevenLabs voice (including your own cloned voices) and build the video.\nPreview and share. Watch the result on the Preview step. Each build writes &lt;name&gt;.mp4 and &lt;name&gt;.txt to your project folder, ready to share however you distribute course materials — your LMS, a shared drive, YouTube, or a NotebookLM notebook.\n\nEach deck is saved by name, so you can reopen it later to edit the narration and regenerate the video.\n\n\n\nThe narration is written by Claude Code from your deck; the app makes no model calls of its own and stores nothing outside your project folder. The finished video and transcript are ordinary files on your machine."
   },
   {
-    "objectID": "books.html",
-    "href": "books.html",
-    "title": "",
+    "objectID": "voiceover.html#two-roles",
+    "href": "voiceover.html#two-roles",
+    "title": "Voiceover",
     "section": "",
-    "text": ",\n\nOnline, in progress\n\n\n\n\n\n\n\nErrata\n\n\n\n\n\n\n\nExcel workbook with VBA code Errata Data for an exercise"
+    "text": "Instructor — runs the skill locally to author the video. Claude writes the narration; the instructor reviews it, picks a voice, and generates.\nStudents — run nothing. They receive two files, &lt;name&gt;.mp4 (the narrated video) and &lt;name&gt;.txt (the transcript), and view them like any other course material."
   },
   {
-    "objectID": "research.html",
-    "href": "research.html",
-    "title": "",
+    "objectID": "voiceover.html#what-you-need",
+    "href": "voiceover.html#what-you-need",
+    "title": "Voiceover",
     "section": "",
-    "text": "Working Papers\nBack, K., and A. Ober, 2025, Performance of Factor Models in a Simple Economy.\nBack, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2025, Segmented Trading Markets.\nBack, K., Cocquemas, F., Ekren, I., and A. Lioui, 2024, Optimal Transport and Informed Trading in Securities Markets.\n\n\nRecent Publications\nBack, K., Carlin, B., Kazempour, S. M., and C. Xie, 2024, Discretionary Announcement Timing and Stock Returns Journal of Finance, forthcoming.\nBack, K., Crotty, K., and S. M. Kazempour, 2022, Validity, Tightness, and Forecasting Power of Risk Premium Bounds, Journal of Financial Economics, 144, 732–760.\nBack, K., and P. Barton, 2022, Mediation and Strategic Delay in Bargaining and Markets, Journal of Economic Dynamics and Control, 141.\nBack, K., Liu, R., and A. Teguia, 2020, Signaling in OTC Markets: Benefits and Costs of Transparency, Journal of Financial and Quantitative Analysis, 55, 47–75.\nBack, K., Liu, R., and A. Teguia, 2019, Increasing Risk Aversion and Life-Cycle Investing Mathematics and Financial Economics, 13, 287–302.\nBack, K., Collin-Dufresne, P., Fos, V., Li, T., and A. Ljungqvist, 2018, Activism, Strategic Trading, and Liquidity, Econometrica, 86, 1431–1463.\nBack, K., Crane, A., and K. Crotty, 2018, Skewness Consequences of Seeking Alpha, Review of Financial Studies, 31, 4720–4761.\nBack, K., Crotty, K., and T. Li, 2018, Identifying Information Asymmetry in Securities Markets, Review of Financial Studies, 31, 2277–2325.\nBack, K., and K. Crotty, 2015, The Informational Role of Stock and Bond Volume, Review of Financial Studies, 28, 1381–1427.\nBack, K., 2014, A Characterization of the Coskewness-Cokurtosis Pricing Model Economics Letters 125, 219–222.\nBack, K., and S. Baruch, 2013, Strategic Liquidity Provision in Limit Order Markets, Econometrica, 81, 363–392."
+    "text": "Two things you provide; everything else is handled for you.\n\nQuarto on your PATH — renders the deck for the video. Install from quarto.org.\nAn ElevenLabs API key in ELEVENLABS_API_KEY — the text-to-speech voice. Get a free key at elevenlabs.io.\n\nHandled for you: Python (the first launch builds a small virtual environment), ffmpeg (ships with the Python dependencies), and the web interface (ships prebuilt). No Anthropic API key is needed for the narration — Claude Code writes it. The skill checks for Quarto and the ElevenLabs key on first use and offers to help set them up."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "",
+    "objectID": "voiceover.html#install",
+    "href": "voiceover.html#install",
+    "title": "Voiceover",
     "section": "",
-    "text": "J. Howard Creekmore Professor of Finance  Jones Graduate School of Business Professor of Economics  School of Social Sciences\n\n\n\n\n\n\n\nExecutive Education Course: From BI to AI →\n\n I teach asset pricing theory to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and generative AI for finance and quantitative investments to MBA students in the Jones School. I am also currently teaching monthly sections of an online executive education course on agentic AI — two online sessions per week for four weeks, linked above. \nBefore joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University. I served as Senior Associate Dean at the Olin School at Washington University in St. Louis. I’m a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of the Journal of Finance and various other academic journals in economics and finance. I’ve written two textbooks and numerous articles in the leading finance and economics journals. My papers received the Best Paper Award at the Review of Financial Studies (1993) and the Best Paper in Corporate Finance Award at the Western Finance Association (2014).\n I served as the Finance Ph.D. Coordinator for the Jones School for 2009 through 2026 and as the Area Coordinator for the finance faculty group for 2023 through 2026. Recently, I’ve been doing research on disclosure policies, security market design, and complexity and momentum in asset pricing. I’ve also been advising several strong Ph.D. students. Among other teaching awards, I received the Financial Management Association Innovation in Teaching Award in 2023 and 2025 and the Jones Graduate School of Business Ph.D. Mentoring Award in 2024 and 2026."
+    "text": "Use any one of these, then invoke it in Claude Code with /voiceover on a PDF slide deck.\n\n\nnpx skills@latest add kerryback/skills\nPick voiceover from the menu (add --list to preview). Installs into ~/.claude/skills/.\n\n\n\n/plugin marketplace add kerryback/skills\n/plugin install voiceover@kerryback-skills\n\n\n\ngit clone https://github.com/kerryback/skills.git\nln -s \"$(pwd)/skills/plugins/voiceover/skills/voiceover\" ~/.claude/skills/voiceover"
   },
   {
-    "objectID": "teaching.html",
-    "href": "teaching.html",
-    "title": "",
+    "objectID": "voiceover.html#how-it-works",
+    "href": "voiceover.html#how-it-works",
+    "title": "Voiceover",
     "section": "",
-    "text": "PhD\nBUSI 520: Python for Business Research BUSI 521/ECON 505: Asset Pricing Theory/Financial Economics I\n\n\nMBA\nMGMT 638: Gen AI and Quantitative Investing MGMT 675: Generative AI for Finance Python Workshop Short Intro to Python workshop for MBA students\n\n\nMaster of Data Science\nBUSI 721: Data-Driven Finance I BUSI 722: Data-Driven Finance II"
+    "text": "Launch on a slide deck. Point the skill at a PDF (/voiceover deck.pdf). A small local app opens in your browser on the Narration step.\nClaude drafts the narration. Claude reads the deck and writes narration for every slide. It appears in the app within a few seconds.\nReview and revise. Change the script either way: edit any slide’s text directly in the app (it autosaves), or just tell Claude what you want — “tighten slide 3,” “warmer tone on the intro,” “add a worked example here” — and Claude revises it. Iterate until it reads well.\nPick a voice and generate. On the Generate step, choose an ElevenLabs voice (including your own cloned voices) and build the video.\nPreview and share. Watch the result on the Preview step. Each build writes &lt;name&gt;.mp4 and &lt;name&gt;.txt to your project folder, ready to share however you distribute course materials — your LMS, a shared drive, YouTube, or a NotebookLM notebook.\n\nEach deck is saved by name, so you can reopen it later to edit the narration and regenerate the video."
+  },
+  {
+    "objectID": "voiceover.html#privacy-and-grounding",
+    "href": "voiceover.html#privacy-and-grounding",
+    "title": "Voiceover",
+    "section": "",
+    "text": "The narration is written by Claude Code from your deck; the app makes no model calls of its own and stores nothing outside your project folder. The finished video and transcript are ordinary files on your machine."
   },
   {
     "objectID": "ai-tips.html",
@@ -77,6 +84,34 @@
     "text": "There has been a lot of chatter online about using Claude Code with the note-taking/organization app Obsidian and also about using Obsidian in conjunction with Andrej Karpathy’s LLM wiki idea. A couple of links are posted below, but just ask Claude if it would be a good idea for you and then ask Claude to implement it.\nThe benefit of using Obsidian rather than a task skill is minor, I think — Obsidian just gives a visual view of everything. The wiki might be more useful. When I asked Claude how I would use it, I got this response:\n\nThe wiki is for me more than for you. When you ask me to help with a research project, I can scan the wiki index to instantly know what papers you have, how they connect, and what’s relevant — without reading 135 PDFs from scratch each time. For example:\n\n“What papers do we have on momentum crashes?” — I check the wiki, find Daniel-Moskowitz 2016, Barroso-Santa-Clara 2015, etc., and summarize what they say.\n“How should we position the credit ratings paper relative to existing work?” — I read the relevant wiki notes and draft a literature positioning.\n“Write a lit review section for the strategy paper” — I pull from wiki notes tagged to back-crotty-dittmar and draft it.\n\nYour process stays the same: You tell me what you need, and the wiki makes me faster and more accurate at helping. You don’t need to browse the wiki yourself (though you can — it’s all readable markdown in Obsidian with cross-links).\nWhere it compounds over time:\n\nWhen you drop in a new paper, I compile a wiki note and link it to your projects\nWhen you have a conversation about a paper with a collaborator, I update the wiki note with your insights\nOver months, the wiki accumulates your perspective on the literature, not just abstracts\n\nThe wiki is a background layer that makes me a better research assistant.\n\nLinks:\n\nHow I Took Karpathy’s LLM Wiki and Built an AI-Powered Second Brain in Obsidian\nClaude Code + Obsidian: Build the Ultimate AI Knowledge Base"
   },
   {
+    "objectID": "teaching.html",
+    "href": "teaching.html",
+    "title": "",
+    "section": "",
+    "text": "PhD\nBUSI 520: Python for Business Research BUSI 521/ECON 505: Asset Pricing Theory/Financial Economics I\n\n\nMBA\nMGMT 638: Gen AI and Quantitative Investing MGMT 675: Generative AI for Finance Python Workshop Short Intro to Python workshop for MBA students\n\n\nMaster of Data Science\nBUSI 721: Data-Driven Finance I BUSI 722: Data-Driven Finance II"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "",
+    "section": "",
+    "text": "J. Howard Creekmore Professor of Finance  Jones Graduate School of Business Professor of Economics  School of Social Sciences\n\n\n\n\n\n\n\nExecutive Education Course: From BI to AI →\n\n I teach asset pricing theory to PhD students in the Jones School and the Department of Economics, data-driven finance to students in the Masters of Data Science program in the Department of Computer Science, and generative AI for finance and quantitative investments to MBA students in the Jones School. I am also currently teaching monthly sections of an online executive education course on agentic AI — two online sessions per week for four weeks, linked above. \nBefore joining Rice, I served on the faculties of Northwestern University, Indiana University, Washington University in St. Louis, and Texas A&M University. I served as Senior Associate Dean at the Olin School at Washington University in St. Louis. I’m a former editor of the Review of Financial Studies, a former editor of Finance & Stochastics, and a former associate editor of the Journal of Finance and various other academic journals in economics and finance. I’ve written two textbooks and numerous articles in the leading finance and economics journals. My papers received the Best Paper Award at the Review of Financial Studies (1993) and the Best Paper in Corporate Finance Award at the Western Finance Association (2014).\n I served as the Finance Ph.D. Coordinator for the Jones School for 2009 through 2026 and as the Area Coordinator for the finance faculty group for 2023 through 2026. Recently, I’ve been doing research on disclosure policies, security market design, and complexity and momentum in asset pricing. I’ve also been advising several strong Ph.D. students. Among other teaching awards, I received the Financial Management Association Innovation in Teaching Award in 2023 and 2025 and the Jones Graduate School of Business Ph.D. Mentoring Award in 2024 and 2026."
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "",
+    "section": "",
+    "text": "Working Papers\nBack, K., and A. Ober, 2025, Performance of Factor Models in a Simple Economy.\nBack, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2025, Segmented Trading Markets.\nBack, K., Cocquemas, F., Ekren, I., and A. Lioui, 2024, Optimal Transport and Informed Trading in Securities Markets.\n\n\nRecent Publications\nBack, K., Carlin, B., Kazempour, S. M., and C. Xie, 2024, Discretionary Announcement Timing and Stock Returns Journal of Finance, forthcoming.\nBack, K., Crotty, K., and S. M. Kazempour, 2022, Validity, Tightness, and Forecasting Power of Risk Premium Bounds, Journal of Financial Economics, 144, 732–760.\nBack, K., and P. Barton, 2022, Mediation and Strategic Delay in Bargaining and Markets, Journal of Economic Dynamics and Control, 141.\nBack, K., Liu, R., and A. Teguia, 2020, Signaling in OTC Markets: Benefits and Costs of Transparency, Journal of Financial and Quantitative Analysis, 55, 47–75.\nBack, K., Liu, R., and A. Teguia, 2019, Increasing Risk Aversion and Life-Cycle Investing Mathematics and Financial Economics, 13, 287–302.\nBack, K., Collin-Dufresne, P., Fos, V., Li, T., and A. Ljungqvist, 2018, Activism, Strategic Trading, and Liquidity, Econometrica, 86, 1431–1463.\nBack, K., Crane, A., and K. Crotty, 2018, Skewness Consequences of Seeking Alpha, Review of Financial Studies, 31, 4720–4761.\nBack, K., Crotty, K., and T. Li, 2018, Identifying Information Asymmetry in Securities Markets, Review of Financial Studies, 31, 2277–2325.\nBack, K., and K. Crotty, 2015, The Informational Role of Stock and Bond Volume, Review of Financial Studies, 28, 1381–1427.\nBack, K., 2014, A Characterization of the Coskewness-Cokurtosis Pricing Model Economics Letters 125, 219–222.\nBack, K., and S. Baruch, 2013, Strategic Liquidity Provision in Limit Order Markets, Econometrica, 81, 363–392."
+  },
+  {
+    "objectID": "books.html",
+    "href": "books.html",
+    "title": "",
+    "section": "",
+    "text": ",\n\nOnline, in progress\n\n\n\n\n\n\n\nErrata\n\n\n\n\n\n\n\nExcel workbook with VBA code Errata Data for an exercise"
+  },
+  {
     "objectID": "academic_studio.html",
     "href": "academic_studio.html",
     "title": "Academic Studio",
@@ -110,47 +145,5 @@
     "title": "Academic Studio",
     "section": "",
     "text": "Command Palette (every command): press F1.\nRe-run setup any time from Help → Run Setup… to change your extensions or install more programs.\nR IntelliSense needs the R languageserver package: install R, then run install.packages(\"languageserver\") in R."
-  },
-  {
-    "objectID": "voiceover.html",
-    "href": "voiceover.html",
-    "title": "Voiceover",
-    "section": "",
-    "text": "Voiceover turns a PDF slide deck into a narrated MP4 video plus a transcript. It is a Claude Code skill: Claude writes the per-slide narration, you review and revise it — edit it yourself or just tell Claude what to change — then pick an AI voice and generate the video. It is designed for instructors who want to turn lecture slides into self-paced narrated videos, but it works for any slide deck.\nSource and issues: github.com/kerryback/skills (the voiceover plugin).\n\n\n\nInstructor — runs the skill locally to author the video. Claude writes the narration; the instructor reviews it, picks a voice, and generates.\nStudents — run nothing. They receive two files, &lt;name&gt;.mp4 (the narrated video) and &lt;name&gt;.txt (the transcript), and view them like any other course material.\n\n\n\n\nTwo things you provide; everything else is handled for you.\n\nQuarto on your PATH — renders the deck for the video. Install from quarto.org.\nAn ElevenLabs API key in ELEVENLABS_API_KEY — the text-to-speech voice. Get a free key at elevenlabs.io.\n\nHandled for you: Python (the first launch builds a small virtual environment), ffmpeg (ships with the Python dependencies), and the web interface (ships prebuilt). No Anthropic API key is needed for the narration — Claude Code writes it. The skill checks for Quarto and the ElevenLabs key on first use and offers to help set them up.\n\n\n\nUse any one of these, then invoke it in Claude Code with /voiceover on a PDF slide deck.\n\n\nnpx skills@latest add kerryback/skills\nPick voiceover from the menu (add --list to preview). Installs into ~/.claude/skills/.\n\n\n\n/plugin marketplace add kerryback/skills\n/plugin install voiceover@kerryback-skills\n\n\n\ngit clone https://github.com/kerryback/skills.git\nln -s \"$(pwd)/skills/plugins/voiceover/skills/voiceover\" ~/.claude/skills/voiceover\n\n\n\n\n\nLaunch on a slide deck. Point the skill at a PDF (/voiceover deck.pdf). A small local app opens in your browser on the Narration step.\nClaude drafts the narration. Claude reads the deck and writes narration for every slide. It appears in the app within a few seconds.\nReview and revise. Change the script either way: edit any slide’s text directly in the app (it autosaves), or just tell Claude what you want — “tighten slide 3,” “warmer tone on the intro,” “add a worked example here” — and Claude revises it. Iterate until it reads well.\nPick a voice and generate. On the Generate step, choose an ElevenLabs voice (including your own cloned voices) and build the video.\nPreview and share. Watch the result on the Preview step. Each build writes &lt;name&gt;.mp4 and &lt;name&gt;.txt to your project folder, ready to share however you distribute course materials — your LMS, a shared drive, YouTube, or a NotebookLM notebook.\n\nEach deck is saved by name, so you can reopen it later to edit the narration and regenerate the video.\n\n\n\nThe narration is written by Claude Code from your deck; the app makes no model calls of its own and stores nothing outside your project folder. The finished video and transcript are ordinary files on your machine."
-  },
-  {
-    "objectID": "voiceover.html#two-roles",
-    "href": "voiceover.html#two-roles",
-    "title": "Voiceover",
-    "section": "",
-    "text": "Instructor — runs the skill locally to author the video. Claude writes the narration; the instructor reviews it, picks a voice, and generates.\nStudents — run nothing. They receive two files, &lt;name&gt;.mp4 (the narrated video) and &lt;name&gt;.txt (the transcript), and view them like any other course material."
-  },
-  {
-    "objectID": "voiceover.html#what-you-need",
-    "href": "voiceover.html#what-you-need",
-    "title": "Voiceover",
-    "section": "",
-    "text": "Two things you provide; everything else is handled for you.\n\nQuarto on your PATH — renders the deck for the video. Install from quarto.org.\nAn ElevenLabs API key in ELEVENLABS_API_KEY — the text-to-speech voice. Get a free key at elevenlabs.io.\n\nHandled for you: Python (the first launch builds a small virtual environment), ffmpeg (ships with the Python dependencies), and the web interface (ships prebuilt). No Anthropic API key is needed for the narration — Claude Code writes it. The skill checks for Quarto and the ElevenLabs key on first use and offers to help set them up."
-  },
-  {
-    "objectID": "voiceover.html#install",
-    "href": "voiceover.html#install",
-    "title": "Voiceover",
-    "section": "",
-    "text": "Use any one of these, then invoke it in Claude Code with /voiceover on a PDF slide deck.\n\n\nnpx skills@latest add kerryback/skills\nPick voiceover from the menu (add --list to preview). Installs into ~/.claude/skills/.\n\n\n\n/plugin marketplace add kerryback/skills\n/plugin install voiceover@kerryback-skills\n\n\n\ngit clone https://github.com/kerryback/skills.git\nln -s \"$(pwd)/skills/plugins/voiceover/skills/voiceover\" ~/.claude/skills/voiceover"
-  },
-  {
-    "objectID": "voiceover.html#how-it-works",
-    "href": "voiceover.html#how-it-works",
-    "title": "Voiceover",
-    "section": "",
-    "text": "Launch on a slide deck. Point the skill at a PDF (/voiceover deck.pdf). A small local app opens in your browser on the Narration step.\nClaude drafts the narration. Claude reads the deck and writes narration for every slide. It appears in the app within a few seconds.\nReview and revise. Change the script either way: edit any slide’s text directly in the app (it autosaves), or just tell Claude what you want — “tighten slide 3,” “warmer tone on the intro,” “add a worked example here” — and Claude revises it. Iterate until it reads well.\nPick a voice and generate. On the Generate step, choose an ElevenLabs voice (including your own cloned voices) and build the video.\nPreview and share. Watch the result on the Preview step. Each build writes &lt;name&gt;.mp4 and &lt;name&gt;.txt to your project folder, ready to share however you distribute course materials — your LMS, a shared drive, YouTube, or a NotebookLM notebook.\n\nEach deck is saved by name, so you can reopen it later to edit the narration and regenerate the video."
-  },
-  {
-    "objectID": "voiceover.html#privacy-and-grounding",
-    "href": "voiceover.html#privacy-and-grounding",
-    "title": "Voiceover",
-    "section": "",
-    "text": "The narration is written by Claude Code from your deck; the app makes no model calls of its own and stores nothing outside your project folder. The finished video and transcript are ordinary files on your machine."
   }
 ]

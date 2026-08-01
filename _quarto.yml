@@ -7,10 +7,12 @@ project:
     - teaching.qmd
     - books.qmd
     - ai-tips.qmd
-    - bi2ai.qmd
     - academic_studio.qmd
     - voiceover.qmd
   resources:
+    - bi2ai.html
+    - RiceBusiness-transparent-logo-sm.png
+    - headshot-keeper-cropped2.png
     - cv.pdf
     - CBOEQuotes.txt
     - Errata_KBack_2ed.pdf
