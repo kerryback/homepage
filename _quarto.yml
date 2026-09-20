@@ -12,6 +12,7 @@ project:
   resources:
     - bi2ai.html
     - videos/**
+    - overview/**
     - ai.pdf
     - RiceBusiness-transparent-logo-sm.png
     - headshot-keeper-cropped2.png
