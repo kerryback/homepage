@@ -11,6 +11,8 @@ project:
     - voiceover.qmd
   resources:
     - bi2ai.html
+    - videos/**
+    - ai.pdf
     - RiceBusiness-transparent-logo-sm.png
     - headshot-keeper-cropped2.png
     - cv.pdf
