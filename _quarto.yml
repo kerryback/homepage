@@ -11,6 +11,7 @@ project:
     - voiceover.qmd
   resources:
     - bi2ai.html
+    - square-root.html
     - videos/**
     - overview/**
     - ai.pdf

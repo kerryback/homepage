@@ -1,0 +1,760 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Square Root Longhand</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;450;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap">
+<style>
+  :root{
+    --paper:#eaeef2;
+    --card:#ffffff;
+    --card-2:#f5f8fa;
+    --ink:#1b2a35;
+    --ink-soft:#576977;
+    --ink-faint:#8395a2;
+    --rule:#c6d3dc;
+    --rule-soft:#dfe7ed;
+    --pencil:#b03a2b;
+    --pencil-bg:#f7e7e3;
+    --blue:#2b5f8a;
+    --blue-bg:#e4eef6;
+    --grid:#d8e2e9;
+    --shadow:0 1px 2px rgba(27,42,53,.05), 0 10px 28px rgba(27,42,53,.07);
+    --focus:#2b5f8a;
+    --on-blue:#ffffff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#121920;
+      --card:#1a232b;
+      --card-2:#202b34;
+      --ink:#dae5ec;
+      --ink-soft:#8ea1ae;
+      --ink-faint:#6d7f8c;
+      --rule:#33434f;
+      --rule-soft:#26333c;
+      --pencil:#e8786a;
+      --pencil-bg:#37211e;
+      --blue:#85b9e3;
+      --blue-bg:#1d2f3d;
+      --grid:#24313a;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.28);
+      --focus:#85b9e3;
+      --on-blue:#0f1a22;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#121920;
+    --card:#1a232b;
+    --card-2:#202b34;
+    --ink:#dae5ec;
+    --ink-soft:#8ea1ae;
+    --ink-faint:#6d7f8c;
+    --rule:#33434f;
+    --rule-soft:#26333c;
+    --pencil:#e8786a;
+    --pencil-bg:#37211e;
+    --blue:#85b9e3;
+    --blue-bg:#1d2f3d;
+    --grid:#24313a;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 28px rgba(0,0,0,.28);
+    --focus:#85b9e3;
+    --on-blue:#0f1a22;
+  }
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:1060px;
+    margin:0 auto;
+    padding-inline:20px;
+    padding-block:30px 44px;
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  /* ---------- header ---------- */
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    font-weight:600;
+    margin:0 0 6px;
+  }
+  h1{
+    font-family:"Newsreader", Georgia, "Times New Roman", serif;
+    font-weight:600;
+    font-size:clamp(28px, 5vw, 40px);
+    line-height:1.1;
+    margin:0;
+    text-wrap:balance;
+    letter-spacing:-.01em;
+  }
+  .lede{
+    margin:10px 0 0;
+    max-width:62ch;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- input bar ---------- */
+  .bar{
+    background:var(--card);
+    border:1px solid var(--rule-soft);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:14px 16px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    gap:14px;
+  }
+  .field{display:flex; flex-direction:column; gap:5px;}
+  .field label{
+    font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-weight:600; color:var(--ink-faint);
+  }
+  input[type=text], input[type=number]{
+    font-family:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+    font-size:17px;
+    font-variant-numeric:tabular-nums;
+    color:var(--ink);
+    background:var(--card-2);
+    border:1px solid var(--rule);
+    border-radius:7px;
+    padding:8px 11px;
+  }
+  #num{width:min(220px, 52vw);}
+  #dec{width:82px;}
+  input:focus-visible, button:focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:2px;
+  }
+  button{
+    font:inherit;
+    font-weight:500;
+    color:var(--ink);
+    background:var(--card-2);
+    border:1px solid var(--rule);
+    border-radius:7px;
+    padding:9px 15px;
+    cursor:pointer;
+  }
+  button:hover:not(:disabled){border-color:var(--blue); color:var(--blue);}
+  button:disabled{opacity:.42; cursor:default;}
+  button.primary{
+    background:var(--blue); border-color:var(--blue); color:var(--on-blue); font-weight:600;
+  }
+  button.primary:hover:not(:disabled){filter:brightness(1.08); color:var(--on-blue); border-color:var(--blue);}
+  .presets{display:flex; flex-wrap:wrap; gap:7px; align-items:center;}
+  .presets .tag{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:13px; padding:5px 9px; border-radius:20px;
+    background:transparent; border:1px dashed var(--rule); color:var(--ink-soft);
+  }
+  .presets .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); font-weight:600;}
+  .err{color:var(--pencil); font-size:13px; flex-basis:100%; margin:0;}
+
+  /* ---------- main grid ---------- */
+  .cols{
+    display:grid;
+    grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+    gap:20px;
+    align-items:start;
+  }
+  @media (max-width: 880px){ .cols{grid-template-columns:minmax(0,1fr);} }
+
+  .panel{
+    background:var(--card);
+    border:1px solid var(--rule-soft);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .panel-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:12px;
+    padding:12px 16px;
+    border-bottom:1px solid var(--rule-soft);
+  }
+  .panel-head h2{
+    margin:0; font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    font-weight:600; color:var(--ink-faint);
+  }
+  .counter{
+    font-family:"IBM Plex Mono", monospace; font-size:12px; color:var(--ink-faint);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- tableau ---------- */
+  .sheet{
+    background:
+      repeating-linear-gradient(to right, var(--grid) 0 1px, transparent 1px 22px),
+      repeating-linear-gradient(to bottom, var(--grid) 0 1px, transparent 1px 22px),
+      var(--card);
+    background-position:0 0;
+    overflow-x:auto;
+    padding:22px 18px 26px;
+  }
+  pre.tab{
+    margin:0;
+    font-family:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+    font-size:clamp(14px, 2.4vw, 18px);
+    line-height:1.72;
+    font-variant-numeric:tabular-nums;
+    white-space:pre;
+    color:var(--ink-faint);
+  }
+  pre.tab .ink{color:var(--ink);}
+  pre.tab .hot{color:var(--pencil); font-weight:600;}
+  pre.tab .gut{color:var(--ink-soft); font-size:.86em;}
+  pre.tab .gut.hot{color:var(--pencil); font-weight:600;}
+  pre.tab .frame{color:var(--blue); opacity:.8;}
+
+  /* ---------- notes ---------- */
+  .controls{
+    display:flex; gap:8px; flex-wrap:wrap;
+    padding:13px 16px;
+    border-bottom:1px solid var(--rule-soft);
+    background:var(--card-2);
+  }
+  .controls .primary{flex:1 1 auto; min-width:130px;}
+  .note{padding:16px;}
+  .note h3{
+    font-family:"Newsreader", Georgia, serif;
+    font-weight:600; font-size:21px; margin:0 0 8px; line-height:1.2;
+  }
+  .note p{margin:0 0 10px; color:var(--ink-soft);}
+  .note p:last-child{margin-bottom:0;}
+  .note b{font-weight:600; color:var(--ink);}
+  .m{
+    font-family:"IBM Plex Mono", monospace;
+    font-variant-numeric:tabular-nums;
+    color:var(--ink);
+    font-size:.94em;
+  }
+  .m.red{color:var(--pencil);}
+  .trials{
+    list-style:none; margin:12px 0 0; padding:0;
+    display:flex; flex-direction:column; gap:1px;
+    border-top:1px solid var(--rule-soft);
+    padding-top:10px;
+  }
+  .trials li{
+    display:flex; align-items:baseline; gap:9px;
+    font-family:"IBM Plex Mono", monospace;
+    font-variant-numeric:tabular-nums;
+    font-size:13.5px;
+    padding:3px 0;
+    color:var(--ink-soft);
+  }
+  .trials li .mark{width:1.1em; text-align:center; font-weight:600;}
+  .trials li.ok{color:var(--ink);}
+  .trials li.ok .mark{color:var(--blue);}
+  .trials li.no .mark{color:var(--pencil);}
+  .grouping{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:16px; letter-spacing:.02em;
+    margin-top:4px;
+  }
+  .grouping .pr{
+    background:var(--blue-bg); border-radius:3px; padding:2px 4px; margin-right:4px;
+  }
+  .grouping .pt{color:var(--pencil); font-weight:600; margin:0 2px;}
+
+  /* ---------- answer ---------- */
+  .answer{
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 16px;
+    padding:14px 16px;
+    border-top:1px solid var(--rule-soft);
+    background:var(--card-2);
+  }
+  .answer .k{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); font-weight:600;}
+  .answer .v{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:clamp(19px, 3.4vw, 25px);
+    font-weight:600;
+    font-variant-numeric:tabular-nums;
+    color:var(--ink);
+    word-break:break-all;
+  }
+  .answer .v .part{color:var(--ink-faint); font-weight:400;}
+  .check{font-size:12.5px; color:var(--ink-faint); font-family:"IBM Plex Mono", monospace; flex-basis:100%;}
+
+  footer{
+    color:var(--ink-faint); font-size:12.5px; max-width:70ch;
+    border-top:1px solid var(--rule-soft); padding-top:14px;
+  }
+  footer .m{color:var(--ink-soft);}
+  kbd{
+    font-family:"IBM Plex Mono", monospace; font-size:.9em;
+    border:1px solid var(--rule); border-bottom-width:2px; border-radius:4px;
+    padding:1px 5px; background:var(--card-2); color:var(--ink-soft);
+  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important;} }
+</style>
+<style>
+  html{color-scheme:light dark;}
+  body{margin:0;}
+  img{max-width:100%;}
+  [hidden]{display:none !important;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Pencil-and-paper arithmetic</p>
+    <h1>Square Root Longhand</h1>
+    <p class="lede">The digit-by-digit method, the one schools taught before calculators. Type a number and step through it — each click adds exactly what your pencil would add next.</p>
+  </header>
+
+  <div class="bar">
+    <div class="field">
+      <label for="num">Number</label>
+      <input type="text" id="num" value="54756" inputmode="decimal" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="field">
+      <label for="dec">Decimals</label>
+      <input type="number" id="dec" value="4" min="0" max="10" step="1">
+    </div>
+    <button id="go" class="primary">Set up</button>
+    <div class="presets">
+      <span class="lbl">Try</span>
+      <button class="tag" data-n="54756" data-d="4">54756</button>
+      <button class="tag" data-n="2" data-d="6">2</button>
+      <button class="tag" data-n="1522756" data-d="2">1522756</button>
+      <button class="tag" data-n="0.0625" data-d="4">0.0625</button>
+      <button class="tag" data-n="7.3" data-d="5">7.3</button>
+    </div>
+    <p class="err" id="err" hidden></p>
+  </div>
+
+  <div class="cols">
+    <section class="panel">
+      <div class="panel-head">
+        <h2>The worksheet</h2>
+        <span class="counter" id="counter"></span>
+      </div>
+      <div class="sheet"><pre class="tab" id="tab"></pre></div>
+      <div class="answer">
+        <span class="k">Root so far</span>
+        <span class="v" id="ans">—</span>
+        <span class="check" id="check"></span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="controls">
+        <button id="next" class="primary">Next step</button>
+        <button id="back">Back</button>
+        <button id="all">Show all</button>
+        <button id="reset">Restart</button>
+      </div>
+      <div class="note" id="note"></div>
+    </section>
+  </div>
+
+  <footer>
+    Why it works: if the root so far is <span class="m">a</span> and the next digit is <span class="m">x</span>, the new root is <span class="m">10a + x</span>, and <span class="m">(10a + x)² = 100a² + (20a + x)·x</span>. The <span class="m">100a²</span> is already subtracted, so each round only has to take away <span class="m">(20a + x)·x</span> — which is why you double the root, tack a digit on the end, and multiply by that same digit.
+    &nbsp;·&nbsp; <kbd>→</kbd> or <kbd>space</kbd> advances, <kbd>←</kbd> goes back.
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var numEl = document.getElementById('num'),
+      decEl = document.getElementById('dec'),
+      errEl = document.getElementById('err'),
+      tabEl = document.getElementById('tab'),
+      noteEl = document.getElementById('note'),
+      ansEl  = document.getElementById('ans'),
+      checkEl= document.getElementById('check'),
+      cntEl  = document.getElementById('counter'),
+      bNext  = document.getElementById('next'),
+      bBack  = document.getElementById('back'),
+      bAll   = document.getElementById('all'),
+      bReset = document.getElementById('reset'),
+      bGo    = document.getElementById('go');
+
+  var model = null, cur = 0;
+
+  /* ---------- parsing & grouping ---------- */
+
+  function parseInput(raw){
+    var s = String(raw).trim().replace(/[,\s_]/g,'');
+    if(!/^\d*\.?\d*$/.test(s) || !/\d/.test(s)) return {err:'Enter a non-negative number, digits and one decimal point.'};
+    if(s.charAt(0)==='.') s = '0'+s;
+    if(s.charAt(s.length-1)==='.') s = s.slice(0,-1);
+    var parts = s.split('.'),
+        ip = parts[0] || '0',
+        fp = parts[1] || '';
+    ip = ip.replace(/^0+(?=\d)/,'');
+    fp = fp.replace(/0+$/,'');
+    if(ip.length + fp.length > 18) return {err:'Keep it to about 18 significant digits so the worksheet stays readable.'};
+    return {ip:ip, fp:fp};
+  }
+
+  function group(ip, fp, D){
+    var oddLead = (ip.length % 2) === 1;
+    var ipad = oddLead ? '0'+ip : ip;
+    if(ipad === '') ipad = '00';
+    var nInt = ipad.length/2;
+    var fpad = (fp.length % 2) ? fp+'0' : fp;
+    var wantFrac = Math.max(D, fpad.length/2);
+    while(fpad.length/2 < wantFrac) fpad += '00';
+    var all = ipad + fpad, pairs = [];
+    for(var i=0;i<all.length;i+=2) pairs.push(parseInt(all.substr(i,2),10));
+    return {pairs:pairs, nInt:nInt, oddLead:oddLead, ipad:ipad, fpad:fpad};
+  }
+
+  /* ---------- the algorithm ---------- */
+
+  function runAlgorithm(pairs, nInt){
+    var rem = 0n, root = 0n, steps = [];
+    for(var k=0;k<pairs.length;k++){
+      var curV = rem*100n + BigInt(pairs[k]);
+      var base = 20n*root, x = 0n;
+      for(var t=9n;t>=0n;t--){ if((base+t)*t <= curV){ x = t; break; } }
+      var prod = (base+x)*x;
+      steps.push({
+        k:k, cur:curV, base:base, x:x, prod:prod,
+        prevRem:rem, prevRoot:root, divisor:base+x, rem:curV-prod
+      });
+      rem = curV - prod;
+      root = root*10n + x;
+    }
+    // stop early once the remainder is zero and only 00 pairs remain
+    var m = pairs.length;
+    for(var q=Math.max(1,nInt); q<=steps.length; q++){
+      if(steps[q-1].rem === 0n && pairs.slice(q).every(function(p){return p===0;})){ m = q; break; }
+    }
+    return steps.slice(0, m);
+  }
+
+  /* ---------- column geometry ----------
+     Each pair of the radicand owns a 3-character field:
+       col 3k   -> first digit
+       col 3k+1 -> second digit
+       col 3k+2 -> separator (and the decimal point, on the two top lines)
+     A number aligned to the end of pair k puts its j-th digit from the
+     right in field (k - j/2), skipping separator columns exactly the way
+     you do by hand.                                                     */
+
+  function colOf(k, j){
+    var p = k - (j >> 1), w = j & 1;
+    return p*3 + (1 - w);
+  }
+  function prodLine(k){ return 3 + 3*k; }
+  function ruleLine(k){ return 4 + 3*k; }
+  function remLine(k){  return 5 + 3*k; }
+  function divLine(k){  return k === 0 ? 2 : 3*k + 2; }
+
+  function digitsOf(v){ return v.toString(); }
+
+  function build(ip, fp, D){
+    var g = group(ip, fp, D);
+    if(g.pairs.length > 22) return {err:'That needs too many pairs — try fewer decimals.'};
+    var steps = runAlgorithm(g.pairs, g.nInt);
+    var n = steps.length, nInt = g.nInt, nFrac = n - nInt;
+    var W = 3*n - 1, L = 3*n + 3;
+
+    // UI step list
+    var ui = [{id:'setup'}], dIdx = [], bIdx = [], sIdx = [];
+    for(var k=0;k<n;k++){
+      if(k>0){ bIdx[k] = ui.length; ui.push({id:'bring', k:k}); }
+      dIdx[k] = ui.length; ui.push({id:'digit', k:k});
+      sIdx[k] = ui.length; ui.push({id:'sub', k:k});
+    }
+    ui.push({id:'done'});
+
+    var items = [], gutter = [];
+    function put(line, col, text, at){ items.push({line:line, col:col, text:text, at:at}); }
+    function putRight(line, k, str, at){
+      for(var i=0;i<str.length;i++) put(line, colOf(k, str.length-1-i), str.charAt(i), at);
+    }
+
+    // radicand + the decimal point (both known from the grouping alone)
+    for(var p=0;p<n;p++){
+      var two = ('0'+g.pairs[p]).slice(-2);
+      if(p===0 && g.oddLead) two = ' ' + two.charAt(1);
+      put(2, p*3, two, 0);
+    }
+    if(nFrac > 0){
+      put(2, (nInt-1)*3 + 2, '.', 0);
+      put(0, (nInt-1)*3 + 2, '.', 0);
+    }
+
+    for(var s=0;s<n;s++){
+      var st = steps[s], kk = st.k;
+      // brought-down pair sits on the line holding the previous remainder
+      if(kk > 0){
+        var two2 = ('0'+g.pairs[kk]).slice(-2);
+        put(divLine(kk), kk*3, two2, bIdx[kk]);
+      }
+      // the new root digit, above its pair
+      put(0, kk*3 + 1, st.x.toString(), dIdx[kk]);
+      // the product, right-aligned under the dividend
+      putRight(prodLine(kk), kk, digitsOf(st.prod), dIdx[kk]);
+      gutter[prodLine(kk)] = {text: st.divisor.toString() + ' × ' + st.x.toString(), at: dIdx[kk]};
+      // the subtraction rule, spanning the dividend's width
+      var span = digitsOf(st.cur).length;
+      var from = colOf(kk, span-1), to = kk*3 + 1;
+      put(ruleLine(kk), from, '─'.repeat(to - from + 1), sIdx[kk]);
+      // the remainder
+      putRight(remLine(kk), kk, digitsOf(st.rem), sIdx[kk]);
+    }
+    gutter[2] = {text:'√', at:0};
+
+    // shift right if anything landed left of column 0
+    var minC = 0;
+    items.forEach(function(it){ if(it.col < minC) minC = it.col; });
+    if(minC < 0){ items.forEach(function(it){ it.col -= minC; }); W -= minC; }
+
+    var LW = 1;
+    gutter.forEach(function(gt){ if(gt && gt.text.length > LW) LW = gt.text.length; });
+
+    var rootBig = 0n;
+    steps.forEach(function(st){ rootBig = rootBig*10n + st.x; });
+
+    return {
+      g:g, steps:steps, n:n, nInt:nInt, nFrac:nFrac, W:W, L:L, LW:LW,
+      items:items, gutter:gutter, ui:ui, dIdx:dIdx, bIdx:bIdx, sIdx:sIdx,
+      rootBig:rootBig, exact: steps[n-1].rem === 0n,
+      target: (ip || '0') + (fp ? '.'+fp : '')
+    };
+  }
+
+  /* ---------- rendering the worksheet ---------- */
+
+  function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+  function renderTab(){
+    var M = model, W = M.W, L = M.L, LW = M.LW;
+    var rows = [], i;
+    for(i=0;i<L;i++) rows.push({ch:new Array(W).fill(' '), cl:new Array(W).fill(0)});
+    M.items.forEach(function(it){
+      if(it.at > cur) return;
+      var cl = (it.at === cur) ? 2 : 1;
+      for(var j=0;j<it.text.length;j++){
+        var c = it.col + j;
+        if(c < 0 || c >= W) continue;
+        rows[it.line].ch[c] = it.text.charAt(j);
+        rows[it.line].cl[c] = cl;
+      }
+    });
+
+    function spans(r){
+      var out = '', a = 0;
+      while(a < W){
+        var c = r.cl[a], b = a;
+        while(b < W && r.cl[b] === c) b++;
+        var seg = esc(r.ch.slice(a,b).join(''));
+        out += c === 2 ? '<span class="hot">'+seg+'</span>'
+             : c === 1 ? '<span class="ink">'+seg+'</span>' : seg;
+        a = b;
+      }
+      return out;
+    }
+
+    var lines = [];
+    for(i=0;i<L;i++){
+      if(i === 0){
+        lines.push(' '.repeat(LW+3) + spans(rows[i]));
+      } else if(i === 1){
+        lines.push(' '.repeat(LW+1) + '<span class="frame">┌' + '─'.repeat(W+1) + '</span>');
+      } else {
+        var gt = M.gutter[i];
+        var txt = (gt && gt.at <= cur) ? gt.text : '';
+        var cls = 'gut' + (gt && gt.at === cur ? ' hot' : '');
+        lines.push('<span class="'+cls+'">' + esc(txt.padStart(LW)) + '</span>'
+                 + ' <span class="frame">│</span> ' + spans(rows[i]));
+      }
+    }
+    tabEl.innerHTML = lines.join('\n');
+  }
+
+  /* ---------- narration ---------- */
+
+  function fmtScaled(v, d){
+    var s = v.toString();
+    if(d === 0) return s;
+    s = s.padStart(d+1, '0');
+    return s.slice(0, s.length-d) + '.' + s.slice(s.length-d);
+  }
+
+  function groupingHTML(){
+    var M = model, out = '', p;
+    for(p=0;p<M.n;p++){
+      var two = ('0'+M.g.pairs[p]).slice(-2);
+      if(p === 0 && M.g.oddLead) two = two.charAt(1);
+      out += '<span class="pr">'+two+'</span>';
+      if(p === M.nInt-1 && M.nFrac > 0) out += '<span class="pt">.</span>';
+    }
+    return '<div class="grouping">'+out+'</div>';
+  }
+
+  function trialsHTML(st){
+    var rows = [], lo = st.x > 0n ? st.x : 1n, hi = st.x < 9n ? st.x + 1n : 9n;
+    for(var t = lo; t <= hi; t++){
+      var d = st.base + t, v = d*t, ok = v <= st.cur;
+      var left = st.k === 0
+        ? t.toString() + ' × ' + t.toString()
+        : d.toString() + ' × ' + t.toString();
+      rows.push('<li class="'+(ok?'ok':'no')+'"><span class="mark">'+(ok?'✓':'✗')+'</span>'
+        + '<span>x = '+t+'</span><span>'+left+' = '+v.toString()+'</span>'
+        + '<span>'+(ok?'≤':'>')+' '+st.cur.toString()+'</span></li>');
+    }
+    return '<ul class="trials">'+rows.join('')+'</ul>';
+  }
+
+  function note(){
+    var M = model, s = M.ui[cur], h = '';
+    if(s.id === 'setup'){
+      h += '<h3>Group the digits in pairs</h3>';
+      h += '<p>Starting at the decimal point and working outward, split <b>'+esc(M.target)+'</b> into pairs — '
+         + 'to the left in twos, to the right in twos, padding with zeros where a pair is short.</p>';
+      h += groupingHTML();
+      h += '<p>Each pair yields exactly one digit of the answer, so the decimal point in the root sits directly above the decimal point below. '
+         + M.n + ' pair' + (M.n===1?'':'s') + ' → ' + M.n + ' digit' + (M.n===1?'':'s') + ' of root.</p>';
+    } else if(s.id === 'bring'){
+      var st = M.steps[s.k], two = ('0'+M.g.pairs[s.k]).slice(-2);
+      h += '<h3>Bring down the next pair</h3>';
+      if(st.prevRem === 0n){
+        h += '<p>Nothing was left over, so the new dividend is just the pair <span class="m">'+two+'</span>: '
+           + '<span class="m red">'+st.cur.toString()+'</span>.</p>';
+      } else {
+        h += '<p>Write the pair <span class="m">'+two+'</span> beside the remainder <span class="m">'+st.prevRem.toString()+'</span>. '
+           + 'The new dividend is <span class="m red">'+st.cur.toString()+'</span>.</p>';
+      }
+    } else if(s.id === 'digit'){
+      var st2 = M.steps[s.k];
+      if(s.k === 0){
+        h += '<h3>First digit of the root</h3>';
+        h += '<p>The leading group is <span class="m">'+st2.cur.toString()+'</span>. Take the largest digit '
+           + '<span class="m">d</span> with <span class="m">d × d ≤ '+st2.cur.toString()+'</span>.</p>';
+      } else {
+        h += '<h3>Digit '+(s.k+1)+' of the root</h3>';
+        h += '<p>Double the root so far: <span class="m">2 × '+st2.prevRoot.toString()+' = '
+           + (2n*st2.prevRoot).toString()+'</span>. Tack a digit <span class="m">x</span> on the end to make the divisor '
+           + '<span class="m">'+st2.base.toString()+' + x</span>, then find the largest <span class="m">x</span> with '
+           + '<span class="m">('+st2.base.toString()+' + x) × x ≤ '+st2.cur.toString()+'</span>.</p>';
+      }
+      h += trialsHTML(st2);
+      h += '<p>So the next digit is <b>'+st2.x.toString()+'</b>. Write it above the pair, and write '
+         + '<span class="m red">'+st2.prod.toString()+'</span> under the dividend.</p>';
+    } else if(s.id === 'sub'){
+      var st3 = M.steps[s.k];
+      h += '<h3>Subtract</h3>';
+      h += '<p><span class="m">'+st3.cur.toString()+' − '+st3.prod.toString()+' = '
+         + '<span class="red">'+st3.rem.toString()+'</span></span>'
+         + (st3.rem < st3.divisor ? ' — smaller than the divisor, as it must be.' : '.') + '</p>';
+      h += s.k < M.n-1
+        ? '<p>Bring down the next pair and go round again.</p>'
+        : '<p>That was the last pair.</p>';
+    } else {
+      var last = M.steps[M.n-1];
+      h += '<h3>Finished</h3>';
+      if(M.exact){
+        h += '<p>The remainder is zero, so this terminates: <span class="m">√'+esc(M.target)+' = '+ansString(M.n)+'</span> exactly.</p>';
+      } else {
+        h += '<p>The remainder is <span class="m">'+last.rem.toString()+'</span>, not zero — the digits keep coming. '
+           + 'Append another <span class="m">00</span> pair for each further decimal place you want.</p>';
+      }
+      h += '<p>Every round costs one multiplication and one subtraction, and no digit ever has to be revised.</p>';
+    }
+    noteEl.innerHTML = h;
+  }
+
+  function ansString(count){
+    var M = model, ds = M.steps.slice(0, count).map(function(st){ return st.x.toString(); });
+    if(ds.length === 0) return '';
+    var ints = ds.slice(0, M.nInt).join('').replace(/^0+(?=\d)/,'') || '0';
+    var fr = ds.slice(M.nInt).join('');
+    if(ds.length <= M.nInt) return ds.join('').replace(/^0+(?=\d)/,'') || '0';
+    return ints + (fr ? '.' + fr : '');
+  }
+
+  function shownDigits(){
+    var c = 0;
+    for(var k=0;k<model.n;k++) if(model.dIdx[k] <= cur) c = k+1;
+    return c;
+  }
+
+  function renderAnswer(){
+    var M = model, c = shownDigits();
+    if(c === 0){ ansEl.innerHTML = '<span class="part">—</span>'; checkEl.textContent = ''; return; }
+    var txt = ansString(c);
+    ansEl.innerHTML = '√' + esc(M.target) + ' ' + (c < M.n ? '<span class="part">≈</span>' : '=') + ' ' + esc(txt)
+      + (c < M.n ? '<span class="part">…</span>' : '');
+    if(c === M.n){
+      var sq = fmtScaled(M.rootBig * M.rootBig, 2*M.nFrac);
+      checkEl.textContent = 'check: ' + txt + ' × ' + txt + ' = ' + sq
+        + (M.exact ? '' : '  (target ' + M.target + ')');
+    } else {
+      checkEl.textContent = '';
+    }
+  }
+
+  function renderAll(){
+    renderTab();
+    note();
+    renderAnswer();
+    cntEl.textContent = 'step ' + (cur+1) + ' / ' + model.ui.length;
+    bBack.disabled = cur === 0;
+    bNext.disabled = cur === model.ui.length - 1;
+    bAll.disabled  = cur === model.ui.length - 1;
+    bNext.textContent = cur === model.ui.length - 1 ? 'Done' : 'Next step';
+  }
+
+  /* ---------- wiring ---------- */
+
+  function start(){
+    errEl.hidden = true;
+    var p = parseInput(numEl.value);
+    if(p.err){ errEl.textContent = p.err; errEl.hidden = false; return; }
+    var D = Math.max(0, Math.min(10, parseInt(decEl.value, 10) || 0));
+    decEl.value = D;
+    var m = build(p.ip, p.fp, D);
+    if(m.err){ errEl.textContent = m.err; errEl.hidden = false; return; }
+    model = m; cur = 0;
+    renderAll();
+  }
+
+  bGo.addEventListener('click', start);
+  bReset.addEventListener('click', function(){ cur = 0; renderAll(); });
+  bNext.addEventListener('click', function(){ if(cur < model.ui.length-1){ cur++; renderAll(); } });
+  bBack.addEventListener('click', function(){ if(cur > 0){ cur--; renderAll(); } });
+  bAll.addEventListener('click', function(){ cur = model.ui.length-1; renderAll(); });
+  numEl.addEventListener('keydown', function(e){ if(e.key === 'Enter') start(); });
+  decEl.addEventListener('keydown', function(e){ if(e.key === 'Enter') start(); });
+
+  Array.prototype.forEach.call(document.querySelectorAll('.presets .tag'), function(b){
+    b.addEventListener('click', function(){
+      numEl.value = b.getAttribute('data-n');
+      decEl.value = b.getAttribute('data-d');
+      start();
+    });
+  });
+
+  document.addEventListener('keydown', function(e){
+    var t = e.target;
+    if(t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+    if(e.key === 'ArrowRight' || e.key === ' '){ e.preventDefault(); bNext.click(); }
+    else if(e.key === 'ArrowLeft'){ e.preventDefault(); bBack.click(); }
+  });
+
+  start();
+})();
+</script>
+</body>
+</html>
