@@ -15,6 +15,11 @@ project:
     - videos/**
     - overview/**
     - ai.pdf
+    - ai-business.html
+    - ai-business.pdf
+    - ai-business_files/**
+    - images/agent_anatomy.png
+    - images/chatbot_anatomy.png
     - RiceBusiness-transparent-logo-sm.png
     - headshot-keeper-cropped2.png
     - cv.pdf
