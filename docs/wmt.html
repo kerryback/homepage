@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WMT Valuation</title>
+<style>
+  :root {
+    --ground: #ffffff;
+    --panel: #f7f8fa;
+    --ink: #1b1f24;
+    --muted: #58657a;
+    --rule: #dde2ea;
+    --accent: #00205b;
+    --accent-soft: #eef2f9;
+    --flag: #8a5a00;
+    --flag-soft: #fbf3e2;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  /* Follow whatever the reader's machine is set to. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #13171d; --panel: #1a1f27; --ink: #e6eaf0; --muted: #a2adbd;
+      --rule: #2b323c; --accent: #9db8ef; --accent-soft: #1b2332;
+      --flag: #e3b766; --flag-soft: #2a2416;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #13171d; --panel: #1a1f27; --ink: #e6eaf0; --muted: #a2adbd;
+    --rule: #2b323c; --accent: #9db8ef; --accent-soft: #1b2332;
+    --flag: #e3b766; --flag-soft: #2a2416;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font: 16px/1.55 var(--serif); padding-inline: 16px;
+  }
+  main { max-width: 74rem; margin: 0 auto; padding-block: 2.2rem 4rem; }
+
+  header { border-bottom: 3px solid var(--accent); padding-bottom: 1rem; margin-bottom: 1.6rem; }
+  .eyebrow {
+    font-family: var(--sans); font-size: .70rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 .5rem;
+  }
+  h1 { font-size: 1.9rem; margin: 0 0 .3rem; line-height: 1.15; }
+  .sub { color: var(--muted); font-size: .95rem; margin: 0; }
+
+  h2 {
+    font-family: var(--sans); font-size: .78rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--muted); font-weight: 600;
+    margin: 2.4rem 0 .7rem; padding-bottom: .35rem; border-bottom: 1px solid var(--rule);
+  }
+
+  .warnings { list-style: none; padding: 0; margin: 0 0 1.2rem; }
+  .warnings li {
+    background: var(--flag-soft); border-left: 3px solid var(--flag);
+    padding: .55rem .8rem; margin-bottom: .4rem; font-size: .9rem;
+    font-family: var(--sans);
+  }
+
+  .jc-panel {
+    background: var(--flag-soft); border-left: 3px solid var(--flag);
+    padding: .55rem .8rem; margin: 0 0 1.2rem; font-family: var(--sans); font-size: .9rem;
+  }
+  .jc-panel summary { cursor: pointer; color: var(--flag); font-weight: 600; }
+  .jc-panel ul { margin: .6rem 0 .2rem; padding-left: 1.1rem; }
+  .jc-panel li { margin: .35rem 0; }
+  .jc-where {
+    font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--flag); font-weight: 600; margin-right: .3rem;
+  }
+  .jc {
+    background: var(--flag-soft); border-left: 3px solid var(--flag);
+    padding: .45rem .7rem; margin: .5rem 0 0; font-family: var(--sans);
+    font-size: .85rem; white-space: normal;
+  }
+  .jc-tag {
+    font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--flag); font-weight: 700; margin-right: .35rem;
+  }
+  tr.jc-row td:first-child { box-shadow: inset 3px 0 0 var(--flag); }
+
+  .headline { display: flex; flex-wrap: wrap; gap: 1px; background: var(--rule);
+              border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+  .headline div { background: var(--panel); padding: .9rem 1.1rem; flex: 1 1 11rem; }
+  .headline .lab {
+    font-family: var(--sans); font-size: .68rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); display: block; margin-bottom: .25rem;
+  }
+  .headline .val { font-size: 1.5rem; font-family: var(--mono); }
+  .headline .val.big { color: var(--accent); }
+
+  .scroller { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: .82rem; }
+  th, td { padding: .3rem .5rem; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--rule); }
+  th:first-child, td:first-child {
+    text-align: left; font-family: var(--sans); font-size: .82rem;
+    white-space: normal; min-width: 15rem;
+    position: sticky; left: 0; background: var(--ground); z-index: 1;
+  }
+  thead th {
+    font-family: var(--sans); font-size: .72rem; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--rule);
+  }
+  thead th.fc { color: var(--accent); }
+  tr.group td {
+    font-family: var(--sans); font-size: .72rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); padding-top: .9rem;
+  }
+  td.hist { color: var(--muted); background: var(--panel); }
+  td.fc { color: var(--ink); }
+  tr.total td { border-top: 2px solid var(--rule); border-bottom: none; font-weight: 700; }
+  tr.derived td { color: var(--muted); }
+  td.sens { background: var(--panel); }
+  td.sens.here { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  td.wrap { white-space: normal; text-align: left; font-family: var(--sans); font-size: .8rem; }
+
+  details { margin-top: .6rem; }
+  summary {
+    font-family: var(--sans); font-size: .82rem; color: var(--accent);
+    cursor: pointer; padding: .3rem 0;
+  }
+  .note { font-family: var(--sans); font-size: .87rem; color: var(--muted); margin: .5rem 0 0; }
+  .note.body { color: var(--ink); }
+  .rationale { font-family: var(--sans); font-size: .85rem; margin: .6rem 0 0; }
+  .rationale b { font-weight: 600; }
+
+  .lead {
+    font-size: 1.02rem; margin: .2rem 0 1.4rem; color: var(--ink);
+    border-left: 3px solid var(--accent); padding-left: .9rem;
+  }
+  .guide { margin: 0 0 2rem; }
+  .guide h3 {
+    font-family: var(--sans); font-size: 1rem; margin: 1.6rem 0 .1rem;
+    color: var(--accent); font-weight: 600;
+  }
+  .guide .strip {
+    font-family: var(--mono); font-size: .78rem; color: var(--muted);
+    margin: .25rem 0 .6rem; white-space: normal;
+  }
+  .guide .strip b { color: var(--ink); font-weight: 400; }
+  .guide p.how { margin: .5rem 0 0; font-size: .95rem; }
+  .guide blockquote {
+    margin: .7rem 0 0; padding: .5rem .9rem; background: var(--panel);
+    border-left: 3px solid var(--rule); font-size: .9rem;
+  }
+  .guide blockquote cite {
+    display: block; margin-top: .35rem; font-family: var(--sans);
+    font-size: .78rem; color: var(--muted); font-style: normal;
+  }
+  .rates { font-family: var(--sans); font-size: .87rem; margin: .9rem 0 0; color: var(--muted); }
+  .rates b { color: var(--ink); font-family: var(--mono); font-weight: 400; }
+  .drive {
+    background: var(--accent-soft); border-left: 3px solid var(--accent);
+    padding: .7rem .9rem; font-family: var(--sans); font-size: .88rem;
+    margin: 1.1rem 0 0; color: var(--ink);
+  }
+  .drive code { font-family: var(--mono); font-size: .92em; }
+
+/* The driver ranking: a bar you can read across at a glance. */
+td.bar { width: 40%; min-width: 8rem; }
+td.bar span {
+  display: block; height: .55rem; border-radius: 2px;
+  background: var(--accent); opacity: .75;
+}
+
+/* Tabs: Line items, Forecasts, Baseline, DCF. */
+nav.tabs { display: flex; flex-wrap: wrap; gap: .25rem; border-bottom: 1px solid var(--rule); margin: 0 0 1.4rem; }
+nav.tabs button {
+  font-family: var(--sans); font-size: .9rem; background: none; border: 0;
+  border-bottom: 3px solid transparent; color: var(--muted); padding: .55rem .9rem;
+  cursor: pointer; margin-bottom: -1px;
+}
+nav.tabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+nav.tabs button:hover { color: var(--ink); }
+[role="tabpanel"][hidden] { display: none; }
+[role="tabpanel"] > h2:first-child { margin-top: .4rem; }
+.scroller.spaced { margin-top: .8rem; }
+
+/* The editable Baseline grid. */
+td.fc input, .rates input {
+  width: 4.4rem; font: inherit; font-family: var(--mono); text-align: right;
+  color: var(--ink); background: var(--ground); border: 1px solid var(--rule);
+  border-radius: 3px; padding: .12rem .3rem;
+}
+.rates input { width: 5.2rem; }
+td.fc input:focus, .rates input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+input.edited { background: var(--accent-soft); border-color: var(--accent); }
+input.bad { background: var(--flag-soft); border-color: var(--flag); }
+.u { color: var(--muted); font-size: .75rem; margin-left: .15rem; }
+.readout {
+  display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; justify-content: space-between;
+  background: var(--accent-soft); border-left: 3px solid var(--accent);
+  padding: .7rem .9rem; font-family: var(--sans); font-size: .9rem; margin: 1.1rem 0 0;
+}
+.readout b { font-family: var(--mono); color: var(--accent); }
+.readout button, details.csv button {
+  font-family: var(--sans); font-size: .82rem; color: var(--accent); background: var(--ground);
+  border: 1px solid var(--accent); border-radius: 4px; padding: .3rem .7rem; cursor: pointer;
+}
+details.csv textarea {
+  display: block; width: 100%; margin: .5rem 0; font-family: var(--mono); font-size: .78rem;
+  color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: .5rem;
+}
+.warnings:empty { display: none; }
+
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <p class="eyebrow">Two-stage enterprise valuation</p>
+  <h1>Walmart Inc. (WMT)</h1>
+  <p class="sub">Fiscal 2026 ended 2026-01-31 is year 0. All figures in USD millions.</p>
+</header>
+
+<details class='jc-panel'><summary>15 judgment calls made without review. Each is flagged where it was made; open to see them all.</summary><ul><li><span class='jc-where'>Line items</span> <b>Operating lease right-of-use assets.</b> Excluded with the operating lease liability, because rent of about $2.4 billion a year is inside OSG&amp;A and so already inside EBITDA. Treating the liability as debt instead would subtract about $15.6 billion (roughly $1.94 a share) and double-count rent.</li><li><span class='jc-where'>Line items</span> <b>Finance lease right-of-use assets, net.</b> Excluded, with finance lease obligations treated as debt. The alternative is to fold these $6.1 billion of assets into net PP&amp;E, which would lower the turnover and the depreciation rate together; future finance-leased assets are funded through the capex plug either way.</li><li><span class='jc-where'>Line items</span> <b>Other long-term assets.</b> Excluded as one line. About $5.7 billion of it is equity investments and the Asda debt investment, which are non-operating; classifying the whole line as non-operating would add $14.1 billion, and carving out just the investments would add about $5.7 billion (roughly $0.71 a share).</li><li><span class='jc-where'>Line items</span> <b>Deferred income taxes and other.</b> Excluded. The roughly $7.3 billion that is not deferred tax (long-term self-insurance, indemnifications, swap liabilities and other) is arguably a debt-like claim; subtracting it would lower value by about $0.91 a share.</li><li><span class='jc-where'>Line items</span> <b>Nonredeemable noncontrolling interest.</b> Held at book value of $6.3 billion. Book is a weak proxy: minority stakes in Flipkart, PhonePe and Walmex are worth far more at market, so a market-value deduction would lower value per share, possibly by several dollars.</li><li><span class='jc-where'>Forecasts</span> <b>EBITDA margin.</b> Margin expands from 6.17 to 7.0 percent, above every year of history (5.1 to 6.4 percent), on management's claim that operating income grows well faster than sales. Holding the FY2026 margin flat is the alternative a skeptic would argue; it is the largest single judgment in this valuation.</li><li><span class='jc-where'>Forecasts</span> <b>Next-year sales / net PP&amp;E.</b> Turnover held at 5.0, below the 5.9 to 6.4 of FY2023 to FY2025, on the view that the automation build-out is a permanent step up in capital intensity. If turnover recovered to 6.0 once capex peaks, terminal capex would fall from about 3.0 to about 2.5 percent of sales and value would rise materially.</li><li><span class='jc-where'>DCF</span> <b>WACC.</b> 10 percent is a placeholder, not an estimate for this company. The true WACC should be calculated and entered before the value is relied on.</li><li><span class='jc-where'>Baseline</span> <b>Diluted shares.</b> 8,025.6 million: 7,972.4 million shares outstanding on March 11, 2026 (10-K cover page, the closest disclosed count to the January 31 year end) plus 37.2 million unvested restricted stock units and 16.1 million performance share units from the equity footnote. The weighted-average diluted count of 8,022 million is the alternative and differs by under 0.1 percent.</li><li><span class='jc-where'>Baseline</span> <b>Opening NOL.</b> Set to zero. The 10-K reports $19.6 billion of net operating and capital loss carryforwards, but they are overwhelmingly foreign (and capital) losses carrying a $4.4 billion valuation allowance against a $4.6 billion deferred tax asset, and the model's NOL is a federal carryforward. Entering the unreserved slice would add well under $0.05 a share.</li><li><span class='jc-where'>Line items</span> <b>Preferred stock.</b> None outstanding; no preferred deduction in the bridge.</li><li><span class='jc-where'>Line items</span> <b>Statement check, FY2022 cash flow.</b> The fetch flagged FY2022: beginning cash plus net change less ending cash is -1,848,000 (USD thousands). That is exactly the 'Change in cash and cash equivalents reclassified from assets held for sale' line, which the check does not add. The statement is right; FY2022 is outside the balance-sheet years and does not enter any ratio except growth and margin.</li><li><span class='jc-where'>Forecasts</span> <b>Transcript coverage.</b> Transcripts came back for FY2021 Q4 through FY2025 Q4, FY2026 Q4, and FY2027 Q1 and Q2. FY2026 Q1 to Q3 are missing; the press releases for those quarters are present. The forecast leans on the FY2026 Q4 and FY2027 Q2 calls, which carry the current guidance.</li><li><span class='jc-where'>DCF</span> <b>Valuation date.</b> Values are as of January 31, 2026, the end of fiscal year 0, not today (October 2026). Two quarters of FY2027 results and the raised guidance have been used as evidence, but no cash flow since year end is credited, so the value is not directly comparable with today's price.</li><li><span class='jc-where'>Forecasts</span> <b>Constant currency guidance.</b> Walmart guides sales in constant currency; the model is in reported dollars and treats the guide as a reported-dollar forecast. A strong dollar would make reported growth lower than the guide.</li></ul></details>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" id="t-lines" aria-controls="p-lines" aria-selected="true">Line items</button>
+  <button role="tab" id="t-evidence" aria-controls="p-evidence" aria-selected="false">Forecasts</button>
+  <button role="tab" id="t-baseline" aria-controls="p-baseline" aria-selected="false">Baseline</button>
+  <button role="tab" id="t-dcf" aria-controls="p-dcf" aria-selected="false">DCF</button>
+</nav>
+
+<section role="tabpanel" id="p-lines" aria-labelledby="t-lines">
+<h2>Classification of every reported balance-sheet line</h2>
+<p class="note">Which lines consume cash as the business grows (operating assets,
+operating liabilities, net PP&amp;E), which are claims on what it produces or are
+added in the bridge (debt claims, equity claims, nonoperating assets), and which
+do neither (excluded). Everything downstream inherits this, so it is worth
+disagreeing with here rather than later.</p>
+<div class="scroller"><table><thead><tr><th>Reported line</th><th>Bucket</th><th>Why</th></tr></thead><tbody><tr><td>Cash and cash equivalents</td><td class='wrap'>nonoperating_asset</td><td class='wrap'>Cash and equivalents; held at book in the bridge.</td></tr><tr><td>Receivables, net</td><td class='wrap'>operating_asset</td><td class='wrap'>Trade, pharmacy, supplier and card receivables; scale with revenue.</td></tr><tr><td>Inventories</td><td class='wrap'>operating_asset</td><td class='wrap'>Merchandise inventories (LIFO in Walmart U.S.); scale with sales.</td></tr><tr><td>Prepaid expenses and other</td><td class='wrap'>operating_asset</td><td class='wrap'>Prepaid expenses and other current assets; small and sales-linked.</td></tr><tr><td>Property and equipment, net</td><td class='wrap'>net_ppe</td><td class='wrap'>Owned stores, clubs, distribution and fulfillment centers, fixtures and equipment.</td></tr><tr class='jc-row'><td>Operating lease right-of-use assets</td><td class='wrap'>excluded</td><td class='wrap'>Right-of-use assets move with the lease liability, not with sales.<p class='jc'><span class='jc-tag'>Judgment call</span> Excluded with the operating lease liability, because rent of about $2.4 billion a year is inside OSG&amp;A and so already inside EBITDA. Treating the liability as debt instead would subtract about $15.6 billion (roughly $1.94 a share) and double-count rent.</p></td></tr><tr class='jc-row'><td>Finance lease right-of-use assets, net</td><td class='wrap'>excluded</td><td class='wrap'>Finance lease assets; their amortization ($0.9 billion in FY2026) sits inside D&amp;A.<p class='jc'><span class='jc-tag'>Judgment call</span> Excluded, with finance lease obligations treated as debt. The alternative is to fold these $6.1 billion of assets into net PP&amp;E, which would lower the turnover and the depreciation rate together; future finance-leased assets are funded through the capex plug either way.</p></td></tr><tr><td>Goodwill</td><td class='wrap'>excluded</td><td class='wrap'>Acquisition goodwill (Flipkart, VIZIO and others); its cash flows are already in EBITDA.</td></tr><tr class='jc-row'><td>Other long-term assets</td><td class='wrap'>excluded</td><td class='wrap'>Intangibles (about $4.3 billion indefinite-lived), $5.7 billion of equity and debt investments, $1.9 billion of deferred tax assets, and other.<p class='jc'><span class='jc-tag'>Judgment call</span> Excluded as one line. About $5.7 billion of it is equity investments and the Asda debt investment, which are non-operating; classifying the whole line as non-operating would add $14.1 billion, and carving out just the investments would add about $5.7 billion (roughly $0.71 a share).</p></td></tr><tr><td>Short-term borrowings</td><td class='wrap'>debt_claim</td><td class='wrap'>Commercial paper and other short-term borrowings.</td></tr><tr><td>Accounts payable</td><td class='wrap'>operating_liability</td><td class='wrap'>Trade payables to merchandise suppliers; scale with sales.</td></tr><tr><td>Accrued liabilities</td><td class='wrap'>operating_liability</td><td class='wrap'>Accrued wages, self-insurance, taxes other than income and other operating accruals.</td></tr><tr><td>Accrued income taxes</td><td class='wrap'>operating_liability</td><td class='wrap'>Income taxes payable; a small timing balance that moves with taxable income.</td></tr><tr><td>Long-term debt due within one year</td><td class='wrap'>debt_claim</td><td class='wrap'>Current maturities of long-term debt.</td></tr><tr><td>Operating lease obligations due within one year</td><td class='wrap'>excluded</td><td class='wrap'>Current operating lease liability; rent is already in EBITDA (see the right-of-use line).</td></tr><tr><td>Finance lease obligations due within one year</td><td class='wrap'>debt_claim</td><td class='wrap'>Current finance lease obligations; finance lease costs sit in D&amp;A and interest, below EBITDA.</td></tr><tr><td>Long-term debt</td><td class='wrap'>debt_claim</td><td class='wrap'>Senior notes and other long-term debt.</td></tr><tr><td>Long-term operating lease obligations</td><td class='wrap'>excluded</td><td class='wrap'>Long-term operating lease liability; rent is already in EBITDA (see the right-of-use line).</td></tr><tr><td>Long-term finance lease obligations</td><td class='wrap'>debt_claim</td><td class='wrap'>Long-term finance lease obligations; finance lease costs sit below EBITDA.</td></tr><tr class='jc-row'><td>Deferred income taxes and other</td><td class='wrap'>excluded</td><td class='wrap'>Net deferred tax liabilities of $9.2 billion plus about $7.3 billion of other long-term liabilities, including $0.7 billion of legal indemnifications and derivative liabilities.<p class='jc'><span class='jc-tag'>Judgment call</span> Excluded. The roughly $7.3 billion that is not deferred tax (long-term self-insurance, indemnifications, swap liabilities and other) is arguably a debt-like claim; subtracting it would lower value by about $0.91 a share.</p></td></tr><tr><td>Redeemable noncontrolling interest</td><td class='wrap'>equity_claim</td><td class='wrap'>Redeemable minority interests in consolidated subsidiaries, at carrying value.</td></tr><tr class='jc-row'><td>Nonredeemable noncontrolling interest</td><td class='wrap'>equity_claim</td><td class='wrap'>Minority holders of Flipkart, PhonePe, Walmex and other subsidiaries, at book.<p class='jc'><span class='jc-tag'>Judgment call</span> Held at book value of $6.3 billion. Book is a weak proxy: minority stakes in Flipkart, PhonePe and Walmex are worth far more at market, so a market-value deduction would lower value per share, possibly by several dollars.</p></td></tr></tbody></table></div>
+</section>
+
+<section role="tabpanel" id="p-evidence" aria-labelledby="t-evidence" hidden>
+<p class="lead">Every number on the Baseline tab is a suggestion, not a conclusion.
+They are a defensible starting point drawn from the history and from what
+management has said, and they are where the argument begins rather than where it
+ends. Each driver gets a section of its own below: what its history shows, what
+actually makes it move, what would make you choose differently, and the quoted
+evidence. The decision is yours.</p>
+<h2>Driver by driver</h2>
+<section class='guide'><h3>Sales growth</h3><p class='strip'>History 2023 <b>6.7%</b>, 2024 <b>6.0%</b>, 2025 <b>5.1%</b>, 2026 <b>4.7%</b> &nbsp;·&nbsp; Suggested <b>4.5%</b>, <b>4.3%</b>, <b>4.0%</b>, <b>4.0%</b>, <b>3.8%</b>, then <b>3.5%</b> forever &nbsp;·&nbsp; Moving it 1pp each way moves the value <b>25.4%</b></p><p class='how'>Sales growth is total revenues (net sales plus membership and other income) year over year. Walmart guides one year at a time in constant currency, so year 1 should sit inside the current guidance range and years 2 to 5 are a fade toward a perpetual nominal rate. What moves it: U.S. comps (transactions and ticket), eCommerce and marketplace growth, international (China, India via Flipkart, Mexico), food inflation, and pharmacy pricing (maximum fair pricing on GLP-1 and other drugs). History is 6.7, 6.0, 5.1 and 4.7 percent for FY2023 to FY2026, a decelerating series partly flattered by inflation in FY2023 and FY2024. A higher path would need eCommerce and advertising to keep compounding at 20-plus percent on a larger base; a lower path would follow from a weaker consumer or a strong dollar, since the guide is constant currency and the model is in reported dollars.</p><blockquote>&ldquo;Full year constant currency sales are expected to grow between 3.54.5%.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2026Q4_earnings_call_2026-02-19.txt, guidance</cite></blockquote><blockquote>&ldquo;We're raising our fiscal year sales guidance to 4% to 5% from 3.5% to 4.5% previously.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2027Q2_earnings_call_2026-08-20.txt, guidance</cite></blockquote><blockquote>&ldquo;to have what is roughly $0.75 trillion of a revenue base and be able to grow at 4%, 5%, 6% a year, that's meaningful growth.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2027Q2_earnings_call_2026-08-20.txt, Q&amp;A</cite></blockquote><blockquote>&ldquo;Our total revenues increased $32.2 billion or 4.7% and $32.9 billion or 5.1% for fiscal 2026 and 2025, respectively, when compared to the previous fiscal year.&rdquo;<cite>10-K, 10k/WMT_10-K_FY2026_filed2026-03-13.htm, Item 7 MD&amp;A</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Year 1 at 4.5 percent is the midpoint of the raised FY2027 guide of 4 to 5 percent. It fades by about a quarter point a year to 3.75 percent in year 5, then 3.5 percent forever, close to the bottom of the 4 to 6 percent range the CFO describes, because a $750 billion base cannot outgrow nominal GDP for ever.</p></section><section class='guide'><h3>EBITDA margin</h3><p class='strip'>History 2022 <b>6.4%</b>, 2023 <b>5.1%</b>, 2024 <b>6.0%</b>, 2025 <b>6.2%</b>, 2026 <b>6.2%</b> &nbsp;·&nbsp; Suggested <b>6.5%</b>, <b>6.7%</b>, <b>6.8%</b>, <b>6.9%</b>, <b>7.0%</b>, then <b>7.0%</b> forever &nbsp;·&nbsp; Moving it 1pp each way moves the value <b>64.4%</b></p><p class='jc'><span class='jc-tag'>Judgment call</span> Margin expands from 6.17 to 7.0 percent, above every year of history (5.1 to 6.4 percent), on management's claim that operating income grows well faster than sales. Holding the FY2026 margin flat is the alternative a skeptic would argue; it is the largest single judgment in this valuation.</p><p class='how'>The statements report no EBITDA line, so EBITDA here is operating income plus depreciation and amortization from the cash flow statement. It is after rent on operating leases (inside OSG&amp;A) and after stock compensation, and before finance lease amortization, which sits in D&amp;A. What moves it: business mix (advertising, membership and marketplace carry far higher margins than retail), eCommerce incremental margins, automation savings, price investment, self-insurance claims, fuel and tariff costs, and LIFO. History is 6.4, 5.1, 6.0, 6.2 and 6.2 percent for FY2022 to FY2026; FY2023 was depressed by opioid legal charges and inventory markdowns. FY2026 carries roughly $0.9 billion of extra self-insurance claims and a $0.7 billion PhonePe share-based compensation charge, about 0.2 percent of sales together. Because D&amp;A is growing faster than sales, EBITDA margin has to rise just to hold EBIT margin flat, so a flat EBITDA margin is itself a mildly bearish call. A lower path is right if price investment and tariff refunds go back to customers permanently.</p><blockquote>&ldquo;Operating income guidance reflects a higher level of confidence relative to prior year's original guidance that we can deliver growth in the upper half of the range depicted in our framework.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2026Q4_earnings_call_2026-02-19.txt, guidance</cite></blockquote><blockquote>&ldquo;We're assuming continued margin expansion driven by favorable business mix, automation benefits and productivity, and less headwinds from merchandise category mix.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2026Q4_earnings_call_2026-02-19.txt, guidance</cite></blockquote><blockquote>&ldquo;On operating income for 2027 and the outer years, look, we have a lot of confidence in our ability to continue to grow the bottom line at a much faster rate than we have the top line.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2027Q2_earnings_call_2026-08-20.txt, Q&amp;A</cite></blockquote><blockquote>&ldquo;If you look at the profit drivers of our business, almost half of the growth came from areas like membership, advertising, marketplace.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2027Q2_earnings_call_2026-08-20.txt, Q&amp;A</cite></blockquote><blockquote>&ldquo;The increase for fiscal 2026 was primarily due to higher self-insured general liability claims expense in the U.S. of approximately $0.9 billion, influenced by rising costs to resolve claims across retail and related industries, a charge of $0.7 billion related to modification of certain share-based compensation arrangements for our PhonePe subsidiary and increased depreciation related to our capital investments.&rdquo;<cite>10-K, 10k/WMT_10-K_FY2026_filed2026-03-13.htm, Item 7 MD&amp;A</cite></blockquote><blockquote>&ldquo;We now expect more than $2 billion of incremental fuel-related costs this year above and beyond our original guidance assumptions&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2027Q2_earnings_call_2026-08-20.txt, guidance</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Year 1 at 6.45 percent gives operating income growth of roughly 8 percent on 4.5 percent sales growth, the top of the original 6 to 8 percent guide and consistent with the raise in August. Expansion then slows to about 10 to 15 basis points a year, ending at 7.0 percent, which puts terminal EBIT margin near 4.6 percent against 4.2 percent in FY2026.</p></section><section class='guide'><h3>Next-year sales / net PP&amp;E</h3><p class='strip'>History 2023 <b>6.43×</b>, 2024 <b>6.15×</b>, 2025 <b>5.94×</b> &nbsp;·&nbsp; Suggested <b>5.20×</b>, <b>5.00×</b>, <b>5.00×</b>, <b>5.00×</b>, <b>5.00×</b>, then <b>5.00×</b> forever &nbsp;·&nbsp; Moving it 5% of itself each way moves the value <b>15.2%</b></p><p class='jc'><span class='jc-tag'>Judgment call</span> Turnover held at 5.0, below the 5.9 to 6.4 of FY2023 to FY2025, on the view that the automation build-out is a permanent step up in capital intensity. If turnover recovered to 6.0 once capex peaks, terminal capex would fall from about 3.0 to about 2.5 percent of sales and value would rise materially.</p><p class='how'>Turnover is next year's sales over this year's net PP&amp;E. It has fallen every year: 6.43, 6.15 and 5.94 for FY2023 to FY2025, and net PP&amp;E grew 13 percent in FY2026 against 4.7 percent sales growth, so FY2026's turnover on guided FY2027 sales is about 5.5. Walmart is spending on supply chain automation, store remodels, fulfillment and technology, and says spending peaks this year and next. Because capex is the plug, this driver sets capex: steady-state capex is (g + d) over the turnover, as a share of sales. Use the capex guidance (about 4 percent of sales in FY2027) to calibrate year 1, then decide whether the asset base stays more capital-intensive after the peak (turnover stays near 5) or whether automation lets sales grow into it (turnover drifts back toward 6).</p><blockquote>&ldquo;For f y '27, we expect capital expenditure levels to be approximately three and a half percent of sales. We're hitting the peak of annual spending levels on supply chain automation and store remodels.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2026Q4_earnings_call_2026-02-19.txt, guidance</cite></blockquote><blockquote>&ldquo;We now expect slightly higher CapEx for the year at approximately 4% of annual net sales. Even with this increase, we expect to generate double-digit growth in free cash flow this year.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2027Q2_earnings_call_2026-08-20.txt, guidance</cite></blockquote><blockquote>&ldquo;For the fiscal year ending January 31, 2027 ("fiscal 2027"), we project capital expenditures will be approximately $25 billion to $27 billion, with a focus on technology, supply chain and customer-facing initiatives.&rdquo;<cite>10-K, 10k/WMT_10-K_FY2026_filed2026-03-13.htm, Liquidity and Capital Resources</cite></blockquote><blockquote>&ldquo;Our strategy includes allocating the majority of our capital to higher-return areas focused on automation such as eCommerce, supply chain and store and club investments.&rdquo;<cite>10-K, 10k/WMT_10-K_FY2026_filed2026-03-13.htm, Capital Allocation</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> A year-1 turnover of 5.2 makes implied FY2027 capex about $29.5 billion, roughly 4 percent of sales, matching the August guidance. Year 2 at 5.0 keeps capex near 3.8 percent for the second peak year; after that capex falls to about 3 percent of sales, below the peak but above the 3.2 percent of FY2024 relative to a smaller base.</p></section><section class='guide'><h3>Depreciation / prior net PP&amp;E</h3><p class='strip'>History 2024 <b>11.8%</b>, 2025 <b>11.7%</b>, 2026 <b>11.8%</b> &nbsp;·&nbsp; Suggested <b>11.8%</b>, <b>11.8%</b>, <b>11.8%</b>, <b>11.8%</b>, <b>11.8%</b>, then <b>11.8%</b> forever &nbsp;·&nbsp; Moving it 1pp each way moves the value <b>12.8%</b></p><p class='how'>Depreciation and amortization over the prior year's net PP&amp;E. It was 11.8, 11.7 and 11.8 percent in FY2024 to FY2026, very stable. The D&amp;A line includes about $0.9 billion of finance lease amortization and some amortization of acquired intangibles (VIZIO, Flipkart), neither of which is depreciation of the PP&amp;E in the denominator, so the rate is overstated by roughly 0.7 points. Useful lives are 3 to 40 years for buildings and 2 to 30 for fixtures and equipment. A rising share of short-lived automation and technology equipment would push the rate up over time; management already names higher depreciation as an SG&amp;A headwind. Cross-check: realized capex from the PP&amp;E roll-forward is $21.9, $22.2 and $30.3 billion for FY2024 to FY2026 against cash capex of $20.6, $23.8 and $26.6 billion; the FY2026 gap reflects finance-lease and other non-cash additions.</p><blockquote>&ldquo;One of the bigger drivers was depreciation. Depreciation is related to the CapEx that we've had has really been around supply chain automation and addressing speed.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2027Q2_earnings_call_2026-08-20.txt, Q&amp;A</cite></blockquote><blockquote>&ldquo;More than offsetting these benefits were higher depreciation related to CapEx and increased self-insurance cost.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2027Q2_earnings_call_2026-08-20.txt, prepared remarks</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Held at the three-year level of 11.8 percent. The mix shift toward automation argues for a slightly higher rate and the finance lease amortization in the numerator argues for a lower one; the two roughly offset.</p></section><section class='guide'><h3>Receivables, net</h3><p class='strip'>History 2023 <b>1.3%</b>, 2024 <b>1.4%</b>, 2025 <b>1.5%</b>, 2026 <b>1.6%</b> &nbsp;·&nbsp; Suggested <b>1.6%</b>, <b>1.6%</b>, <b>1.6%</b>, <b>1.6%</b>, <b>1.6%</b>, then <b>1.6%</b> forever</p><p class='how'>Receivables over the same year's sales: 1.30, 1.36, 1.46 and 1.57 percent for FY2023 to FY2026. The rise reflects marketplace, advertising, pharmacy and supplier receivables growing faster than retail sales. No filing text bears directly on terms.</p><p class='how'><i>Why the suggestion sits where it does.</i> 1.6 percent, a little above FY2026 on the trend, but not extrapolated further.</p></section><section class='guide'><h3>Inventories</h3><p class='strip'>History 2023 <b>9.3%</b>, 2024 <b>8.5%</b>, 2025 <b>8.3%</b>, 2026 <b>8.3%</b> &nbsp;·&nbsp; Suggested <b>8.2%</b>, <b>8.2%</b>, <b>8.2%</b>, <b>8.2%</b>, <b>8.2%</b>, then <b>8.2%</b> forever</p><p class='how'>Inventories over the same year's sales: 9.26, 8.47, 8.29 and 8.25 percent for FY2023 to FY2026. FY2023 was the post-pandemic overstock. Management reports inventory growing slightly faster than sales in Q2 FY2027 because of inflation and stocking fulfillment nodes; automation and better allocation argue the other way.</p><blockquote>&ldquo;Inventory at quarter end increased 6% in constant currency, slightly higher than total enterprise sales growth. The increase reflects cost inflation as well as higher inventory to support strategic initiatives in the U.S., including the optimization of inventory across fulfillment nodes.&rdquo;<cite>John David Rainey, CFO, transcripts/WMT_FY2027Q2_earnings_call_2026-08-20.txt, prepared remarks</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Held at FY2026's 8.25 percent.</p></section><section class='guide'><h3>Prepaid expenses and other</h3><p class='strip'>History 2023 <b>0.4%</b>, 2024 <b>0.5%</b>, 2025 <b>0.6%</b>, 2026 <b>0.6%</b> &nbsp;·&nbsp; Suggested <b>0.6%</b>, <b>0.6%</b>, <b>0.6%</b>, <b>0.6%</b>, <b>0.6%</b>, then <b>0.6%</b> forever</p><p class='how'>Prepaid expenses and other current assets over sales: 0.41, 0.51, 0.59 and 0.58 percent. Small; nothing in the filings bears on it.</p><p class='how'><i>Why the suggestion sits where it does.</i> Held at FY2026.</p></section><section class='guide'><h3>Accounts payable</h3><p class='strip'>History 2023 <b>8.8%</b>, 2024 <b>8.8%</b>, 2025 <b>8.6%</b>, 2026 <b>8.8%</b> &nbsp;·&nbsp; Suggested <b>8.8%</b>, <b>8.8%</b>, <b>8.8%</b>, <b>8.8%</b>, <b>8.8%</b>, then <b>8.8%</b> forever</p><p class='how'>Accounts payable over sales: 8.79, 8.77, 8.61 and 8.84 percent for FY2023 to FY2026, very stable. Payables nearly fund inventory (8.25 percent), which is the core of Walmart's working-capital model. A supplier-finance programme or a change in payment terms would move it; nothing in the filings signals one.</p><p class='how'><i>Why the suggestion sits where it does.</i> 8.8 percent, the four-year average.</p></section><section class='guide'><h3>Accrued liabilities</h3><p class='strip'>History 2023 <b>5.1%</b>, 2024 <b>4.4%</b>, 2025 <b>4.3%</b>, 2026 <b>4.4%</b> &nbsp;·&nbsp; Suggested <b>4.4%</b>, <b>4.4%</b>, <b>4.4%</b>, <b>4.4%</b>, <b>4.4%</b>, then <b>4.4%</b> forever</p><p class='how'>Accrued liabilities (wages and benefits, self-insurance, non-income taxes and other) over sales: 5.09, 4.44, 4.31 and 4.37 percent. FY2023 was raised by accrued opioid settlements paid in FY2024. Rising self-insurance claims push it up.</p><blockquote>&ldquo;Self-insurance consists of insurance-related liabilities, such as general liability, workers' compensation, auto liability, product liability and certain employee-related healthcare benefits.&rdquo;<cite>10-K, 10k/WMT_10-K_FY2026_filed2026-03-13.htm, Note on accrued liabilities</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Held at FY2026's 4.37 percent, setting aside the FY2023 settlement accrual.</p></section><section class='guide'><h3>Accrued income taxes</h3><p class='strip'>History 2023 <b>0.1%</b>, 2024 <b>0.0%</b>, 2025 <b>0.1%</b>, 2026 <b>0.1%</b> &nbsp;·&nbsp; Suggested <b>0.1%</b>, <b>0.1%</b>, <b>0.1%</b>, <b>0.1%</b>, <b>0.1%</b>, then <b>0.1%</b> forever</p><p class='how'>Accrued income taxes over sales: 0.12, 0.05, 0.09 and 0.08 percent. A timing balance; immaterial.</p><p class='how'><i>Why the suggestion sits where it does.</i> Held at FY2026.</p></section><section class='guide'><h3>Cash tax rate on taxable income</h3><p class='strip'>History 2022 <b>25.4%</b>, 2023 <b>33.6%</b>, 2024 <b>25.5%</b>, 2025 <b>23.4%</b>, 2026 <b>24.4%</b> &nbsp;·&nbsp; Suggested <b>24.0%</b>, <b>24.0%</b>, <b>24.0%</b>, <b>24.0%</b>, <b>24.0%</b>, then <b>24.0%</b> forever &nbsp;·&nbsp; Moving it 1pp each way moves the value <b>3.9%</b></p><p class='how'>The marginal cash rate on EBIT: 21 percent federal plus state and a mix of foreign rates. The effective rate was 24.4, 23.4 and 25.5 percent in FY2026, FY2025 and FY2024 per the 10-K, moved by non-deductible items (the PhonePe charge in FY2026) and the tax on investment gains and losses. Cash taxes paid were $5.4 billion in FY2026 on $29.5 billion of pretax income. The FY2023 ratio of 33.6 percent is distorted by non-deductible opioid settlements and investment losses. There is no usable federal NOL (see the opening NOL judgment), so the marginal and effective rates coincide in the forecast.</p><blockquote>&ldquo;Our effective income tax rate was 24.4%, 23.4%, and 25.5% for fiscal 2026, 2025 and 2024, respectively.&rdquo;<cite>10-K, 10k/WMT_10-K_FY2026_filed2026-03-13.htm, Item 7 MD&amp;A</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> 24 percent, the centre of the last three effective rates once one-time items are set aside.</p></section>
+<h2>What the history showed</h2><p class='note body'>The statements report no EBITDA line. EBITDA here is operating income plus depreciation and amortization from the cash flow statement, so it is after operating lease rent and stock compensation and before finance lease amortization.</p><p class='note body'>Figures in the statements workbook are USD thousands; the bundle's base balances are converted to USD millions. Ratios are unaffected.</p>
+</section>
+
+<section role="tabpanel" id="p-baseline" aria-labelledby="t-baseline" hidden>
+<h2>Suggested forecasts with historicals</h2>
+<p class="note">Shaded columns are history. The rest are the suggested forecasts,
+and every one is editable: the DCF tab revalues as you type, and edited cells are
+highlighted. The reasoning behind each suggestion is on the Forecasts tab.</p>
+<div class="scroller spaced"><table><thead><tr><th>Assumption</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th class='fc'>Year 1</th><th class='fc'>Year 2</th><th class='fc'>Year 3</th><th class='fc'>Year 4</th><th class='fc'>Year 5</th><th class='fc'>Terminal</th></tr></thead><tbody><tr class='group'><td colspan='12'>Growth and margin</td></tr><tr><td>Sales growth</td><td class='hist'>—</td><td class='hist'>6.7%</td><td class='hist'>6.0%</td><td class='hist'>5.1%</td><td class='hist'>4.7%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='0' aria-label='Sales growth, Year 1' value='4.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='1' aria-label='Sales growth, Year 2' value='4.3'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='2' aria-label='Sales growth, Year 3' value='4.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='3' aria-label='Sales growth, Year 4' value='4.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='4' aria-label='Sales growth, Year 5' value='3.75'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='5' aria-label='Sales growth, Terminal' value='3.5'><span class='u'>%</span></td></tr><tr><td>EBITDA margin</td><td class='hist'>6.4%</td><td class='hist'>5.1%</td><td class='hist'>6.0%</td><td class='hist'>6.2%</td><td class='hist'>6.2%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='0' aria-label='EBITDA margin, Year 1' value='6.45'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='1' aria-label='EBITDA margin, Year 2' value='6.65'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='2' aria-label='EBITDA margin, Year 3' value='6.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='3' aria-label='EBITDA margin, Year 4' value='6.9'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='4' aria-label='EBITDA margin, Year 5' value='7.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='5' aria-label='EBITDA margin, Terminal' value='7.0'><span class='u'>%</span></td></tr><tr class='group'><td colspan='12'>Property, plant and equipment</td></tr><tr><td>Next-year sales / net PP&amp;E</td><td class='hist'>—</td><td class='hist'>6.43×</td><td class='hist'>6.15×</td><td class='hist'>5.94×</td><td class='hist'>—</td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='0' aria-label='Next-year sales / net PP&amp;E, Year 1' value='5.20'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='1' aria-label='Next-year sales / net PP&amp;E, Year 2' value='5.00'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='2' aria-label='Next-year sales / net PP&amp;E, Year 3' value='5.00'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='3' aria-label='Next-year sales / net PP&amp;E, Year 4' value='5.00'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='4' aria-label='Next-year sales / net PP&amp;E, Year 5' value='5.00'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='5' aria-label='Next-year sales / net PP&amp;E, Terminal' value='5.00'><span class='u'>×</span></td></tr><tr><td>Depreciation / prior net PP&amp;E</td><td class='hist'>—</td><td class='hist'>—</td><td class='hist'>11.8%</td><td class='hist'>11.7%</td><td class='hist'>11.8%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='0' aria-label='Depreciation / prior net PP&amp;E, Year 1' value='11.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='1' aria-label='Depreciation / prior net PP&amp;E, Year 2' value='11.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='2' aria-label='Depreciation / prior net PP&amp;E, Year 3' value='11.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='3' aria-label='Depreciation / prior net PP&amp;E, Year 4' value='11.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='4' aria-label='Depreciation / prior net PP&amp;E, Year 5' value='11.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='5' aria-label='Depreciation / prior net PP&amp;E, Terminal' value='11.8'><span class='u'>%</span></td></tr><tr class='group'><td colspan='12'>Operating assets, as a share of sales</td></tr><tr><td>Receivables, net</td><td class='hist'>—</td><td class='hist'>1.3%</td><td class='hist'>1.4%</td><td class='hist'>1.5%</td><td class='hist'>1.6%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='0' aria-label='Receivables, net, Year 1' value='1.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='1' aria-label='Receivables, net, Year 2' value='1.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='2' aria-label='Receivables, net, Year 3' value='1.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='3' aria-label='Receivables, net, Year 4' value='1.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='4' aria-label='Receivables, net, Year 5' value='1.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='5' aria-label='Receivables, net, Terminal' value='1.6'><span class='u'>%</span></td></tr><tr><td>Inventories</td><td class='hist'>—</td><td class='hist'>9.3%</td><td class='hist'>8.5%</td><td class='hist'>8.3%</td><td class='hist'>8.3%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='0' aria-label='Inventories, Year 1' value='8.25'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='1' aria-label='Inventories, Year 2' value='8.25'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='2' aria-label='Inventories, Year 3' value='8.25'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='3' aria-label='Inventories, Year 4' value='8.25'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='4' aria-label='Inventories, Year 5' value='8.25'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='5' aria-label='Inventories, Terminal' value='8.25'><span class='u'>%</span></td></tr><tr><td>Prepaid expenses and other</td><td class='hist'>—</td><td class='hist'>0.4%</td><td class='hist'>0.5%</td><td class='hist'>0.6%</td><td class='hist'>0.6%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.prepaids' data-unit='%' data-col='0' aria-label='Prepaid expenses and other, Year 1' value='0.58'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.prepaids' data-unit='%' data-col='1' aria-label='Prepaid expenses and other, Year 2' value='0.58'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.prepaids' data-unit='%' data-col='2' aria-label='Prepaid expenses and other, Year 3' value='0.58'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.prepaids' data-unit='%' data-col='3' aria-label='Prepaid expenses and other, Year 4' value='0.58'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.prepaids' data-unit='%' data-col='4' aria-label='Prepaid expenses and other, Year 5' value='0.58'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.prepaids' data-unit='%' data-col='5' aria-label='Prepaid expenses and other, Terminal' value='0.58'><span class='u'>%</span></td></tr><tr class='group'><td colspan='12'>Operating liabilities, as a share of sales</td></tr><tr><td>Accounts payable</td><td class='hist'>—</td><td class='hist'>8.8%</td><td class='hist'>8.8%</td><td class='hist'>8.6%</td><td class='hist'>8.8%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='0' aria-label='Accounts payable, Year 1' value='8.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='1' aria-label='Accounts payable, Year 2' value='8.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='2' aria-label='Accounts payable, Year 3' value='8.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='3' aria-label='Accounts payable, Year 4' value='8.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='4' aria-label='Accounts payable, Year 5' value='8.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='5' aria-label='Accounts payable, Terminal' value='8.8'><span class='u'>%</span></td></tr><tr><td>Accrued liabilities</td><td class='hist'>—</td><td class='hist'>5.1%</td><td class='hist'>4.4%</td><td class='hist'>4.3%</td><td class='hist'>4.4%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued' data-unit='%' data-col='0' aria-label='Accrued liabilities, Year 1' value='4.37'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued' data-unit='%' data-col='1' aria-label='Accrued liabilities, Year 2' value='4.37'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued' data-unit='%' data-col='2' aria-label='Accrued liabilities, Year 3' value='4.37'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued' data-unit='%' data-col='3' aria-label='Accrued liabilities, Year 4' value='4.37'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued' data-unit='%' data-col='4' aria-label='Accrued liabilities, Year 5' value='4.37'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued' data-unit='%' data-col='5' aria-label='Accrued liabilities, Terminal' value='4.37'><span class='u'>%</span></td></tr><tr><td>Accrued income taxes</td><td class='hist'>—</td><td class='hist'>0.1%</td><td class='hist'>0.0%</td><td class='hist'>0.1%</td><td class='hist'>0.1%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued_taxes' data-unit='%' data-col='0' aria-label='Accrued income taxes, Year 1' value='0.08'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued_taxes' data-unit='%' data-col='1' aria-label='Accrued income taxes, Year 2' value='0.08'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued_taxes' data-unit='%' data-col='2' aria-label='Accrued income taxes, Year 3' value='0.08'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued_taxes' data-unit='%' data-col='3' aria-label='Accrued income taxes, Year 4' value='0.08'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued_taxes' data-unit='%' data-col='4' aria-label='Accrued income taxes, Year 5' value='0.08'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.accrued_taxes' data-unit='%' data-col='5' aria-label='Accrued income taxes, Terminal' value='0.08'><span class='u'>%</span></td></tr><tr class='group'><td colspan='12'>Taxes</td></tr><tr><td>Cash tax rate on taxable income</td><td class='hist'>25.4%</td><td class='hist'>33.6%</td><td class='hist'>25.5%</td><td class='hist'>23.4%</td><td class='hist'>24.4%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='0' aria-label='Cash tax rate on taxable income, Year 1' value='24.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='1' aria-label='Cash tax rate on taxable income, Year 2' value='24.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='2' aria-label='Cash tax rate on taxable income, Year 3' value='24.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='3' aria-label='Cash tax rate on taxable income, Year 4' value='24.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='4' aria-label='Cash tax rate on taxable income, Year 5' value='24.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='5' aria-label='Cash tax rate on taxable income, Terminal' value='24.0'><span class='u'>%</span></td></tr></tbody></table></div>
+<p class='rates'>WACC <input inputmode='decimal' data-path='rates.wacc' data-unit='%' aria-label='WACC' value='10.0'><span class='u'>%</span> &nbsp;·&nbsp; NOL limitation <input inputmode='decimal' data-path='rates.nol_limitation' data-unit='%' aria-label='NOL limitation' value='80.0'><span class='u'>%</span> &nbsp;·&nbsp; opening NOL <input inputmode='decimal' data-path='base.nol' data-unit='n' aria-label='opening NOL' value='0'> &nbsp;·&nbsp; diluted shares <input inputmode='decimal' data-path='meta.diluted_shares' data-unit='n' aria-label='diluted shares' value='8025.6'> &nbsp;·&nbsp; terminal growth <b id='tg'>3.5%</b> (the terminal sales growth)</p>
+<div class="readout">
+  <span id="readout-text">Value per share at these forecasts: <b>34.29</b> — details on the DCF tab.</span>
+  <button type="button" id="reset">Reset to suggested</button>
+</div>
+<details class="csv">
+  <summary>These numbers as assumptions.csv</summary>
+  <p class="note">The same grid in the format the skill reads, to keep a set of
+  numbers you have settled on.</p>
+  <textarea id="csv-text" readonly rows="10" aria-label="assumptions.csv"></textarea>
+  <button type="button" id="copy-csv">Copy</button>
+</details>
+</section>
+
+<section role="tabpanel" id="p-dcf" aria-labelledby="t-dcf" hidden>
+<ul class="warnings" id="warnings"></ul>
+<div class="headline">
+  <div><span class="lab">Enterprise value</span><span class="val" id="h-ev">322,537</span></div>
+  <div><span class="lab">Equity value</span><span class="val" id="h-eq">275,178</span></div>
+  <div><span class="lab">Value per share</span><span class="val big" id="h-vps">34.29</span></div>
+</div>
+<p class="drive" id="dcf-status">Valued on the suggested forecasts in the Baseline
+tab. Edit them there and this tab revalues.</p>
+
+<h2>Forecast</h2>
+<div class="scroller" id="schedule"><table><thead><tr><th>Forecast</th><th class='fc'>Year 1</th><th class='fc'>Year 2</th><th class='fc'>Year 3</th><th class='fc'>Year 4</th><th class='fc'>Year 5</th><th class='fc'>Year 6 · transition</th><th class='fc'>Year 7 · perpetuity</th></tr></thead><tbody><tr><td>Sales</td><td>745,255</td><td>777,301</td><td>808,393</td><td>840,729</td><td>872,256</td><td>902,785</td><td>934,383</td></tr><tr><td>EBITDA</td><td>48,069</td><td>51,691</td><td>54,971</td><td>58,010</td><td>61,058</td><td>63,195</td><td>65,407</td></tr><tr><td>Depreciation</td><td>16,058</td><td>17,639</td><td>19,078</td><td>19,841</td><td>20,585</td><td>21,306</td><td>22,051</td></tr><tr><td>EBIT</td><td>32,011</td><td>34,052</td><td>35,893</td><td>38,169</td><td>40,473</td><td>41,889</td><td>43,355</td></tr><tr><td>NOL carryforward, opening</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr><tr><td>NOL used</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr><tr><td>Taxable income</td><td>32,011</td><td>34,052</td><td>35,893</td><td>38,169</td><td>40,473</td><td>41,889</td><td>43,355</td></tr><tr><td>Cash taxes</td><td>7,683</td><td>8,172</td><td>8,614</td><td>9,161</td><td>9,713</td><td>10,053</td><td>10,405</td></tr><tr><td>Effective tax rate</td><td>24.0%</td><td>24.0%</td><td>24.0%</td><td>24.0%</td><td>24.0%</td><td>24.0%</td><td>24.0%</td></tr><tr><td>Net PP&amp;E, closing</td><td>149,481</td><td>161,679</td><td>168,146</td><td>174,451</td><td>180,557</td><td>186,877</td><td>193,417</td></tr><tr><td>Capital expenditure</td><td>29,456</td><td>29,836</td><td>25,545</td><td>26,147</td><td>26,691</td><td>27,625</td><td>28,592</td></tr><tr><td>Net working capital, closing</td><td>-21,016</td><td>-21,920</td><td>-22,797</td><td>-23,709</td><td>-24,598</td><td>-25,459</td><td>-26,350</td></tr><tr><td>Investment in working capital</td><td>-319</td><td>-904</td><td>-877</td><td>-912</td><td>-889</td><td>-861</td><td>-891</td></tr><tr class='total'><td>Free cash flow</td><td>11,250</td><td>14,585</td><td>21,688</td><td>23,615</td><td>25,543</td><td>26,377</td><td>27,300</td></tr><tr class='derived'><td>Free cash flow growth</td><td>&mdash;</td><td>29.7%</td><td>48.7%</td><td>8.9%</td><td>8.2%</td><td>3.3%</td><td>3.5%</td></tr><tr><td>Discount factor</td><td>0.9091</td><td>0.8264</td><td>0.7513</td><td>0.6830</td><td>0.6209</td><td>0.5645</td><td>0.5132</td></tr><tr><td>PV of free cash flow</td><td>10,227</td><td>12,054</td><td>16,295</td><td>16,129</td><td>15,860</td><td>14,889</td><td>14,009</td></tr></tbody></table></div>
+<p class="note">Year 6 runs on the terminal assumptions and absorbs the
+balance-sheet transition. The perpetuity sits on year 7, which is why year 7 is
+shown but not discounted into the explicit sum.</p>
+
+<h2>From enterprise value to the shareholders</h2>
+<div class="scroller" id="bridge"><table><tbody><tr><td>PV of free cash flow, years 1 to 6</td><td>85,454</td></tr><tr><td>Terminal value at the end of year 6</td><td>420,007</td></tr><tr><td>PV of the terminal value</td><td>237,083</td></tr><tr class='total'><td>Enterprise value of operations</td><td>322,537</td></tr><tr><td>Plus cash</td><td>10,727</td></tr><tr><td>Less short term borrowings</td><td>-6,596</td></tr><tr><td>Less ltd current</td><td>-3,542</td></tr><tr><td>Less long term debt</td><td>-34,624</td></tr><tr><td>Less finance lease current</td><td>-856</td></tr><tr><td>Less finance lease long term</td><td>-5,905</td></tr><tr><td>Less redeemable nci</td><td>-293</td></tr><tr><td>Less noncontrolling interest</td><td>-6,270</td></tr><tr class='total'><td>Equity value</td><td>275,178</td></tr><tr><td>Diluted shares</td><td>8,026</td></tr><tr class='total'><td>Value per share</td><td>34.29</td></tr></tbody></table></div>
+
+<h2>Sensitivity — value per share</h2>
+<div class="scroller" id="sensitivity"><table><thead><tr><th>WACC \ terminal growth</th><th>2.5%</th><th>3.0%</th><th>3.5%</th><th>4.0%</th><th>4.5%</th></tr></thead><tbody><tr><td>8.0%</td><td class='sens'>46.24</td><td class='sens'>49.35</td><td class='sens'>53.14</td><td class='sens'>57.87</td><td class='sens'>63.97</td></tr><tr><td>9.0%</td><td class='sens'>37.77</td><td class='sens'>39.71</td><td class='sens'>41.99</td><td class='sens'>44.74</td><td class='sens'>48.09</td></tr><tr><td>10.0%</td><td class='sens'>31.57</td><td class='sens'>32.83</td><td class='sens here'>34.29</td><td class='sens'>35.98</td><td class='sens'>37.99</td></tr><tr><td>11.0%</td><td class='sens'>26.84</td><td class='sens'>27.69</td><td class='sens'>28.65</td><td class='sens'>29.74</td><td class='sens'>31.00</td></tr><tr><td>12.0%</td><td class='sens'>23.12</td><td class='sens'>23.69</td><td class='sens'>24.34</td><td class='sens'>25.06</td><td class='sens'>25.89</td></tr></tbody></table></div>
+
+<h2>Which arguments are worth having</h2>
+<p class="note">How much a change in each driver moves the equity value, given
+the current assumptions. Each driver is moved one notch each way in every
+forecast year at once — the five explicit years and the perpetuity together, not
+the perpetuity alone — and the model re-run. These are a local measure around the
+current assumptions and shift as you edit them. The span is shown as a share of
+value; a driver near the bottom is one you can settle quickly.</p>
+<div class="scroller" id="ranking"><table><thead><tr><th>Driver</th><th>Moved</th><th>Moves the value by</th><th></th></tr></thead><tbody><tr><td>ebitda margin</td><td>1pp</td><td>64.4%</td><td class='bar'><span style='width:100%'></span></td></tr><tr><td>sales growth</td><td>1pp</td><td>25.4%</td><td class='bar'><span style='width:39%'></span></td></tr><tr><td>sales to net ppe</td><td>5% of itself</td><td>15.2%</td><td class='bar'><span style='width:24%'></span></td></tr><tr><td>depreciation rate</td><td>1pp</td><td>12.8%</td><td class='bar'><span style='width:20%'></span></td></tr><tr><td>receivables</td><td>1pp</td><td>7.7%</td><td class='bar'><span style='width:12%'></span></td></tr><tr><td>inventories</td><td>1pp</td><td>7.7%</td><td class='bar'><span style='width:12%'></span></td></tr><tr><td>prepaids</td><td>1pp</td><td>7.7%</td><td class='bar'><span style='width:12%'></span></td></tr><tr><td>payables</td><td>1pp</td><td>7.7%</td><td class='bar'><span style='width:12%'></span></td></tr><tr><td>accrued</td><td>1pp</td><td>7.7%</td><td class='bar'><span style='width:12%'></span></td></tr><tr><td>accrued taxes</td><td>1pp</td><td>7.7%</td><td class='bar'><span style='width:12%'></span></td></tr><tr><td>cash tax rate</td><td>1pp</td><td>3.9%</td><td class='bar'><span style='width:6%'></span></td></tr></tbody></table></div>
+
+<h2>Cost of capital</h2>
+<p class="note body">A placeholder of 10 percent, not an estimate for this company. The true WACC should be calculated (cost of equity from CAPM, after-tax cost of debt, market-value weights) and entered on the Baseline tab or in the workbook's Inputs sheet.</p>
+
+<h2>The model</h2>
+<p class="note body">
+  Sales grow at <i>g</i>. EBITDA is a margin on sales. Net PP&amp;E at the end of
+  year <i>t</i> is next year's sales divided by the sales-to-PP&amp;E turnover —
+  the one line that leads sales by a year, because capacity is built ahead of the
+  volume it serves. Depreciation is a rate on prior-year net PP&amp;E, and capex is
+  the plug that reconciles the two; in steady state it lands at (<i>g</i> +
+  <i>d</i>) times prior net PP&amp;E. Every other operating asset and liability is
+  a ratio to the same year's sales. Free cash flow is EBITDA less cash taxes on
+  EBIT, less capex, less the change in working capital. Taxes are unlevered; the
+  interest shield lives in the discount rate. A running NOL carryforward shelters
+  the explicit years; anything still alive after year 6 is valued separately and
+  appears in the bridge, so the perpetuity is taxed at the full rate and stays a
+  genuine steady state.
+</p>
+</section>
+
+</main>
+<script type="application/json" id="dcf-data">{"bundle": {"base": {"sales": 713163.0, "net_ppe": 136083.0, "operating_assets": {"receivables": 11172.0, "inventories": 58851.0, "prepaids": 4124.0}, "operating_liabilities": {"payables": 63061.0, "accrued": 31187.0, "accrued_taxes": 596.0}, "nonoperating_assets": {"cash": 10727.0}, "debt_claims": {"short_term_borrowings": 6596.0, "ltd_current": 3542.0, "long_term_debt": 34624.0, "finance_lease_current": 856.0, "finance_lease_long_term": 5905.0}, "equity_claims": {"redeemable_nci": 293.0, "noncontrolling_interest": 6270.0}, "nol": 0.0}, "assumptions": {"sales_growth": {"explicit": [0.045, 0.043, 0.04, 0.04, 0.0375], "terminal": 0.035}, "ebitda_margin": {"explicit": [0.0645, 0.0665, 0.068, 0.069, 0.07], "terminal": 0.07}, "sales_to_net_ppe": {"explicit": [5.2, 5.0, 5.0, 5.0, 5.0], "terminal": 5.0}, "depreciation_rate": {"explicit": [0.11800000000000001, 0.11800000000000001, 0.11800000000000001, 0.11800000000000001, 0.11800000000000001], "terminal": 0.11800000000000001}, "cash_tax_rate": {"explicit": [0.24, 0.24, 0.24, 0.24, 0.24], "terminal": 0.24}, "operating_assets": {"receivables": {"explicit": [0.016, 0.016, 0.016, 0.016, 0.016], "terminal": 0.016}, "inventories": {"explicit": [0.0825, 0.0825, 0.0825, 0.0825, 0.0825], "terminal": 0.0825}, "prepaids": {"explicit": [0.0058, 0.0058, 0.0058, 0.0058, 0.0058], "terminal": 0.0058}}, "operating_liabilities": {"payables": {"explicit": [0.08800000000000001, 0.08800000000000001, 0.08800000000000001, 0.08800000000000001, 0.08800000000000001], "terminal": 0.08800000000000001}, "accrued": {"explicit": [0.0437, 0.0437, 0.0437, 0.0437, 0.0437], "terminal": 0.0437}, "accrued_taxes": {"explicit": [0.0008, 0.0008, 0.0008, 0.0008, 0.0008], "terminal": 0.0008}}}, "rates": {"wacc": 0.1, "nol_limitation": 0.8}, "meta": {"diluted_shares": 8025.6, "units": "USD millions"}}, "store": "dcf-wmt-5bf842d71bf2", "check": {"ev_ops": 322537.00241453625, "equity_value": 275178.00241453625, "value_per_share": 34.287530205160515, "fcf": [11249.671527738468, 14585.39560092501, 21688.07472221283, 23614.916379193535, 25542.52712918676, 26377.244177041237, 27300.447723237652]}}</script>
+<script>
+// The page's calculator: a line-for-line port of dcf_engine.py, so the Baseline
+// tab can be edited and the DCF tab revalued in the browser.
+//
+// This is the recursion's third home, after the Python engine and the
+// workbook's formulas. It is held to the engine two ways: tests/test_page_js.py
+// runs it under node against run_model, and the page itself re-values the
+// suggested numbers on load and flags any disagreement with the figures the
+// engine wrote into it.
+
+var DCF = (function () {
+  var N_EXPLICIT = 5, TRANSITION = 6, PERPETUITY = 7;
+  var SCALARS = ["sales_growth", "ebitda_margin", "sales_to_net_ppe",
+                 "depreciation_rate", "cash_tax_rate"];
+  var SIDES = ["operating_assets", "operating_liabilities"];
+
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function total(o) { var s = 0; for (var k in o) s += o[k]; return s; }
+  function drv(spec, t) { return t <= N_EXPLICIT ? spec.explicit[t - 1] : spec.terminal; }
+  function label(k) {
+    var s = String(k).replace(/_/g, " ").trim();
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function runModel(b) {
+    var a = b.assumptions, base = b.base, wacc = b.rates.wacc;
+    var g = a.sales_growth.terminal;
+    var lim = b.rates.nol_limitation === undefined ? 0.8 : b.rates.nol_limitation;
+    if (!(wacc > g)) throw new Error("WACC (" + fmt(wacc, "pct") + ") must exceed terminal growth (" +
+                                     fmt(g, "pct") + "); the perpetuity does not exist.");
+
+    var s = [base.sales], t, k;
+    for (t = 1; t <= PERPETUITY + 1; t++) s.push(s[t - 1] * (1 + drv(a.sales_growth, t)));
+
+    var nppePrev = base.net_ppe;
+    var nwcPrev = total(base.operating_assets || {}) - total(base.operating_liabilities || {});
+    var nol = +(base.nol || 0), rows = [];
+    for (t = 1; t <= PERPETUITY; t++) {
+      var sales = s[t];
+      var nppe = s[t + 1] / drv(a.sales_to_net_ppe, t);
+      var dep = drv(a.depreciation_rate, t) * nppePrev;
+      var capex = nppe - nppePrev + dep;
+      var ratio = 0;
+      for (k in a.operating_assets) ratio += drv(a.operating_assets[k], t);
+      for (k in a.operating_liabilities) ratio -= drv(a.operating_liabilities[k], t);
+      var nwc = ratio * sales;
+      var ebitda = drv(a.ebitda_margin, t) * sales;
+      var ebit = ebitda - dep;
+
+      var rate = drv(a.cash_tax_rate, t), used, taxable, tax, open = nol;
+      if (t >= PERPETUITY) { used = 0; taxable = ebit; tax = rate * ebit; }
+      else if (ebit <= 0) { used = 0; taxable = 0; tax = 0; nol -= ebit; }
+      else { used = Math.min(lim * ebit, nol); taxable = ebit - used; tax = rate * taxable; nol -= used; }
+
+      var fcf = ebitda - tax - capex - (nwc - nwcPrev);
+      var df = 1 / Math.pow(1 + wacc, t);
+      rows.push({ year: t, sales: sales, next_sales: s[t + 1], ebitda: ebitda, net_ppe: nppe,
+                  depreciation: dep, capex: capex, nwc: nwc, delta_nwc: nwc - nwcPrev, ebit: ebit,
+                  nol_open: open, nol_used: used, nol_close: nol, taxable_income: taxable, tax: tax,
+                  effective_tax_rate: ebit ? tax / ebit : 0, fcf: fcf, discount_factor: df,
+                  pv_fcf: fcf * df });
+      nppePrev = nppe; nwcPrev = nwc;
+    }
+
+    var perp = rows[PERPETUITY - 1], pvExplicit = 0;
+    for (t = 0; t < TRANSITION; t++) pvExplicit += rows[t].pv_fcf;
+    var tv = perp.fcf / (wacc - g);
+    var pvTerminal = tv / Math.pow(1 + wacc, TRANSITION);
+    var evOps = pvExplicit + pvTerminal;
+
+    var nolSix = rows[TRANSITION - 1].nol_close, pvNol = 0, unexhausted = false;
+    if (nolSix > 0) {
+      if (perp.ebit <= 0) unexhausted = true;
+      else {
+        var left = nolSix, e = perp.ebit, yr = PERPETUITY, tr = drv(a.cash_tax_rate, PERPETUITY);
+        while (left > 0 && yr < PERPETUITY + 200) {
+          var u = Math.min(lim * e, left);
+          pvNol += tr * u / Math.pow(1 + wacc, yr);
+          left -= u; e *= 1 + g; yr++;
+        }
+        unexhausted = left > 0;
+      }
+    }
+
+    var bridge = [{ label: "Enterprise value of operations", amount: evOps }];
+    if (pvNol) bridge.push({ label: "PV of remaining NOL carryforward", amount: pvNol });
+    for (k in base.nonoperating_assets || {}) bridge.push({ label: "Plus " + label(k).toLowerCase(), amount: +base.nonoperating_assets[k] });
+    for (k in base.debt_claims || {}) bridge.push({ label: "Less " + label(k).toLowerCase(), amount: -base.debt_claims[k] });
+    for (k in base.equity_claims || {}) bridge.push({ label: "Less " + label(k).toLowerCase(), amount: -base.equity_claims[k] });
+    var equity = 0;
+    bridge.forEach(function (x) { equity += x.amount; });
+    var shares = b.meta.diluted_shares || 0;
+
+    return { schedule: rows, ev_ops: evOps, pv_explicit: pvExplicit, pv_terminal: pvTerminal,
+             terminal_value: tv, pv_nol: pvNol, bridge: bridge, equity_value: equity,
+             value_per_share: shares ? equity / shares : null,
+             warnings: warnings(b, rows, perp, nolSix, pvNol, unexhausted) };
+  }
+
+  function warnings(b, rows, perp, nolSix, pvNol, unexhausted) {
+    var a = b.assumptions, out = [];
+    if (nolSix > 0) out.push("A carryforward of " + fmt1(nolSix) + " survives year 6. Its shield is valued separately at " +
+                             fmt1(pvNol) + " and shown in the bridge, so the perpetuity is taxed at the full rate.");
+    if (unexhausted) out.push("The carryforward is not exhausted within 200 years of steady state; the shield above is a lower bound.");
+    if (perp.ebit <= 0) out.push("Terminal EBIT is not positive, so the perpetuity is negative. The model cannot value this company as a going concern on these assumptions.");
+    var neg = rows.filter(function (r) { return r.capex < 0; }).map(function (r) { return r.year; });
+    if (neg.length) out.push("Implied capex is negative in year(s) [" + neg.join(", ") + "]: the sales-to-PP&E turnover is shrinking the asset base faster than it depreciates.");
+    if (rows.some(function (r) { return r.sales <= 0; })) out.push("Sales reach zero or below inside the forecast.");
+    var k5 = drv(a.sales_to_net_ppe, N_EXPLICIT), kt = a.sales_to_net_ppe.terminal;
+    if (kt && Math.abs(k5 - kt) / Math.abs(kt) > 0.10)
+      out.push("Year 5's sales-to-PP&E turnover (" + k5.toFixed(2) + ") is more than 10 percent from terminal (" +
+               kt.toFixed(2) + "), so year 6 absorbs the whole adjustment.");
+    var units = String(b.meta.units || "").toLowerCase();
+    if (units.indexOf("million") >= 0 && b.base.sales > 1e7)
+      out.push("meta.units says millions but base sales is " + fmt(b.base.sales, "num") + ". If the statements are in dollars and the share count is in millions, value per share is wrong by a factor of a million.");
+    return out;
+  }
+
+  function tryValue(b) { try { return runModel(b).value_per_share; } catch (e) { return null; } }
+
+  function sensitivityAxes(b) {
+    var w = b.rates.wacc, g = b.assumptions.sales_growth.terminal;
+    return [[-0.02, -0.01, 0, 0.01, 0.02].map(function (d) { return w + d; }),
+            [-0.01, -0.005, 0, 0.005, 0.01].map(function (d) { return g + d; })];
+  }
+
+  function sensitivityGrid(b, waccs, growths) {
+    return waccs.map(function (w) {
+      return growths.map(function (g) {
+        var trial = clone(b);
+        trial.rates.wacc = w;
+        trial.assumptions.sales_growth.terminal = g;
+        return tryValue(trial);
+      });
+    });
+  }
+
+  function driverRanking(b) {
+    var entries = SCALARS.map(function (n) { return [n, null]; });
+    SIDES.forEach(function (side) { for (var k in b.assumptions[side]) entries.push([side, k]); });
+    var base = tryValue(b), out = [];
+    entries.forEach(function (en) {
+      var rel = en[0] === "sales_to_net_ppe", size = rel ? 0.05 : 0.01, vals = [];
+      [-size, size].forEach(function (sh) {
+        var trial = clone(b);
+        var sp = en[1] === null ? trial.assumptions[en[0]] : trial.assumptions[en[0]][en[1]];
+        sp.explicit = sp.explicit.map(function (v) { return rel ? v * (1 + sh) : v + sh; });
+        sp.terminal = rel ? sp.terminal * (1 + sh) : sp.terminal + sh;
+        vals.push(tryValue(trial));
+      });
+      if (vals[0] === null || vals[1] === null) return;
+      var span = Math.abs(vals[1] - vals[0]);
+      out.push({ driver: (en[1] === null ? en[0] : en[1]).replace(/_/g, " "), name: en[0], key: en[1],
+                 shift: rel ? "5% of itself" : "1pp", low: vals[0], high: vals[1], span: span,
+                 base: base, span_share: base ? span / Math.abs(base) : null });
+    });
+    out.sort(function (x, y) { return y.span - x.span; });
+    return out;
+  }
+
+  // Mirrors build_pages.fmt.
+  function comma(v, d) { return v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function fmt1(v) { return comma(v, 1); }
+  function fmt(v, kind) {
+    if (v === null || v === undefined) return "—";
+    if (kind === "pct") return comma(v * 100, 1) + "%";
+    if (kind === "mult") return comma(v, 2) + "×";
+    if (kind === "factor") return comma(v, 4);
+    if (kind === "share") return comma(v, 2);
+    return Math.abs(v) < 100 ? comma(v, 1) : comma(v, 0);
+  }
+
+  return { runModel: runModel, sensitivityAxes: sensitivityAxes, sensitivityGrid: sensitivityGrid,
+           driverRanking: driverRanking, fmt: fmt, clone: clone, SCALARS: SCALARS, SIDES: SIDES };
+})();
+
+if (typeof module !== "undefined" && module.exports) module.exports = DCF;
+
+if (typeof document !== "undefined") (function () {
+  var DATA = JSON.parse(document.getElementById("dcf-data").textContent);
+  var fmt = DCF.fmt, clone = DCF.clone;
+  var REC = DATA.bundle;
+  var state = clone(REC);
+
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function byId(id) { return document.getElementById(id); }
+
+  // ------------------------------------------------------------ tabs
+  function select(btn) {
+    btn.parentElement.querySelectorAll('[role="tab"]').forEach(function (b) {
+      var on = b === btn;
+      b.setAttribute("aria-selected", on);
+      byId(b.getAttribute("aria-controls")).hidden = !on;
+    });
+  }
+  document.querySelectorAll('[role="tab"]').forEach(function (b) {
+    b.addEventListener("click", function () {
+      select(b);
+      try { history.replaceState(null, "", "#" + b.id.slice(2)); } catch (e) {}
+    });
+  });
+  var want = location.hash.slice(1), tab = want && byId("t-" + want);
+  if (tab) select(tab);
+
+  // ------------------------------------------------------------ cells
+  // Each input names where its number lives in the bundle.
+  function locate(inp) {
+    var path = inp.dataset.path.split("."), col = inp.dataset.col;
+    return {
+      unit: inp.dataset.unit,
+      get: function (b) {
+        var o = b;
+        for (var i = 0; i < path.length; i++) o = o[path[i]];
+        return col === undefined ? o : (+col < 5 ? o.explicit[+col] : o.terminal);
+      },
+      set: function (v) {
+        var o = state;
+        for (var i = 0; i < path.length - 1; i++) o = o[path[i]];
+        var last = path[path.length - 1];
+        if (col === undefined) o[last] = v;
+        else if (+col < 5) o[last].explicit[+col] = v;
+        else o[last].terminal = v;
+      }
+    };
+  }
+  function shown(v, unit) {
+    var x = unit === "%" ? v * 100 : v, d = unit === "x" ? 2 : 1, s = x.toFixed(d), r = +x.toFixed(4);
+    if (unit === "n") return String(r);
+    return +s === r ? s : String(r);
+  }
+  function inputs() { return document.querySelectorAll("#p-baseline input[data-path]"); }
+  function mark(inp, ref) { inp.classList.toggle("edited", Math.abs(ref.get(state) - ref.get(REC)) > 1e-12); }
+  function fill() {
+    inputs().forEach(function (inp) {
+      var ref = locate(inp);
+      inp.value = shown(ref.get(state), ref.unit);
+      inp.classList.remove("bad");
+      mark(inp, ref);
+    });
+  }
+
+  // Edits survive a reload. The key carries a hash of the suggested numbers,
+  // so a rebuild with new suggestions starts clean rather than resurrecting
+  // edits made against the old ones.
+  function save() { try { localStorage.setItem(DATA.store, JSON.stringify(state)); } catch (e) {} }
+  try {
+    var saved = JSON.parse(localStorage.getItem(DATA.store) || "null");
+    if (saved && saved.assumptions) state = saved;
+  } catch (e) {}
+
+  document.addEventListener("input", function (ev) {
+    var inp = ev.target;
+    if (!inp.dataset || !inp.dataset.path) return;
+    var v = parseFloat(inp.value.replace(/,/g, "")), ref = locate(inp);
+    if (inp.value.trim() === "" || !isFinite(v)) { inp.classList.add("bad"); return; }
+    inp.classList.remove("bad");
+    ref.set(ref.unit === "%" ? v / 100 : v);
+    mark(inp, ref);
+    save();
+    render();
+  });
+  document.addEventListener("change", function (ev) {
+    var inp = ev.target;
+    if (inp.dataset && inp.dataset.path && inp.classList.contains("bad")) {
+      var ref = locate(inp);
+      inp.value = shown(ref.get(state), ref.unit);
+      inp.classList.remove("bad");
+    }
+  });
+  byId("reset").addEventListener("click", function () {
+    state = clone(REC);
+    try { localStorage.removeItem(DATA.store); } catch (e) {}
+    fill();
+    render();
+  });
+  byId("copy-csv").addEventListener("click", function () {
+    var text = byId("csv-text").value, btn = this;
+    function done() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1500); }
+    try { navigator.clipboard.writeText(text).then(done, function () { byId("csv-text").select(); }); }
+    catch (e) { byId("csv-text").select(); }
+  });
+
+  // ------------------------------------------------------------ the CSV, as dcf_assumptions writes it
+  function num(v, unit) { var x = unit === "%" ? v * 100 : v; return String(+x.toPrecision(8)); }
+  function csv(b) {
+    var a = b.assumptions, lines = ["row,key,unit,Y1,Y2,Y3,Y4,Y5,Terminal"];
+    var units = { sales_growth: "%", ebitda_margin: "%", sales_to_net_ppe: "x", depreciation_rate: "%", cash_tax_rate: "%" };
+    function row(name, key, unit, spec) {
+      lines.push([name, key, unit].concat(spec.explicit.concat([spec.terminal]).map(function (v) { return num(v, unit); })).join(","));
+    }
+    DCF.SCALARS.forEach(function (n) { row(n, "", units[n], a[n]); });
+    DCF.SIDES.forEach(function (side) { for (var k in a[side]) row(side, k, "%", a[side][k]); });
+    lines.push("wacc,,%," + num(b.rates.wacc, "%"));
+    lines.push("nol_limitation,,%," + num(b.rates.nol_limitation === undefined ? 0.8 : b.rates.nol_limitation, "%"));
+    lines.push("opening_nol,,n," + num(+(b.base.nol || 0), "n"));
+    lines.push("diluted_shares,,n," + num(b.meta.diluted_shares || 0, "n"));
+    return lines.join("\n") + "\n";
+  }
+
+  // ------------------------------------------------------------ the DCF tab, as build_pages renders it
+  var LINES = [["sales", "Sales", "num"], ["ebitda", "EBITDA", "num"], ["depreciation", "Depreciation", "num"],
+    ["ebit", "EBIT", "num"], ["nol_open", "NOL carryforward, opening", "num"], ["nol_used", "NOL used", "num"],
+    ["taxable_income", "Taxable income", "num"], ["tax", "Cash taxes", "num"],
+    ["effective_tax_rate", "Effective tax rate", "pct"], ["net_ppe", "Net PP&E, closing", "num"],
+    ["capex", "Capital expenditure", "num"], ["nwc", "Net working capital, closing", "num"],
+    ["delta_nwc", "Investment in working capital", "num"], ["fcf", "Free cash flow", "num"],
+    ["discount_factor", "Discount factor", "factor"], ["pv_fcf", "PV of free cash flow", "num"]];
+
+  function scheduleTable(m) {
+    var h = "<table><thead><tr><th>Forecast</th>";
+    m.schedule.forEach(function (r) {
+      h += "<th class='fc'>Year " + r.year + (r.year === 6 ? " · transition" : r.year === 7 ? " · perpetuity" : "") + "</th>";
+    });
+    h += "</tr></thead><tbody>";
+    LINES.forEach(function (L) {
+      h += "<tr" + (L[0] === "fcf" ? " class='total'" : "") + "><td>" + esc(L[1]) + "</td>";
+      m.schedule.forEach(function (r) { h += "<td>" + fmt(r[L[0]], L[2]) + "</td>"; });
+      h += "</tr>";
+      if (L[0] === "fcf") {
+        h += "<tr class='derived'><td>Free cash flow growth</td><td>&mdash;</td>";
+        for (var i = 1; i < m.schedule.length; i++) {
+          var p = m.schedule[i - 1].fcf;
+          h += p > 0 ? "<td>" + fmt(m.schedule[i].fcf / p - 1, "pct") + "</td>" : "<td>&mdash;</td>";
+        }
+        h += "</tr>";
+      }
+    });
+    return h + "</tbody></table>";
+  }
+
+  function bridgeTable(b, m) {
+    var h = "<table><tbody>";
+    function line(l, v, kind, tot) {
+      h += "<tr" + (tot ? " class='total'" : "") + "><td>" + esc(l) + "</td><td>" + fmt(v, kind || "num") + "</td></tr>";
+    }
+    line("PV of free cash flow, years 1 to 6", m.pv_explicit);
+    line("Terminal value at the end of year 6", m.terminal_value);
+    line("PV of the terminal value", m.pv_terminal);
+    m.bridge.forEach(function (x, i) { line(x.label, x.amount, "num", i === 0); });
+    line("Equity value", m.equity_value, "num", true);
+    line("Diluted shares", b.meta.diluted_shares);
+    line("Value per share", m.value_per_share, "share", true);
+    return h + "</tbody></table>";
+  }
+
+  function sensitivityTable(b) {
+    var ax = DCF.sensitivityAxes(b), grid = DCF.sensitivityGrid(b, ax[0], ax[1]);
+    var h = "<table><thead><tr><th>WACC \\ terminal growth</th>" +
+            ax[1].map(function (g) { return "<th>" + fmt(g, "pct") + "</th>"; }).join("") + "</tr></thead><tbody>";
+    ax[0].forEach(function (w, i) {
+      h += "<tr><td>" + fmt(w, "pct") + "</td>";
+      ax[1].forEach(function (g, j) {
+        h += "<td class='" + (i === 2 && j === 2 ? "sens here" : "sens") + "'>" + fmt(grid[i][j], "share") + "</td>";
+      });
+      h += "</tr>";
+    });
+    return h + "</tbody></table>";
+  }
+
+  function rankingTable(b) {
+    var rows = DCF.driverRanking(b);
+    if (!rows.length) return "<p class='note'>No driver could be varied without breaking the model, so there is nothing to rank.</p>";
+    var widest = rows[0].span_share || 1;
+    var h = "<table><thead><tr><th>Driver</th><th>Moved</th><th>Moves the value by</th><th></th></tr></thead><tbody>";
+    rows.forEach(function (r) {
+      var share = r.span_share || 0;
+      h += "<tr><td>" + esc(r.driver) + "</td><td>" + esc(r.shift) + "</td><td>" + (share * 100).toFixed(1) +
+           "%</td><td class='bar'><span style='width:" + Math.max(2, Math.round(100 * share / widest)) + "%'></span></td></tr>";
+    });
+    return h + "</tbody></table>";
+  }
+
+  // ------------------------------------------------------------ parity with the engine
+  var drift = null;
+  (function () {
+    var c = DATA.check;
+    function off(x, y) { return Math.abs(x - y) > 1e-6 * Math.max(1, Math.abs(y)); }
+    try {
+      var m = DCF.runModel(REC);
+      var bad = off(m.ev_ops, c.ev_ops) || off(m.equity_value, c.equity_value) ||
+                m.schedule.some(function (r, i) { return off(r.fcf, c.fcf[i]); });
+      if (bad) drift = "This page's calculator disagrees with dcf_engine.py on the suggested numbers, so its revaluations cannot be trusted. Rebuild the page and report the mismatch.";
+    } catch (e) { drift = "This page's calculator failed on the suggested numbers: " + e.message; }
+  })();
+
+  // ------------------------------------------------------------ render
+  function render() {
+    var edited = document.querySelectorAll("#p-baseline input.edited").length;
+    byId("tg").textContent = fmt(state.assumptions.sales_growth.terminal, "pct");
+    byId("csv-text").value = csv(state);
+    byId("dcf-status").textContent = edited
+      ? "Valued on the Baseline tab with " + edited + " edited cell" + (edited > 1 ? "s" : "") + "."
+      : "Valued on the suggested forecasts in the Baseline tab. Edit them there and this tab revalues.";
+
+    var m, warn = drift ? [drift] : [];
+    try { m = DCF.runModel(state); }
+    catch (e) {
+      byId("warnings").innerHTML = warn.concat([e.message]).map(function (w) { return "<li>" + esc(w) + "</li>"; }).join("");
+      ["h-ev", "h-eq", "h-vps"].forEach(function (id) { byId(id).textContent = "—"; });
+      ["schedule", "bridge", "sensitivity", "ranking"].forEach(function (id) { byId(id).innerHTML = ""; });
+      byId("readout-text").textContent = e.message;
+      return;
+    }
+    byId("warnings").innerHTML = warn.concat(m.warnings).map(function (w) { return "<li>" + esc(w) + "</li>"; }).join("");
+    byId("h-ev").textContent = fmt(m.ev_ops, "num");
+    byId("h-eq").textContent = fmt(m.equity_value, "num");
+    byId("h-vps").textContent = fmt(m.value_per_share, "share");
+    byId("readout-text").innerHTML = "Value per share at these forecasts: <b>" + fmt(m.value_per_share, "share") + "</b>" +
+      (edited ? " (suggested: " + fmt(DATA.check.value_per_share, "share") + ")" : "") + " — details on the DCF tab.";
+    byId("schedule").innerHTML = scheduleTable(m);
+    byId("bridge").innerHTML = bridgeTable(state, m);
+    byId("sensitivity").innerHTML = sensitivityTable(state);
+    byId("ranking").innerHTML = rankingTable(state);
+  }
+
+  fill();
+  render();
+})();
+
+</script>
+
+</body>
+</html>
