@@ -12,6 +12,7 @@ project:
   resources:
     - bi2ai.html
     - square-root.html
+    - refinery.html
     - videos/**
     - overview/**
     - ai.pdf

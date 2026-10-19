@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Refinery Blending LP</title>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+<style>
+  :root {
+    --navy: #00205b; --ink: #1f2933; --muted: #5f6b7a; --line: #d9dee5;
+    --bg: #f5f7fa; --card: #fff; --bind: #b45309; --bind-bg: #fef3c7;
+    --ok: #166534; --ok-bg: #dcfce7; --bad: #b42318;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); font-size: 15px; }
+  header { background: var(--navy); color: #fff; padding: 18px 28px; }
+  header h1 { margin: 0; font-size: 1.35rem; }
+  header p { margin: 4px 0 0; opacity: .8; font-size: .9rem; }
+  main { max-width: 1280px; margin: 0 auto; padding: 20px 16px 48px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; margin-bottom: 18px; overflow-x: auto; }
+  h2 { font-size: 1.05rem; margin: 0 0 10px; color: var(--navy); }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+  th { font-size: .8rem; color: var(--muted); font-weight: 600; }
+  th:first-child, td:first-child { text-align: left; }
+  tfoot td { font-weight: 600; border-top: 2px solid var(--line); border-bottom: none; }
+  input[type=number], input[type=text] { font: inherit; width: 88px; padding: 4px 6px; border: 1px solid var(--line); border-radius: 4px; text-align: right; }
+  input[type=text] { width: 130px; text-align: left; }
+  input.changed { background: #fff7d6; border-color: #e3b341; }
+  .params { display: flex; gap: 28px; flex-wrap: wrap; margin-top: 14px; align-items: center; }
+  .params label { color: var(--muted); font-size: .9rem; }
+  .actions { display: flex; gap: 10px; margin: 4px 0 18px; align-items: center; flex-wrap: wrap; }
+  button { font: inherit; padding: 9px 18px; border-radius: 6px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+  button.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+  #msg { color: var(--bad); }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .tile { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; }
+  .tile .k { font-size: .8rem; color: var(--muted); }
+  .tile .v { font-size: 1.45rem; font-weight: 650; margin-top: 2px; }
+  .tile .d { font-size: .82rem; margin-top: 2px; color: var(--muted); }
+  .up { color: var(--ok); } .down { color: var(--bad); }
+  .tag { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: .78rem; font-weight: 600; }
+  .tag.bind { color: var(--bind); background: var(--bind-bg); }
+  .tag.slack { color: var(--ok); background: var(--ok-bg); }
+  td.atspec { color: var(--bind); font-weight: 600; }
+  .note { color: var(--muted); font-size: .85rem; margin: 10px 0 0; line-height: 1.45; }
+  .zero { color: #b8c0cc; }
+  #results { display: none; }
+  .filter { font-size: .85rem; color: var(--muted); font-weight: normal; margin-left: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Refinery blending</h1>
+  <p>Linear program: barrels of each crude stream into each product, to maximize daily profit. The solver (SciPy / HiGHS) runs in your browser.</p>
+</header>
+<main>
+  <section>
+    <h2>Crude streams</h2>
+    <table id="streams"><thead><tr>
+      <th>Stream</th><th>Octane (RON)</th><th>Sulfur (ppm)</th><th>Vapor pressure (psi)</th><th>Cost ($/bbl)</th><th>Max supply (bbl/day)</th>
+    </tr></thead><tbody></tbody></table>
+  </section>
+
+  <section>
+    <h2>Products</h2>
+    <table id="products"><thead><tr>
+      <th>Product</th><th>Min octane (RON)</th><th>Max sulfur (ppm)</th><th>Max vapor pressure (psi)</th><th>Price ($/bbl)</th><th>Min production (bbl/day)</th><th>Max production (bbl/day)</th>
+    </tr></thead><tbody></tbody></table>
+    <div class="params">
+      <label>Max throughput (bbl/day) <input type="number" id="throughput"></label>
+      <label>Processing cost ($/bbl) <input type="number" id="processing" step="0.5"></label>
+    </div>
+    <p class="note">A min octane of 0 means no octane spec (diesel). Edited cells are highlighted. Change any number and solve again to see what the change is worth.</p>
+  </section>
+
+  <div class="actions">
+    <button class="primary" id="solve">Solve</button>
+    <button id="reset">Reset to refinery_blending.md</button>
+    <span id="msg"></span><span id="status" class="note" style="margin:0"></span>
+  </div>
+
+  <div id="results">
+    <div class="tiles" id="tiles"></div>
+
+    <section>
+      <h2>Optimal blend (bbl/day)</h2>
+      <table id="blend"></table>
+      <p class="note">This problem has more than one optimal blend: different blends reach the same maximum profit. The solver returns one of them, so your blend can differ from another solution while the profit is the same.</p>
+    </section>
+
+    <section>
+      <h2>Product quality vs spec</h2>
+      <table id="quality"></table>
+      <p class="note">Highlighted values sit exactly on their spec.</p>
+    </section>
+
+    <section>
+      <h2>Constraints <label class="filter"><input type="checkbox" id="onlybind"> Show only binding</label></h2>
+      <table id="constraints"></table>
+      <p class="note">A binding constraint is at its limit. The value column is the shadow price (dual value): the change in daily profit from relaxing that limit by one unit, other things fixed. It holds for small changes; solve again to price a large one. A constraint with slack is worth $0. A binding constraint can also be worth $0 when another constraint would stop profit from rising.</p>
+    </section>
+  </div>
+</main>
+<script id="solver" type="text/x-python">
+import json
+from types import SimpleNamespace
+
+import numpy as np
+from scipy.optimize import linprog
+
+TOL = 1e-6
+
+
+def solve(pb):
+    S, P = pb.streams, pb.products
+    ns, np_ = len(S), len(P)
+    n = ns * np_
+
+    def idx(s, p):
+        return s * np_ + p
+
+    # linprog minimizes, so the objective is negative profit per barrel.
+    c = np.zeros(n)
+    for s in range(ns):
+        for p in range(np_):
+            c[idx(s, p)] = -(P[p].price - S[s].cost - pb.processing)
+
+    rows, rhs, info = [], [], []
+
+    def add(coefs, b, **meta):
+        rows.append(coefs)
+        rhs.append(b)
+        info.append(meta)
+
+    for s in range(ns):
+        a = np.zeros(n)
+        a[[idx(s, p) for p in range(np_)]] = 1
+        add(a, S[s].supply, kind="supply", label=f"Supply of {S[s].name}",
+            unit="bbl", limit=S[s].supply, s=s)
+
+    for p in range(np_):
+        vol = np.zeros(n)
+        vol[[idx(s, p) for s in range(ns)]] = 1
+        name = P[p].name
+        add(-vol, -P[p].min_prod, kind="min_prod", label=f"Minimum production of {name}",
+            unit="bbl", limit=P[p].min_prod, p=p)
+        add(vol, P[p].max_prod, kind="max_prod", label=f"Production cap on {name}",
+            unit="bbl", limit=P[p].max_prod, p=p)
+        if P[p].min_octane > 0:
+            a = np.zeros(n)
+            for s in range(ns):
+                a[idx(s, p)] = P[p].min_octane - S[s].octane
+            add(a, 0, kind="octane", label=f"Octane spec on {name}",
+                unit="RON", limit=P[p].min_octane, p=p)
+        a = np.zeros(n)
+        for s in range(ns):
+            a[idx(s, p)] = S[s].sulfur - P[p].max_sulfur
+        add(a, 0, kind="sulfur", label=f"Sulfur spec on {name}",
+            unit="ppm", limit=P[p].max_sulfur, p=p)
+        a = np.zeros(n)
+        for s in range(ns):
+            a[idx(s, p)] = S[s].vapor - P[p].max_vapor
+        add(a, 0, kind="vapor", label=f"Vapor pressure spec on {name}",
+            unit="psi", limit=P[p].max_vapor, p=p)
+
+    add(np.ones(n), pb.throughput, kind="throughput", label="Total throughput",
+        unit="bbl", limit=pb.throughput)
+
+    res = linprog(c, A_ub=np.array(rows), b_ub=np.array(rhs),
+                  bounds=[(0, None)] * n, method="highs")
+    if res.status != 0:
+        reason = {2: "No blend meets every constraint. The problem is infeasible.",
+                  3: "Profit is unbounded. Check that every limit is finite."}
+        return {"ok": False, "message": reason.get(res.status, res.message)}
+
+    x = res.x.reshape(ns, np_)
+    x[np.abs(x) < TOL] = 0
+    prod = x.sum(axis=0)
+    used = x.sum(axis=1)
+
+    quality = []
+    for p in range(np_):
+        v = prod[p]
+        q = (lambda attr: float(sum(getattr(S[s], attr) * x[s, p] for s in range(ns)) / v)
+             if v > TOL else None)
+        quality.append({"octane": q("octane"), "sulfur": q("sulfur"), "vapor": q("vapor")})
+
+    revenue = float(sum(P[p].price * prod[p] for p in range(np_)))
+    crude = float(sum(S[s].cost * used[s] for s in range(ns)))
+    processing = float(pb.processing * prod.sum())
+
+    # Slack in the constraint's own units, and the value of relaxing it by one
+    # unit. HiGHS reports d(objective)/d(rhs); the objective is negative
+    # profit, so the value of relaxing a row is -marginal. A spec row's rhs is
+    # 0 and the spec sits in the coefficients: moving the spec one unit shifts
+    # the row by the product's volume, so its value is -marginal * volume.
+    marg = res.ineqlin.marginals
+    constraints = []
+    for i, m in enumerate(info):
+        k = m["kind"]
+        if k == "supply":
+            slack = m["limit"] - used[m["s"]]
+            value = -marg[i]
+        elif k == "min_prod":
+            slack = prod[m["p"]] - m["limit"]
+            value = -marg[i]
+        elif k in ("max_prod", "throughput"):
+            slack = m["limit"] - (prod[m["p"]] if k == "max_prod" else prod.sum())
+            value = -marg[i]
+        else:
+            p = m["p"]
+            qv = quality[p][k]
+            if qv is None:
+                slack, value = None, 0.0
+            else:
+                slack = qv - m["limit"] if k == "octane" else m["limit"] - qv
+                value = -marg[i] * prod[p]
+        binding = slack is not None and abs(slack) < 1e-4 * max(1.0, abs(m["limit"]))
+        constraints.append({
+            "label": m["label"], "unit": m["unit"], "limit": m["limit"],
+            "slack": None if slack is None else float(max(slack, 0.0)),
+            "binding": bool(binding),
+            "value": float(value) if abs(value) > 1e-7 else 0.0,
+            "direction": "lower" if k in ("min_prod", "octane") else "raise",
+        })
+
+    return {
+        "ok": True,
+        "blend": x.tolist(),
+        "production": prod.tolist(),
+        "used": used.tolist(),
+        "quality": quality,
+        "revenue": revenue,
+        "crude": crude,
+        "processing": processing,
+        "profit": revenue - crude - processing,
+        "constraints": constraints,
+    }
+
+
+def solve_json(text):
+    pb = json.loads(text, object_hook=lambda d: SimpleNamespace(**d))
+    return json.dumps(solve(pb))
+</script>
+<script>
+const DEFAULT = {
+  streams: [
+    { name: "Light Sweet", octane: 92,  sulfur: 50,   vapor: 8.5,  cost: 72, supply: 8000 },
+    { name: "Medium Sour", octane: 78,  sulfur: 800,  vapor: 6.0,  cost: 58, supply: 12000 },
+    { name: "Heavy Sour",  octane: 65,  sulfur: 1500, vapor: 4.5,  cost: 45, supply: 10000 },
+    { name: "Naphtha",     octane: 98,  sulfur: 20,   vapor: 11.0, cost: 85, supply: 4000 },
+    { name: "Reformate",   octane: 100, sulfur: 10,   vapor: 5.5,  cost: 90, supply: 3000 },
+  ],
+  products: [
+    { name: "Regular", min_octane: 87, max_sulfur: 300, max_vapor: 9.0, price: 95,  min_prod: 5000, max_prod: 15000 },
+    { name: "Premium", min_octane: 93, max_sulfur: 150, max_vapor: 8.5, price: 110, min_prod: 2000, max_prod: 8000 },
+    { name: "Diesel",  min_octane: 0,  max_sulfur: 500, max_vapor: 7.0, price: 88,  min_prod: 4000, max_prod: 12000 },
+  ],
+  throughput: 30000,
+  processing: 5,
+};
+const SFIELDS = ["octane", "sulfur", "vapor", "cost", "supply"];
+const PFIELDS = ["min_octane", "max_sulfur", "max_vapor", "price", "min_prod", "max_prod"];
+let lastProfit = null, lastResult = null;
+
+const $ = id => document.getElementById(id);
+const fmt = (v, d = 0) => v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
+const usd = (v, d = 0) => (v < 0 ? "−$" : "$") + fmt(Math.abs(v), d);
+
+function input(value, dflt, text) {
+  const el = document.createElement("input");
+  el.type = text ? "text" : "number";
+  if (!text) el.step = "any";
+  el.value = value;
+  el.dataset.dflt = dflt;
+  el.addEventListener("input", () => el.classList.toggle("changed", el.value !== String(el.dataset.dflt)));
+  return el;
+}
+
+function buildTable(id, rows, fields) {
+  const tb = $(id).querySelector("tbody");
+  tb.innerHTML = "";
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    const td0 = document.createElement("td");
+    td0.appendChild(input(r.name, r.name, true));
+    tr.appendChild(td0);
+    fields.forEach(f => {
+      const td = document.createElement("td");
+      td.appendChild(input(r[f], r[f]));
+      tr.appendChild(td);
+    });
+    tb.appendChild(tr);
+  });
+}
+
+function load() {
+  buildTable("streams", DEFAULT.streams, SFIELDS);
+  buildTable("products", DEFAULT.products, PFIELDS);
+  for (const k of ["throughput", "processing"]) {
+    const el = $(k);
+    el.value = DEFAULT[k]; el.dataset.dflt = DEFAULT[k]; el.classList.remove("changed");
+    el.oninput = () => el.classList.toggle("changed", el.value !== String(el.dataset.dflt));
+  }
+}
+
+function readTable(id, fields) {
+  return [...$(id).querySelectorAll("tbody tr")].map(tr => {
+    const inputs = tr.querySelectorAll("input");
+    const row = { name: inputs[0].value.trim() || "?" };
+    fields.forEach((f, i) => row[f] = parseFloat(inputs[i + 1].value));
+    return row;
+  });
+}
+
+function problem() {
+  const pb = {
+    streams: readTable("streams", SFIELDS),
+    products: readTable("products", PFIELDS),
+    throughput: parseFloat($("throughput").value),
+    processing: parseFloat($("processing").value),
+  };
+  const bad = [...pb.streams, ...pb.products].some(r => Object.values(r).some(v => typeof v === "number" && !isFinite(v)))
+    || !isFinite(pb.throughput) || !isFinite(pb.processing);
+  if (bad) throw new Error("Every cell needs a number.");
+  return pb;
+}
+
+function cell(v, d = 0) { return v === 0 ? `<td class="zero">—</td>` : `<td>${fmt(v, d)}</td>`; }
+
+function render(pb, r) {
+  const S = pb.streams, P = pb.products;
+  const tp = r.production.reduce((a, b) => a + b, 0);
+  let delta = "";
+  if (lastProfit !== null) {
+    const d = r.profit - lastProfit;
+    delta = Math.abs(d) < 0.5 ? "same as last solve"
+      : `<span class="${d > 0 ? "up" : "down"}">${d > 0 ? "+" : "−"}$${fmt(Math.abs(d))}</span> vs last solve`;
+  }
+  $("tiles").innerHTML = [
+    ["Daily profit", usd(r.profit), delta],
+    ["Revenue", usd(r.revenue), ""],
+    ["Crude cost", usd(r.crude), ""],
+    ["Processing cost", usd(r.processing), `${fmt(tp)} bbl × $${fmt(pb.processing, 2)}`],
+    ["Throughput used", `${fmt(tp)} bbl`, `of ${fmt(pb.throughput)} (${fmt(100 * tp / pb.throughput)}%)`],
+  ].map(([k, v, d]) => `<div class="tile"><div class="k">${k}</div><div class="v">${v}</div><div class="d">${d}</div></div>`).join("");
+
+  let h = `<thead><tr><th>Stream</th>${P.map(p => `<th>${p.name}</th>`).join("")}<th>Used</th><th>Available</th></tr></thead><tbody>`;
+  S.forEach((s, i) => {
+    h += `<tr><td>${s.name}</td>${r.blend[i].map(v => cell(v)).join("")}<td>${fmt(r.used[i])}</td><td>${fmt(s.supply)}</td></tr>`;
+  });
+  h += `</tbody><tfoot><tr><td>Total</td>${r.production.map(v => `<td>${fmt(v)}</td>`).join("")}<td>${fmt(tp)}</td><td>${fmt(pb.throughput)} cap</td></tr></tfoot>`;
+  $("blend").innerHTML = h;
+
+  const at = (v, lim) => Math.abs(v - lim) < 1e-4 * Math.max(1, Math.abs(lim));
+  h = `<thead><tr><th>Product</th><th>Barrels/day</th><th>Octane</th><th>Min</th><th>Sulfur (ppm)</th><th>Max</th><th>Vapor (psi)</th><th>Max</th><th>Revenue</th></tr></thead><tbody>`;
+  P.forEach((p, j) => {
+    const q = r.quality[j];
+    if (q.octane === null) {
+      h += `<tr><td>${p.name}</td><td>0</td><td colspan="6" class="zero">not produced</td><td>$0</td></tr>`;
+      return;
+    }
+    const oct = p.min_octane > 0
+      ? `<td class="${at(q.octane, p.min_octane) ? "atspec" : ""}">${fmt(q.octane, 2)}</td><td>${fmt(p.min_octane)}</td>`
+      : `<td>${fmt(q.octane, 2)}</td><td class="zero">none</td>`;
+    h += `<tr><td>${p.name}</td><td>${fmt(r.production[j])}</td>${oct}
+      <td class="${at(q.sulfur, p.max_sulfur) ? "atspec" : ""}">${fmt(q.sulfur, 1)}</td><td>${fmt(p.max_sulfur)}</td>
+      <td class="${at(q.vapor, p.max_vapor) ? "atspec" : ""}">${fmt(q.vapor, 2)}</td><td>${fmt(p.max_vapor, 1)}</td>
+      <td>${usd(p.price * r.production[j])}</td></tr>`;
+  });
+  $("quality").innerHTML = h + "</tbody>";
+  renderConstraints();
+}
+
+function renderConstraints() {
+  const r = lastResult;
+  if (!r) return;
+  const only = $("onlybind").checked;
+  let h = `<thead><tr><th>Constraint</th><th>Limit</th><th>Status</th><th>Slack</th><th>Value of relaxing by one unit</th></tr></thead><tbody>`;
+  r.constraints.filter(c => !only || c.binding).forEach(c => {
+    const d = c.unit === "bbl" ? 0 : 2;
+    const status = c.binding ? `<span class="tag bind">binding</span>` : `<span class="tag slack">slack</span>`;
+    const slack = c.slack === null ? "—" : c.binding ? "0" : `${fmt(c.slack, d)} ${c.unit}`;
+    const per = c.direction === "lower" ? `per ${c.unit} lower` : `per ${c.unit} higher`;
+    const value = c.value === 0 ? `<span class="zero">$0</span>` : `${usd(c.value, 2)} ${per}`;
+    h += `<tr><td>${c.label}</td><td>${fmt(c.limit, c.unit === "psi" ? 1 : 0)} ${c.unit}</td><td>${status}</td><td>${slack}</td><td>${value}</td></tr>`;
+  });
+  $("constraints").innerHTML = h + "</tbody>";
+}
+
+$("solve").onclick = async () => {
+  $("msg").textContent = "";
+  let pb;
+  try { pb = problem(); } catch (e) { $("msg").textContent = e.message; return; }
+  try {
+    const py = await ready;
+    const r = JSON.parse(py.globals.get("solve_json")(JSON.stringify(pb)));
+    if (!r.ok) { $("msg").textContent = r.message; return; }
+    lastResult = r;
+    $("results").style.display = "block";
+    render(pb, r);
+    lastProfit = r.profit;
+  } catch (e) { $("msg").textContent = e.message; }
+};
+// Load Python, NumPy and SciPy once. Solve waits for this.
+const ready = (async () => {
+  $("solve").disabled = true;
+  $("status").textContent = "Loading Python and SciPy (first visit takes a few seconds)...";
+  const py = await loadPyodide();
+  await py.loadPackage(["numpy", "scipy"]);
+  py.runPython(document.getElementById("solver").textContent);
+  $("solve").disabled = false;
+  $("status").textContent = "";
+  return py;
+})();
+ready.catch(e => { $("status").textContent = ""; $("msg").textContent = "Could not load Python: " + e.message; });
+
+$("reset").onclick = () => { load(); $("msg").textContent = ""; };
+$("onlybind").onchange = renderConstraints;
+load();
+</script>
+</body>
+</html>
