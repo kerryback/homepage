@@ -8,12 +8,13 @@
 [MGMT 638](https://mgmt638.kerryback.com): Gen AI and Quantitative Finance<br>
 [MGMT 648](https://mgmt648.kerryback.com): Applied Finance<br>
 [MGMT 803](https://mgmt803.kerryback.com): Gen AI for Business<br>
-MGMT 675: Agentic AI: Personal and Enterprise<br>
-[Python Workshop](https://workshop.kerryback.com) Short *Intro to Python* workshop for MBA students
+MGMT 675: Agentic AI: Personal and Enterprise
 
 ### Master of Data Science
 
 BUSI 721: Data-Driven Finance I<br>
 BUSI 722: Data-Driven Finance II
 
+### Classroom Tools
 
+[Screen Share](https://screenshare.kerryback.com/start): instructor control panel
