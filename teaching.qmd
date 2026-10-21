@@ -1,15 +1,14 @@
 
 ### PhD
 
-[BUSI 520](https://busi520.kerryback.com/): Python for Business Research<br>
 [BUSI 521/ECON 505](https://busi521.kerryback.com/): Asset Pricing Theory/Financial Economics I 
 
 ### MBA
 
-[MGMT 638](https://mgmt638.kerryback.com): Gen AI and Quantitative Investing<br>
+[MGMT 638](https://mgmt638.kerryback.com): Gen AI and Quantitative Finance<br>
 [MGMT 648](https://mgmt648.kerryback.com): Applied Finance<br>
 [MGMT 803](https://mgmt803.kerryback.com): Gen AI for Business<br>
-MGMT 675: Gen AI, Data, and Decisions<br>
+MGMT 675: Agentic AI: Personal and Enterprise<br>
 [Python Workshop](https://workshop.kerryback.com) Short *Intro to Python* workshop for MBA students
 
 ### Master of Data Science
