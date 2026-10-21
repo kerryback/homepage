@@ -14,7 +14,3 @@ MGMT 675: Agentic AI: Personal and Enterprise
 
 BUSI 721: Data-Driven Finance I<br>
 BUSI 722: Data-Driven Finance II
-
-### Classroom Tools
-
-[Screen Share](https://screenshare.kerryback.com/start): instructor control panel
