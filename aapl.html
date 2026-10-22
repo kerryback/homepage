@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AAPL Valuation</title>
+<style>
+  :root {
+    --ground: #ffffff;
+    --panel: #f7f8fa;
+    --ink: #1b1f24;
+    --muted: #58657a;
+    --rule: #dde2ea;
+    --accent: #00205b;
+    --accent-soft: #eef2f9;
+    --flag: #8a5a00;
+    --flag-soft: #fbf3e2;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  /* Follow whatever the reader's machine is set to. */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #13171d; --panel: #1a1f27; --ink: #e6eaf0; --muted: #a2adbd;
+      --rule: #2b323c; --accent: #9db8ef; --accent-soft: #1b2332;
+      --flag: #e3b766; --flag-soft: #2a2416;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #13171d; --panel: #1a1f27; --ink: #e6eaf0; --muted: #a2adbd;
+    --rule: #2b323c; --accent: #9db8ef; --accent-soft: #1b2332;
+    --flag: #e3b766; --flag-soft: #2a2416;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font: 16px/1.55 var(--serif); padding-inline: 16px;
+  }
+  main { max-width: 74rem; margin: 0 auto; padding-block: 2.2rem 4rem; }
+
+  header { border-bottom: 3px solid var(--accent); padding-bottom: 1rem; margin-bottom: 1.6rem; }
+  .eyebrow {
+    font-family: var(--sans); font-size: .70rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 .5rem;
+  }
+  h1 { font-size: 1.9rem; margin: 0 0 .3rem; line-height: 1.15; }
+  .sub { color: var(--muted); font-size: .95rem; margin: 0; }
+
+  h2 {
+    font-family: var(--sans); font-size: .78rem; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--muted); font-weight: 600;
+    margin: 2.4rem 0 .7rem; padding-bottom: .35rem; border-bottom: 1px solid var(--rule);
+  }
+
+  .warnings { list-style: none; padding: 0; margin: 0 0 1.2rem; }
+  .warnings li {
+    background: var(--flag-soft); border-left: 3px solid var(--flag);
+    padding: .55rem .8rem; margin-bottom: .4rem; font-size: .9rem;
+    font-family: var(--sans);
+  }
+
+  .jc-panel {
+    background: var(--flag-soft); border-left: 3px solid var(--flag);
+    padding: .55rem .8rem; margin: 0 0 1.2rem; font-family: var(--sans); font-size: .9rem;
+  }
+  .jc-panel summary { cursor: pointer; color: var(--flag); font-weight: 600; }
+  .jc-panel ul { margin: .6rem 0 .2rem; padding-left: 1.1rem; }
+  .jc-panel li { margin: .35rem 0; }
+  .jc-where {
+    font-size: .68rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--flag); font-weight: 600; margin-right: .3rem;
+  }
+  .jc {
+    background: var(--flag-soft); border-left: 3px solid var(--flag);
+    padding: .45rem .7rem; margin: .5rem 0 0; font-family: var(--sans);
+    font-size: .85rem; white-space: normal;
+  }
+  .jc-tag {
+    font-size: .66rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--flag); font-weight: 700; margin-right: .35rem;
+  }
+  tr.jc-row td:first-child { box-shadow: inset 3px 0 0 var(--flag); }
+
+  .headline { display: flex; flex-wrap: wrap; gap: 1px; background: var(--rule);
+              border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+  .headline div { background: var(--panel); padding: .9rem 1.1rem; flex: 1 1 11rem; }
+  .headline .lab {
+    font-family: var(--sans); font-size: .68rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); display: block; margin-bottom: .25rem;
+  }
+  .headline .val { font-size: 1.5rem; font-family: var(--mono); }
+  .headline .val.big { color: var(--accent); }
+
+  .scroller { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: .82rem; }
+  th, td { padding: .3rem .5rem; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--rule); }
+  th:first-child, td:first-child {
+    text-align: left; font-family: var(--sans); font-size: .82rem;
+    white-space: normal; min-width: 15rem;
+    position: sticky; left: 0; background: var(--ground); z-index: 1;
+  }
+  thead th {
+    font-family: var(--sans); font-size: .72rem; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--muted); border-bottom: 2px solid var(--rule);
+  }
+  thead th.fc { color: var(--accent); }
+  tr.group td {
+    font-family: var(--sans); font-size: .72rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--muted); padding-top: .9rem;
+  }
+  td.hist { color: var(--muted); background: var(--panel); }
+  td.fc { color: var(--ink); }
+  tr.total td { border-top: 2px solid var(--rule); border-bottom: none; font-weight: 700; }
+  tr.derived td { color: var(--muted); }
+  td.sens { background: var(--panel); }
+  td.sens.here { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  td.wrap { white-space: normal; text-align: left; font-family: var(--sans); font-size: .8rem; }
+
+  details { margin-top: .6rem; }
+  summary {
+    font-family: var(--sans); font-size: .82rem; color: var(--accent);
+    cursor: pointer; padding: .3rem 0;
+  }
+  .note { font-family: var(--sans); font-size: .87rem; color: var(--muted); margin: .5rem 0 0; }
+  .note.body { color: var(--ink); }
+  .rationale { font-family: var(--sans); font-size: .85rem; margin: .6rem 0 0; }
+  .rationale b { font-weight: 600; }
+
+  .lead {
+    font-size: 1.02rem; margin: .2rem 0 1.4rem; color: var(--ink);
+    border-left: 3px solid var(--accent); padding-left: .9rem;
+  }
+  .guide { margin: 0 0 2rem; }
+  .guide h3 {
+    font-family: var(--sans); font-size: 1rem; margin: 1.6rem 0 .1rem;
+    color: var(--accent); font-weight: 600;
+  }
+  .guide .strip {
+    font-family: var(--mono); font-size: .78rem; color: var(--muted);
+    margin: .25rem 0 .6rem; white-space: normal;
+  }
+  .guide .strip b { color: var(--ink); font-weight: 400; }
+  .guide p.how { margin: .5rem 0 0; font-size: .95rem; }
+  .guide blockquote {
+    margin: .7rem 0 0; padding: .5rem .9rem; background: var(--panel);
+    border-left: 3px solid var(--rule); font-size: .9rem;
+  }
+  .guide blockquote cite {
+    display: block; margin-top: .35rem; font-family: var(--sans);
+    font-size: .78rem; color: var(--muted); font-style: normal;
+  }
+  .rates { font-family: var(--sans); font-size: .87rem; margin: .9rem 0 0; color: var(--muted); }
+  .rates b { color: var(--ink); font-family: var(--mono); font-weight: 400; }
+  .drive {
+    background: var(--accent-soft); border-left: 3px solid var(--accent);
+    padding: .7rem .9rem; font-family: var(--sans); font-size: .88rem;
+    margin: 1.1rem 0 0; color: var(--ink);
+  }
+  .drive code { font-family: var(--mono); font-size: .92em; }
+
+/* The driver ranking: a bar you can read across at a glance. */
+td.bar { width: 40%; min-width: 8rem; }
+td.bar span {
+  display: block; height: .55rem; border-radius: 2px;
+  background: var(--accent); opacity: .75;
+}
+
+/* Tabs: Line items, Forecasts, Baseline, DCF. */
+nav.tabs { display: flex; flex-wrap: wrap; gap: .25rem; border-bottom: 1px solid var(--rule); margin: 0 0 1.4rem; }
+nav.tabs button {
+  font-family: var(--sans); font-size: .9rem; background: none; border: 0;
+  border-bottom: 3px solid transparent; color: var(--muted); padding: .55rem .9rem;
+  cursor: pointer; margin-bottom: -1px;
+}
+nav.tabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+nav.tabs button:hover { color: var(--ink); }
+[role="tabpanel"][hidden] { display: none; }
+[role="tabpanel"] > h2:first-child { margin-top: .4rem; }
+.scroller.spaced { margin-top: .8rem; }
+
+/* The editable Baseline grid. */
+td.fc input, .rates input {
+  width: 4.4rem; font: inherit; font-family: var(--mono); text-align: right;
+  color: var(--ink); background: var(--ground); border: 1px solid var(--rule);
+  border-radius: 3px; padding: .12rem .3rem;
+}
+.rates input { width: 5.2rem; }
+td.fc input:focus, .rates input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+input.edited { background: var(--accent-soft); border-color: var(--accent); }
+input.bad { background: var(--flag-soft); border-color: var(--flag); }
+.u { color: var(--muted); font-size: .75rem; margin-left: .15rem; }
+.readout {
+  display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; justify-content: space-between;
+  background: var(--accent-soft); border-left: 3px solid var(--accent);
+  padding: .7rem .9rem; font-family: var(--sans); font-size: .9rem; margin: 1.1rem 0 0;
+}
+.readout b { font-family: var(--mono); color: var(--accent); }
+.readout button, details.csv button {
+  font-family: var(--sans); font-size: .82rem; color: var(--accent); background: var(--ground);
+  border: 1px solid var(--accent); border-radius: 4px; padding: .3rem .7rem; cursor: pointer;
+}
+details.csv textarea {
+  display: block; width: 100%; margin: .5rem 0; font-family: var(--mono); font-size: .78rem;
+  color: var(--ink); background: var(--panel); border: 1px solid var(--rule); border-radius: 4px; padding: .5rem;
+}
+.warnings:empty { display: none; }
+
+</style>
+</head>
+<body>
+<main>
+
+<header>
+  <p class="eyebrow">Two-stage enterprise valuation</p>
+  <h1>Apple Inc. (AAPL)</h1>
+  <p class="sub">Fiscal 2025 ended 2025-09-27 is year 0. All figures in USD millions.</p>
+</header>
+
+<details class='jc-panel'><summary>14 judgment calls made without review. Each is flagged where it was made; open to see them all.</summary><ul><li><span class='jc-where'>Line items</span> <b>Other non-current assets.</b> Treated as operating, so the model invests about 20 cents in this line for every dollar of sales growth. The alternative is 'excluded' (on the view that the deferred tax and right-of-use pieces, $32B, are not cash investments), which would raise the value by about $4.30 a share, because the line is 20 percent of sales. A line cannot be split, and the cash flow statement shows real cash going into it every year.</li><li><span class='jc-where'>Line items</span> <b>Other current liabilities.</b> Treated as operating, with the year-1 ratio set low enough to pay the $8.8B transition-tax instalment through working capital. The alternative is to carve the $8.8B out as a debt claim in the bridge; the value effect is about the same (the payment falls in year 1 either way), and this keeps the line whole.</li><li><span class='jc-where'>Line items</span> <b>Other non-current liabilities.</b> Treated as operating. Lease cost is inside operating expense, so the lease piece is already paid for in EBITDA and must not also be debt. The alternative is 'debt_claim' (on the view that the tax reserves are an obligation to the IRS), which would lower the value by about $4.90 a share; 'excluded' would lower it by about $2.10, by removing the cash this line supplies as sales grow.</li><li><span class='jc-where'>Forecasts</span> <b>Depreciation / prior net PP&amp;E.</b> Total D&amp;A ($11.7B) used, not PP&amp;E depreciation alone ($8.0B). The alternative, a rate near 17.5%, would lower capex by about $3.7B a year and raise taxable EBIT, and would raise the value by about $4.10 a share, but it assumes the amortizing non-PP&amp;E assets are never replaced.</li><li><span class='jc-where'>Forecasts</span> <b>Accounts receivable, net.</b> Held flat at 9.5% against a rising trend. Extending the trend to 11-12% would lower the value by about $0.90 a share.</li><li><span class='jc-where'>Forecasts</span> <b>Other current liabilities.</b> Year-1 ratio set to 13.8%, below the 2025 actual of 16.0%, to absorb the one-time $8.8B transition-tax payment. Holding 16.0% in every year would raise the value by about $1.00 a share but would treat a final tax payment as a permanent source of funding.</li><li><span class='jc-where'>Forecasts</span> <b>Other non-current liabilities.</b> Held flat at 10% although the ratio has fallen for five years. The fall was the transition-tax paydown, now complete, so the trend should not be extended; extending it to 8% would lower the value by about $0.90 a share.</li><li><span class='jc-where'>Forecasts</span> <b>Cash tax rate on taxable income.</b> The guided effective rate (16.5%) is used as the marginal cash rate in every year and in perpetuity. The alternative is a rate closer to statutory (about 24%) on the view that the global minimum tax erodes Apple's foreign rate advantage; that would lower the value by about $12.40 a share, or 9 percent.</li><li><span class='jc-where'>DCF</span> <b>WACC.</b> 10 percent is a placeholder, not an estimate for this company. The true WACC should be calculated and entered before the value is relied on.</li><li><span class='jc-where'>DCF</span> <b>Diluted shares.</b> 14,924.8 million = 14,773.3 million shares outstanding at September 27, 2025 (balance sheet) plus 151.6 million unvested RSUs (10-K Note 11), not the 15,004.7 million weighted-average diluted count. Apple has no options outstanding. Counting all RSUs ignores the treasury-stock offset, so it slightly overstates dilution.</li><li><span class='jc-where'>Baseline</span> <b>Opening NOL.</b> Zero. The 10-K tax footnote shows no federal NOL carryforward; Apple's carryforwards are $4.7B of Irish foreign tax credits and $4.0B of California R&amp;D credits, both under a valuation allowance and not modelled.</li><li><span class='jc-where'>DCF</span> <b>Valuation date.</b> Year 0 is fiscal 2025 (ended September 27, 2025), the latest 10-K. The value is as of that date, a year before today (October 2026), and fiscal 2026 is year 1 although three quarters of it are reported. Compare it with a September 2025 price, or roll it forward at the WACC.</li><li><span class='jc-where'>Forecasts</span> <b>Transcripts.</b> 19 call transcripts came back: fiscal 2020 Q1 to fiscal 2023 Q1, fiscal 2024 Q4, fiscal 2025 Q1 and Q3, and fiscal 2026 Q1 to Q3. Fiscal 2023 Q2 to fiscal 2024 Q3, fiscal 2025 Q2 and fiscal 2025 Q4 are missing; the press releases for those quarters are present.</li><li><span class='jc-where'>Line items</span> <b>Equity claims.</b> None. Apple has no preferred stock and no noncontrolling interests.</li></ul></details>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" id="t-lines" aria-controls="p-lines" aria-selected="true">Line items</button>
+  <button role="tab" id="t-evidence" aria-controls="p-evidence" aria-selected="false">Forecasts</button>
+  <button role="tab" id="t-baseline" aria-controls="p-baseline" aria-selected="false">Baseline</button>
+  <button role="tab" id="t-dcf" aria-controls="p-dcf" aria-selected="false">DCF</button>
+</nav>
+
+<section role="tabpanel" id="p-lines" aria-labelledby="t-lines">
+<h2>Classification of every reported balance-sheet line</h2>
+<p class="note">Which lines consume cash as the business grows (operating assets,
+operating liabilities, net PP&amp;E), which are claims on what it produces or are
+added in the bridge (debt claims, equity claims, nonoperating assets), and which
+do neither (excluded). Everything downstream inherits this, so it is worth
+disagreeing with here rather than later.</p>
+<div class="scroller"><table><thead><tr><th>Reported line</th><th>Bucket</th><th>Why</th></tr></thead><tbody><tr><td>Cash and cash equivalents</td><td class='wrap'>nonoperating_asset</td><td class='wrap'>Apple holds far more cash than operations need and discloses no operating-cash split, so all of it goes in the bridge. The $2.6B State Aid escrow held a year earlier was released to Ireland in fiscal 2025.</td></tr><tr><td>Marketable securities</td><td class='wrap'>nonoperating_asset</td><td class='wrap'>Current portion of the investment portfolio; not needed to run the business.</td></tr><tr><td>Accounts receivable, net</td><td class='wrap'>operating_asset</td><td class='wrap'>Trade receivables from carriers, resellers and enterprise customers; scale with sales.</td></tr><tr><td>Vendor non-trade receivables</td><td class='wrap'>operating_asset</td><td class='wrap'>Components Apple sells to its contract manufacturers and collects when they ship finished goods back. Part of the production cycle, so it scales with volume.</td></tr><tr><td>Inventories</td><td class='wrap'>operating_asset</td><td class='wrap'>Small because manufacturing is outsourced; still scales with volume.</td></tr><tr><td>Other current assets</td><td class='wrap'>operating_asset</td><td class='wrap'>Prepaids, derivative assets and other current items. Mostly operating; derivative marks add year-to-year noise.</td></tr><tr><td>Marketable securities (2)</td><td class='wrap'>nonoperating_asset</td><td class='wrap'>Long-term investment portfolio; not needed to run the business.</td></tr><tr><td>Property, plant and equipment, net</td><td class='wrap'>net_ppe</td><td class='wrap'>Includes $1.0B of finance-lease right-of-use assets.</td></tr><tr class='jc-row'><td>Other non-current assets</td><td class='wrap'>operating_asset</td><td class='wrap'>$83.7B = $20.8B deferred tax assets + $63.0B other, which includes $11.2B of operating-lease right-of-use assets, long-term supplier prepayments and non-marketable investments. The cash flow statement shows cash going into 'other current and non-current assets' every year ($9.2B in fiscal 2025).<p class='jc'><span class='jc-tag'>Judgment call</span> Treated as operating, so the model invests about 20 cents in this line for every dollar of sales growth. The alternative is 'excluded' (on the view that the deferred tax and right-of-use pieces, $32B, are not cash investments), which would raise the value by about $4.30 a share, because the line is 20 percent of sales. A line cannot be split, and the cash flow statement shows real cash going into it every year.</p></td></tr><tr><td>Accounts payable</td><td class='wrap'>operating_liability</td><td class='wrap'>Trade payables to suppliers; scale with cost of sales.</td></tr><tr class='jc-row'><td>Other current liabilities</td><td class='wrap'>operating_liability</td><td class='wrap'>$66.4B = income taxes payable $13.0B (including the $8.8B final deemed-repatriation instalment, due within 12 months) + accrued distribution and marketing $8.9B + other $44.5B (including $2.1B of current lease liabilities).<p class='jc'><span class='jc-tag'>Judgment call</span> Treated as operating, with the year-1 ratio set low enough to pay the $8.8B transition-tax instalment through working capital. The alternative is to carve the $8.8B out as a debt claim in the bridge; the value effect is about the same (the payment falls in year 1 either way), and this keeps the line whole.</p></td></tr><tr><td>Deferred revenue</td><td class='wrap'>operating_liability</td><td class='wrap'>Services and bundled software and support paid in advance; scales with sales.</td></tr><tr><td>Commercial paper</td><td class='wrap'>debt_claim</td><td class='wrap'>Short-term borrowing.</td></tr><tr><td>Term debt</td><td class='wrap'>debt_claim</td><td class='wrap'>Current portion of fixed-rate notes.</td></tr><tr><td>Term debt (2)</td><td class='wrap'>debt_claim</td><td class='wrap'>Long-term fixed-rate notes.</td></tr><tr class='jc-row'><td>Other non-current liabilities</td><td class='wrap'>operating_liability</td><td class='wrap'>$41.5B, including $11.6B of non-current lease liabilities and long-term income taxes payable (largely unrecognised tax benefits; $9.3B a year earlier). The 10-K no longer breaks the line out.<p class='jc'><span class='jc-tag'>Judgment call</span> Treated as operating. Lease cost is inside operating expense, so the lease piece is already paid for in EBITDA and must not also be debt. The alternative is 'debt_claim' (on the view that the tax reserves are an obligation to the IRS), which would lower the value by about $4.90 a share; 'excluded' would lower it by about $2.10, by removing the cash this line supplies as sales grow.</p></td></tr></tbody></table></div>
+</section>
+
+<section role="tabpanel" id="p-evidence" aria-labelledby="t-evidence" hidden>
+<p class="lead">Every number on the Baseline tab is a suggestion, not a conclusion.
+They are a defensible starting point drawn from the history and from what
+management has said, and they are where the argument begins rather than where it
+ends. Each driver gets a section of its own below: what its history shows, what
+actually makes it move, what would make you choose differently, and the quoted
+evidence. The decision is yours.</p>
+<h2>Driver by driver</h2>
+<section class='guide'><h3>Sales growth</h3><p class='strip'>History 2020 <b>5.5%</b>, 2021 <b>33.3%</b>, 2022 <b>7.8%</b>, 2023 <b>-2.8%</b>, 2024 <b>2.0%</b>, 2025 <b>6.4%</b> &nbsp;·&nbsp; Suggested <b>14.5%</b>, <b>6.0%</b>, <b>5.0%</b>, <b>4.5%</b>, <b>4.0%</b>, then <b>3.5%</b> forever &nbsp;·&nbsp; Moving it 1pp each way moves the value <b>32.1%</b></p><p class='how'>Year 1 is fiscal 2026, which ends in September 2026 and is three-quarters reported: December +16%, March +17%, June +16%, with September guided to +9% to +11%. Adding the reported nine months ($364.4B) to the guided midpoint for September (about $112.7B) gives about $477B, or 14.5% growth, so year 1 is close to a fact rather than a forecast. The years after that are the real assumption. Fiscal 2026 was an unusually strong iPhone cycle (iPhone 17, iPhone Air, MacBook Neo) on top of double-digit Services growth; the five years before it averaged about 8% including the 33% pandemic year, and 2% to 6% outside it. Management gives no guidance beyond the current quarter. A constant percent fade from the guided year toward the terminal rate is the right method. Argue for a higher path if you believe Apple Intelligence drives a multi-year upgrade cycle and Services keeps compounding in the teens; argue for a lower path, even a decline in year 2, if fiscal 2026 pulled demand forward or memory and advanced-node supply constraints cap units. Terminal growth is a perpetual nominal rate.</p><blockquote>&ldquo;Today, Apple is pleased to report $109.4 billion in revenue, up 16% from a year ago and a June quarter record. We were able to achieve this despite supply constraints and sequential foreign exchange headwinds.&rdquo;<cite>Tim Cook, CEO, transcripts/AAPL_FY2026Q3_earnings_call_2026-07-30.txt, line 104</cite></blockquote><blockquote>&ldquo;As a result, we expect our September quarter total company revenue to grow between 9%-11% year-over-year.&rdquo;<cite>Kevan Parekh, CFO, transcripts/AAPL_FY2026Q3_earnings_call_2026-07-30.txt, line 135</cite></blockquote><blockquote>&ldquo;Beyond September, we're not providing any color at this point. I think you mentioned December, so we're not providing any kind of color or guidance beyond the September quarter.&rdquo;<cite>Kevan Parekh, CFO, transcripts/AAPL_FY2026Q3_earnings_call_2026-07-30.txt, line 189</cite></blockquote><blockquote>&ldquo;If you look forward into the current quarter, the September quarter, we continue to expect high levels of demand. However, with less flexibility in supply chain, we expect the impact from the supply constraints to increase significantly sequentially.&rdquo;<cite>Tim Cook, CEO, transcripts/AAPL_FY2026Q3_earnings_call_2026-07-30.txt, line 150</cite></blockquote><blockquote>&ldquo;The Company posted quarterly revenue of $143.8 billion, up 16 percent year over year.&rdquo;<cite>Press release, press_releases/AAPL_FY2026Q1_press_release_filed2026-01-29.txt</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Year 1 is the reported nine months plus the guided September quarter. Years 2 to 5 fade from 6% to 4%, between the 2022-2025 run rate and Services-led growth, and terminal sits at the 3.5% default.</p></section><section class='guide'><h3>EBITDA margin</h3><p class='strip'>History 2020 <b>28.2%</b>, 2021 <b>32.9%</b>, 2022 <b>33.1%</b>, 2023 <b>32.8%</b>, 2024 <b>34.4%</b>, 2025 <b>34.8%</b> &nbsp;·&nbsp; Suggested <b>35.5%</b>, <b>35.0%</b>, <b>35.0%</b>, <b>35.0%</b>, <b>35.0%</b>, then <b>35.0%</b> forever &nbsp;·&nbsp; Moving it 1pp each way moves the value <b>6.2%</b></p><p class='how'>Apple reports no EBITDA, so the history is operating income plus depreciation and amortization from the cash flow statement. It is after stock-based compensation ($12.9B in fiscal 2025), which is a real cost and stays in. The margin rose from 32.9% in 2021-2023 to 34.4% in 2024 and 34.8% in 2025, driven by mix: Services carries a gross margin near 76% against about 37-40% for Products, and Services grew from 17% to 26% of sales over six years. The first nine months of fiscal 2026 ran at 36.3%, but that includes tariff refunds (about 2 points of gross margin in the June quarter and 1 point guided for September) that will not recur. Against that, R&amp;D is growing much faster than sales (up 32% in the June quarter) and memory prices are rising sharply. A constant percent of sales is the right method. Argue for a higher margin if Services mix keeps rising and R&amp;D growth slows; argue for a lower one if memory costs persist and Apple absorbs them rather than raising prices.</p><blockquote>&ldquo;We expect gross margin to be between 47%-48%. This includes an expected benefit of approximately one percentage point related to tariff refunds. We expect operating expenses to be between $19.1 billion-$19.4 billion.&rdquo;<cite>Kevan Parekh, CFO, transcripts/AAPL_FY2026Q3_earnings_call_2026-07-30.txt, line 136</cite></blockquote><blockquote>&ldquo;Company gross margin was 50.1%, up 80 basis points sequentially. This included a benefit from tariff refunds, which had a favorable impact of approximately two percentage points.&rdquo;<cite>Kevan Parekh, CFO, transcripts/AAPL_FY2026Q3_earnings_call_2026-07-30.txt, line 125</cite></blockquote><blockquote>&ldquo;If you look beyond September, we see the market pricing for memory continuing to increase, which could drive an increasing impact on our business, and we're continuing to evaluate this.&rdquo;<cite>Tim Cook, CEO, transcripts/AAPL_FY2026Q3_earnings_call_2026-07-30.txt, line 156</cite></blockquote><blockquote>&ldquo;If you look a step deeper at R&amp;D separate from SG&amp;A, you will find that R&amp;D is accelerating much higher than the company overall.&rdquo;<cite>Tim Cook, CEO, transcripts/AAPL_FY2026Q2_earnings_call_2026-04-30.txt, line 186</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Year 1 reflects the reported nine months and the September guide including tariff refunds. From year 2 the refunds are gone and mix gains offset memory costs and R&amp;D, holding the margin at about the fiscal 2025 level.</p></section><section class='guide'><h3>Next-year sales / net PP&amp;E</h3><p class='strip'>History 2020 <b>9.95×</b>, 2021 <b>10.00×</b>, 2022 <b>9.10×</b>, 2023 <b>8.95×</b>, 2024 <b>9.11×</b> &nbsp;·&nbsp; Suggested <b>9.80×</b>, <b>9.60×</b>, <b>9.50×</b>, <b>9.40×</b>, <b>9.40×</b>, then <b>9.40×</b> forever &nbsp;·&nbsp; Moving it 5% of itself each way moves the value <b>1.2%</b></p><p class='how'>This is next year's sales divided by this year's net PP&amp;E. It ran 9.9-10.0x in 2020-2021 and 8.9-9.1x in 2022-2024 as Apple built data centers and facilities faster than sales grew; on fiscal 2026 sales of about $477B the fiscal 2025 figure is about 9.6x. Apple runs a 'hybrid' model, renting third-party data-center capacity and having suppliers own most manufacturing equipment, so the turnover is high and does not move with volume. Cash capex fell to $6.8B in the first nine months of fiscal 2026 from $9.5B a year earlier, which supports a higher turnover in year 1. A constant multiple is the right method. Argue for a lower turnover if the $600B US commitment, Private Cloud Compute or the Houston server plant mean Apple owns more of its AI infrastructure; the risk factors and calls give no number for that.</p><blockquote>&ldquo;Just speaking of CapEx in general, you know, as you know, we have a hybrid, you know, model for CapEx. And so I think that, you know, what happens is our CapEx can be volatile, independent of kind of the volume performance of our business.&rdquo;<cite>Kevan Parekh, CFO, transcripts/AAPL_FY2026Q1_earnings_call_2026-01-29.txt, line 222</cite></blockquote><blockquote>&ldquo;So in general, it is hard to read into the CapEx and, you know, draw any conclusions. And so I think I would just say there are going to be some ebbs and flows in CapEx.&rdquo;<cite>Kevan Parekh, CFO, transcripts/AAPL_FY2026Q1_earnings_call_2026-01-29.txt, line 223</cite></blockquote><blockquote>&ldquo;Last year, we committed to invest $600 billion over four years in vital industries like advanced manufacturing, silicon engineering, and artificial intelligence.&rdquo;<cite>Tim Cook, CEO, transcripts/AAPL_FY2026Q1_earnings_call_2026-01-29.txt, line 98</cite></blockquote><blockquote>&ldquo;The Company's other purchase obligations primarily consist of noncancelable obligations to acquire capital assets, including assets related to product manufacturing ... As of September 27, 2025, the Company had other purchase obligations of $14.8 billion, with $7.0 billion payable within 12 months.&rdquo;<cite>10-K, 10k/AAPL_10-K_FY2025_filed2025-10-31.htm, Item 7, Liquidity and Capital Resources</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Year 1 sits near 9.8x because fiscal 2026 capex is running a third below the prior year while sales grow 14.5%. It eases back to 9.4x, the 2020-2024 average.</p></section><section class='guide'><h3>Depreciation / prior net PP&amp;E</h3><p class='strip'>History 2021 <b>30.7%</b>, 2022 <b>28.2%</b>, 2023 <b>27.4%</b>, 2024 <b>26.2%</b>, 2025 <b>25.6%</b> &nbsp;·&nbsp; Suggested <b>26.5%</b>, <b>26.5%</b>, <b>26.5%</b>, <b>26.5%</b>, <b>26.5%</b>, then <b>26.5%</b> forever &nbsp;·&nbsp; Moving it 1pp each way moves the value <b>0.7%</b></p><p class='jc'><span class='jc-tag'>Judgment call</span> Total D&amp;A ($11.7B) used, not PP&amp;E depreciation alone ($8.0B). The alternative, a rate near 17.5%, would lower capex by about $3.7B a year and raise taxable EBIT, and would raise the value by about $4.10 a share, but it assumes the amortizing non-PP&amp;E assets are never replaced.</p><p class='how'>Depreciation here is the cash flow statement's 'depreciation and amortization' ($11.7B in fiscal 2025) divided by prior-year net PP&amp;E. It fell from 30.7% in 2021 to 25.6% in 2025. Only $8.0B of that is depreciation of PP&amp;E; the other $3.7B is amortization of assets carried in other non-current assets. That is why realized capex from the PP&amp;E roll-forward ($15.9B in 2025) runs $3-4B above cash PP&amp;E capex ($12.7B). Using the full D&amp;A keeps EBIT equal to reported operating income and makes the capex plug pay for replacing those amortizing assets too. Nine-month fiscal 2026 D&amp;A of $10.0B annualizes to about $13.3B, or about 27% of the opening PP&amp;E. Hold it constant; argue for a lower rate if you think the amortizing non-PP&amp;E assets are not replaced.</p><blockquote>&ldquo;Depreciation expense on property, plant and equipment was $8.0 billion, $8.2 billion and $8.5 billion during 2025, 2024 and 2023, respectively.&rdquo;<cite>10-K, 10k/AAPL_10-K_FY2025_filed2025-10-31.htm, Note 5, Property, Plant and Equipment</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> 26.5% is between the 2025 rate (25.6%) and the rate implied by fiscal 2026 D&amp;A to date (about 27%).</p></section><section class='guide'><h3>Accounts receivable, net</h3><p class='strip'>History 2020 <b>5.9%</b>, 2021 <b>7.2%</b>, 2022 <b>7.1%</b>, 2023 <b>7.7%</b>, 2024 <b>8.5%</b>, 2025 <b>9.6%</b> &nbsp;·&nbsp; Suggested <b>9.5%</b>, <b>9.5%</b>, <b>9.5%</b>, <b>9.5%</b>, <b>9.5%</b>, then <b>9.5%</b> forever</p><p class='jc'><span class='jc-tag'>Judgment call</span> Held flat at 9.5% against a rising trend. Extending the trend to 11-12% would lower the value by about $0.90 a share.</p><p class='how'>Trade receivables divided by the same year's sales. The ratio has risen every year, from 5.9% in 2020 to 9.6% in 2025, as more sales go through carriers and enterprise customers on terms. Because the fiscal year ends in late September, the balance reflects the iPhone launch month, so the timing of the launch moves it. Nothing in the 10-K, the calls or the press releases speaks to this ratio directly; the suggestion rests on the balance-sheet history.</p><p class='how'><i>Why the suggestion sits where it does.</i> Held at the 2025 level of about 9.5%.</p></section><section class='guide'><h3>Vendor non-trade receivables</h3><p class='strip'>History 2020 <b>7.8%</b>, 2021 <b>6.9%</b>, 2022 <b>8.3%</b>, 2023 <b>8.2%</b>, 2024 <b>8.4%</b>, 2025 <b>8.0%</b> &nbsp;·&nbsp; Suggested <b>8.0%</b>, <b>8.0%</b>, <b>8.0%</b>, <b>8.0%</b>, <b>8.0%</b>, then <b>8.0%</b> forever</p><p class='how'>Components Apple buys and sells on to its contract manufacturers, divided by sales. The ratio has been stable at 7-8.4% since 2020. Nothing in the 10-K, the calls or the press releases speaks to this ratio directly; the suggestion rests on the balance-sheet history.</p><p class='how'><i>Why the suggestion sits where it does.</i> Held at 8.0%, the 2025 level and the five-year middle.</p></section><section class='guide'><h3>Inventories</h3><p class='strip'>History 2020 <b>1.5%</b>, 2021 <b>1.8%</b>, 2022 <b>1.3%</b>, 2023 <b>1.7%</b>, 2024 <b>1.9%</b>, 2025 <b>1.4%</b> &nbsp;·&nbsp; Suggested <b>1.5%</b>, <b>1.5%</b>, <b>1.5%</b>, <b>1.5%</b>, <b>1.5%</b>, then <b>1.5%</b> forever</p><p class='how'>Apple outsources manufacturing, so inventory is small, 1.3-1.9% of sales. Memory purchases ahead of price rises could raise it for a year; management mentions 'carry-in inventory' of memory but gives no balance.</p><blockquote>&ldquo;The first is, as you would expect, we have a benefit from some carry-in inventory in the September quarter. However, we believe we'll see decreasing benefit from this over time beyond the September quarter.&rdquo;<cite>Tim Cook, CEO, transcripts/AAPL_FY2026Q3_earnings_call_2026-07-30.txt, line 156</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Held at 1.5%, the middle of the range.</p></section><section class='guide'><h3>Other current assets</h3><p class='strip'>History 2020 <b>4.1%</b>, 2021 <b>3.9%</b>, 2022 <b>5.4%</b>, 2023 <b>3.8%</b>, 2024 <b>3.7%</b>, 2025 <b>3.5%</b> &nbsp;·&nbsp; Suggested <b>3.6%</b>, <b>3.6%</b>, <b>3.6%</b>, <b>3.6%</b>, <b>3.6%</b>, then <b>3.6%</b> forever</p><p class='how'>Prepaids, derivative assets and other current items, 3.5-5.4% of sales; the 2022 spike was derivative marks. Nothing in the 10-K, the calls or the press releases speaks to this ratio directly; the suggestion rests on the balance-sheet history.</p><p class='how'><i>Why the suggestion sits where it does.</i> Held at 3.6%, near the recent level.</p></section><section class='guide'><h3>Other non-current assets</h3><p class='strip'>History 2020 <b>15.5%</b>, 2021 <b>13.4%</b>, 2022 <b>13.8%</b>, 2023 <b>16.9%</b>, 2024 <b>19.1%</b>, 2025 <b>20.1%</b> &nbsp;·&nbsp; Suggested <b>20.0%</b>, <b>20.0%</b>, <b>20.0%</b>, <b>20.0%</b>, <b>20.0%</b>, then <b>20.0%</b> forever</p><p class='how'>Deferred tax assets, operating-lease right-of-use assets, long-term supplier prepayments and non-marketable investments, divided by sales. The ratio rose from 13.4% in 2021 to 20.1% in 2025. The cash flow statement shows $6-12B a year going into 'other current and non-current assets', so the line consumes real cash as the business grows. Because this ratio is large, every dollar of extra sales requires about 20 cents here, so it matters more than any other working-capital line.</p><blockquote>&ldquo;Deferred tax assets $ 20,777 $ 19,499 Other non-current assets 62,950 55,335 Total other non-current assets $ 83,727 $ 74,834&rdquo;<cite>10-K, 10k/AAPL_10-K_FY2025_filed2025-10-31.htm, Note 6, Other Non-Current Assets</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> Held at the 2025 level of 20%.</p></section><section class='guide'><h3>Accounts payable</h3><p class='strip'>History 2020 <b>15.4%</b>, 2021 <b>15.0%</b>, 2022 <b>16.3%</b>, 2023 <b>16.3%</b>, 2024 <b>17.6%</b>, 2025 <b>16.8%</b> &nbsp;·&nbsp; Suggested <b>16.8%</b>, <b>16.8%</b>, <b>16.8%</b>, <b>16.8%</b>, <b>16.8%</b>, then <b>16.8%</b> forever</p><p class='how'>Accounts payable divided by sales, 15-17.6% since 2020. Apple's scale lets it pay suppliers slowly; nothing suggests the terms are changing. Nothing in the 10-K, the calls or the press releases speaks to this ratio directly; the suggestion rests on the balance-sheet history.</p><p class='how'><i>Why the suggestion sits where it does.</i> Held at the 2025 level of 16.8%.</p></section><section class='guide'><h3>Other current liabilities</h3><p class='strip'>History 2020 <b>15.5%</b>, 2021 <b>13.0%</b>, 2022 <b>15.4%</b>, 2023 <b>15.3%</b>, 2024 <b>20.0%</b>, 2025 <b>16.0%</b> &nbsp;·&nbsp; Suggested <b>13.8%</b>, <b>13.8%</b>, <b>13.8%</b>, <b>13.8%</b>, <b>13.8%</b>, then <b>13.8%</b> forever</p><p class='jc'><span class='jc-tag'>Judgment call</span> Year-1 ratio set to 13.8%, below the 2025 actual of 16.0%, to absorb the one-time $8.8B transition-tax payment. Holding 16.0% in every year would raise the value by about $1.00 a share but would treat a final tax payment as a permanent source of funding.</p><p class='how'>Income taxes payable, accrued distribution and marketing, current lease liabilities and other accruals, divided by sales. The 2024 figure (20.0%) was inflated by the State Aid tax payable and 2025's (16.0%) includes the $8.8B final instalment of the 2017 transition tax, due in fiscal 2026. Without the instalment, 2025 is 13.8%. Setting year 1 at 13.8% makes the model pay the $8.8B in year 1 through working capital.</p><blockquote>&ldquo;As of September 27, 2025, the balance of the deemed repatriation tax payable imposed by the U.S. Tax Cuts and Jobs Act of 2017 ("TCJA") was $8.8 billion, which was payable within 12 months.&rdquo;<cite>10-K, 10k/AAPL_10-K_FY2025_filed2025-10-31.htm, Item 7, Deemed Repatriation Tax Payable</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> 13.8% is the 2025 ratio without the transition-tax instalment, held flat.</p></section><section class='guide'><h3>Deferred revenue</h3><p class='strip'>History 2020 <b>2.4%</b>, 2021 <b>2.1%</b>, 2022 <b>2.0%</b>, 2023 <b>2.1%</b>, 2024 <b>2.1%</b>, 2025 <b>2.2%</b> &nbsp;·&nbsp; Suggested <b>2.2%</b>, <b>2.2%</b>, <b>2.2%</b>, <b>2.2%</b>, <b>2.2%</b>, then <b>2.2%</b> forever</p><p class='how'>Services and bundled software and support paid in advance, divided by sales; stable at 2.0-2.4%. Nothing in the 10-K, the calls or the press releases speaks to this ratio directly; the suggestion rests on the balance-sheet history.</p><p class='how'><i>Why the suggestion sits where it does.</i> Held at 2.2%.</p></section><section class='guide'><h3>Other non-current liabilities</h3><p class='strip'>History 2020 <b>19.8%</b>, 2021 <b>14.6%</b>, 2022 <b>12.5%</b>, 2023 <b>13.0%</b>, 2024 <b>11.7%</b>, 2025 <b>10.0%</b> &nbsp;·&nbsp; Suggested <b>10.0%</b>, <b>10.0%</b>, <b>10.0%</b>, <b>10.0%</b>, <b>10.0%</b>, then <b>10.0%</b> forever</p><p class='jc'><span class='jc-tag'>Judgment call</span> Held flat at 10% although the ratio has fallen for five years. The fall was the transition-tax paydown, now complete, so the trend should not be extended; extending it to 8% would lower the value by about $0.90 a share.</p><p class='how'>Non-current lease liabilities, long-term income taxes payable and other items, divided by sales. The ratio fell from 19.8% in 2020 to 10.0% in 2025 because the non-current part of the transition tax was paid down; the 2025 balance holds none of it. The remaining pieces (leases, tax reserves) grow roughly with the business. Nothing in the 10-K, the calls or the press releases speaks to this ratio directly; the suggestion rests on the balance-sheet history.</p><p class='how'><i>Why the suggestion sits where it does.</i> Held at the 2025 level of 10%.</p></section><section class='guide'><h3>Cash tax rate on taxable income</h3><p class='strip'>History 2020 <b>14.4%</b>, 2021 <b>13.3%</b>, 2022 <b>16.2%</b>, 2023 <b>14.7%</b>, 2024 <b>24.1%</b>, 2025 <b>15.6%</b> &nbsp;·&nbsp; Suggested <b>16.5%</b>, <b>16.5%</b>, <b>16.5%</b>, <b>16.5%</b>, <b>16.5%</b>, then <b>16.5%</b> forever &nbsp;·&nbsp; Moving it 1pp each way moves the value <b>2.4%</b></p><p class='jc'><span class='jc-tag'>Judgment call</span> The guided effective rate (16.5%) is used as the marginal cash rate in every year and in perpetuity. The alternative is a rate closer to statutory (about 24%) on the view that the global minimum tax erodes Apple's foreign rate advantage; that would lower the value by about $12.40 a share, or 9 percent.</p><p class='how'>The driver is a marginal cash rate on EBIT. Apple's effective rate was 14.7% in 2023 and 15.6% in 2025; 2024's 24.1% includes the one-time $10.2B State Aid charge. Management guided 17.5%, 17% and 16.5% for the last three quarters. Cash taxes paid ($43.4B in 2025) are far above the provision only because of the State Aid escrow release and the transition-tax instalment, both one-time; the last instalment ($8.8B) is handled through other current liabilities. Apple has no federal NOL. A constant rate is the right method. Argue for a higher rate if the OECD global minimum tax and US changes to the foreign earnings regime push Apple toward the statutory rate; a rate at 21% plus state tax (about 24%) is the high case.</p><blockquote>&ldquo;We expect OIE to be around $350 million, excluding any potential impact from the mark to market of minority investments, and our tax rate to be around 16.5%.&rdquo;<cite>Kevan Parekh, CFO, transcripts/AAPL_FY2026Q3_earnings_call_2026-07-30.txt, line 136</cite></blockquote><blockquote>&ldquo;The Company's effective tax rate for 2025 was lower than the statutory federal income tax rate primarily due to a lower effective tax rate on foreign earnings, including the impact of changes in unrecognized tax benefits, the impact of the U.S. federal R&amp;D credit, and tax benefits from share-based compensation, partially offset by a change in valuation allowance and state income taxes.&rdquo;<cite>10-K, 10k/AAPL_10-K_FY2025_filed2025-10-31.htm, Item 7, Provision for Income Taxes</cite></blockquote><p class='how'><i>Why the suggestion sits where it does.</i> 16.5% is the latest guided quarterly rate and sits in the 15-17.5% band of the last three years outside the State Aid charge.</p></section>
+
+</section>
+
+<section role="tabpanel" id="p-baseline" aria-labelledby="t-baseline" hidden>
+<h2>Suggested forecasts with historicals</h2>
+<p class="note">Shaded columns are history. The rest are the suggested forecasts,
+and every one is editable: the DCF tab revalues as you type, and edited cells are
+highlighted. The reasoning behind each suggestion is on the Forecasts tab.</p>
+<div class="scroller spaced"><table><thead><tr><th>Assumption</th><th>2021</th><th>2022</th><th>2023</th><th>2024</th><th>2025</th><th class='fc'>Year 1</th><th class='fc'>Year 2</th><th class='fc'>Year 3</th><th class='fc'>Year 4</th><th class='fc'>Year 5</th><th class='fc'>Terminal</th></tr></thead><tbody><tr class='group'><td colspan='12'>Growth and margin</td></tr><tr><td>Sales growth</td><td class='hist'>33.3%</td><td class='hist'>7.8%</td><td class='hist'>-2.8%</td><td class='hist'>2.0%</td><td class='hist'>6.4%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='0' aria-label='Sales growth, Year 1' value='14.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='1' aria-label='Sales growth, Year 2' value='6.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='2' aria-label='Sales growth, Year 3' value='5.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='3' aria-label='Sales growth, Year 4' value='4.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='4' aria-label='Sales growth, Year 5' value='4.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_growth' data-unit='%' data-col='5' aria-label='Sales growth, Terminal' value='3.5'><span class='u'>%</span></td></tr><tr><td>EBITDA margin</td><td class='hist'>32.9%</td><td class='hist'>33.1%</td><td class='hist'>32.8%</td><td class='hist'>34.4%</td><td class='hist'>34.8%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='0' aria-label='EBITDA margin, Year 1' value='35.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='1' aria-label='EBITDA margin, Year 2' value='35.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='2' aria-label='EBITDA margin, Year 3' value='35.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='3' aria-label='EBITDA margin, Year 4' value='35.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='4' aria-label='EBITDA margin, Year 5' value='35.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.ebitda_margin' data-unit='%' data-col='5' aria-label='EBITDA margin, Terminal' value='35.0'><span class='u'>%</span></td></tr><tr class='group'><td colspan='12'>Property, plant and equipment</td></tr><tr><td>Next-year sales / net PP&amp;E</td><td class='hist'>10.00×</td><td class='hist'>9.10×</td><td class='hist'>8.95×</td><td class='hist'>9.11×</td><td class='hist'>—</td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='0' aria-label='Next-year sales / net PP&amp;E, Year 1' value='9.80'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='1' aria-label='Next-year sales / net PP&amp;E, Year 2' value='9.60'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='2' aria-label='Next-year sales / net PP&amp;E, Year 3' value='9.50'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='3' aria-label='Next-year sales / net PP&amp;E, Year 4' value='9.40'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='4' aria-label='Next-year sales / net PP&amp;E, Year 5' value='9.40'><span class='u'>×</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.sales_to_net_ppe' data-unit='x' data-col='5' aria-label='Next-year sales / net PP&amp;E, Terminal' value='9.40'><span class='u'>×</span></td></tr><tr><td>Depreciation / prior net PP&amp;E</td><td class='hist'>30.7%</td><td class='hist'>28.2%</td><td class='hist'>27.4%</td><td class='hist'>26.2%</td><td class='hist'>25.6%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='0' aria-label='Depreciation / prior net PP&amp;E, Year 1' value='26.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='1' aria-label='Depreciation / prior net PP&amp;E, Year 2' value='26.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='2' aria-label='Depreciation / prior net PP&amp;E, Year 3' value='26.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='3' aria-label='Depreciation / prior net PP&amp;E, Year 4' value='26.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='4' aria-label='Depreciation / prior net PP&amp;E, Year 5' value='26.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.depreciation_rate' data-unit='%' data-col='5' aria-label='Depreciation / prior net PP&amp;E, Terminal' value='26.5'><span class='u'>%</span></td></tr><tr class='group'><td colspan='12'>Operating assets, as a share of sales</td></tr><tr><td>Accounts receivable, net</td><td class='hist'>7.2%</td><td class='hist'>7.1%</td><td class='hist'>7.7%</td><td class='hist'>8.5%</td><td class='hist'>9.6%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='0' aria-label='Accounts receivable, net, Year 1' value='9.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='1' aria-label='Accounts receivable, net, Year 2' value='9.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='2' aria-label='Accounts receivable, net, Year 3' value='9.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='3' aria-label='Accounts receivable, net, Year 4' value='9.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='4' aria-label='Accounts receivable, net, Year 5' value='9.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.receivables' data-unit='%' data-col='5' aria-label='Accounts receivable, net, Terminal' value='9.5'><span class='u'>%</span></td></tr><tr><td>Vendor non-trade receivables</td><td class='hist'>6.9%</td><td class='hist'>8.3%</td><td class='hist'>8.2%</td><td class='hist'>8.4%</td><td class='hist'>8.0%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.vendor_receivables' data-unit='%' data-col='0' aria-label='Vendor non-trade receivables, Year 1' value='8.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.vendor_receivables' data-unit='%' data-col='1' aria-label='Vendor non-trade receivables, Year 2' value='8.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.vendor_receivables' data-unit='%' data-col='2' aria-label='Vendor non-trade receivables, Year 3' value='8.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.vendor_receivables' data-unit='%' data-col='3' aria-label='Vendor non-trade receivables, Year 4' value='8.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.vendor_receivables' data-unit='%' data-col='4' aria-label='Vendor non-trade receivables, Year 5' value='8.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.vendor_receivables' data-unit='%' data-col='5' aria-label='Vendor non-trade receivables, Terminal' value='8.0'><span class='u'>%</span></td></tr><tr><td>Inventories</td><td class='hist'>1.8%</td><td class='hist'>1.3%</td><td class='hist'>1.7%</td><td class='hist'>1.9%</td><td class='hist'>1.4%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='0' aria-label='Inventories, Year 1' value='1.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='1' aria-label='Inventories, Year 2' value='1.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='2' aria-label='Inventories, Year 3' value='1.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='3' aria-label='Inventories, Year 4' value='1.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='4' aria-label='Inventories, Year 5' value='1.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.inventories' data-unit='%' data-col='5' aria-label='Inventories, Terminal' value='1.5'><span class='u'>%</span></td></tr><tr><td>Other current assets</td><td class='hist'>3.9%</td><td class='hist'>5.4%</td><td class='hist'>3.8%</td><td class='hist'>3.7%</td><td class='hist'>3.5%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_current_assets' data-unit='%' data-col='0' aria-label='Other current assets, Year 1' value='3.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_current_assets' data-unit='%' data-col='1' aria-label='Other current assets, Year 2' value='3.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_current_assets' data-unit='%' data-col='2' aria-label='Other current assets, Year 3' value='3.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_current_assets' data-unit='%' data-col='3' aria-label='Other current assets, Year 4' value='3.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_current_assets' data-unit='%' data-col='4' aria-label='Other current assets, Year 5' value='3.6'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_current_assets' data-unit='%' data-col='5' aria-label='Other current assets, Terminal' value='3.6'><span class='u'>%</span></td></tr><tr><td>Other non-current assets</td><td class='hist'>13.4%</td><td class='hist'>13.8%</td><td class='hist'>16.9%</td><td class='hist'>19.1%</td><td class='hist'>20.1%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_noncurrent_assets' data-unit='%' data-col='0' aria-label='Other non-current assets, Year 1' value='20.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_noncurrent_assets' data-unit='%' data-col='1' aria-label='Other non-current assets, Year 2' value='20.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_noncurrent_assets' data-unit='%' data-col='2' aria-label='Other non-current assets, Year 3' value='20.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_noncurrent_assets' data-unit='%' data-col='3' aria-label='Other non-current assets, Year 4' value='20.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_noncurrent_assets' data-unit='%' data-col='4' aria-label='Other non-current assets, Year 5' value='20.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_assets.other_noncurrent_assets' data-unit='%' data-col='5' aria-label='Other non-current assets, Terminal' value='20.0'><span class='u'>%</span></td></tr><tr class='group'><td colspan='12'>Operating liabilities, as a share of sales</td></tr><tr><td>Accounts payable</td><td class='hist'>15.0%</td><td class='hist'>16.3%</td><td class='hist'>16.3%</td><td class='hist'>17.6%</td><td class='hist'>16.8%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='0' aria-label='Accounts payable, Year 1' value='16.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='1' aria-label='Accounts payable, Year 2' value='16.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='2' aria-label='Accounts payable, Year 3' value='16.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='3' aria-label='Accounts payable, Year 4' value='16.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='4' aria-label='Accounts payable, Year 5' value='16.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.payables' data-unit='%' data-col='5' aria-label='Accounts payable, Terminal' value='16.8'><span class='u'>%</span></td></tr><tr><td>Other current liabilities</td><td class='hist'>13.0%</td><td class='hist'>15.4%</td><td class='hist'>15.3%</td><td class='hist'>20.0%</td><td class='hist'>16.0%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_current_liabilities' data-unit='%' data-col='0' aria-label='Other current liabilities, Year 1' value='13.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_current_liabilities' data-unit='%' data-col='1' aria-label='Other current liabilities, Year 2' value='13.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_current_liabilities' data-unit='%' data-col='2' aria-label='Other current liabilities, Year 3' value='13.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_current_liabilities' data-unit='%' data-col='3' aria-label='Other current liabilities, Year 4' value='13.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_current_liabilities' data-unit='%' data-col='4' aria-label='Other current liabilities, Year 5' value='13.8'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_current_liabilities' data-unit='%' data-col='5' aria-label='Other current liabilities, Terminal' value='13.8'><span class='u'>%</span></td></tr><tr><td>Deferred revenue</td><td class='hist'>2.1%</td><td class='hist'>2.0%</td><td class='hist'>2.1%</td><td class='hist'>2.1%</td><td class='hist'>2.2%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.deferred_revenue' data-unit='%' data-col='0' aria-label='Deferred revenue, Year 1' value='2.2'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.deferred_revenue' data-unit='%' data-col='1' aria-label='Deferred revenue, Year 2' value='2.2'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.deferred_revenue' data-unit='%' data-col='2' aria-label='Deferred revenue, Year 3' value='2.2'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.deferred_revenue' data-unit='%' data-col='3' aria-label='Deferred revenue, Year 4' value='2.2'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.deferred_revenue' data-unit='%' data-col='4' aria-label='Deferred revenue, Year 5' value='2.2'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.deferred_revenue' data-unit='%' data-col='5' aria-label='Deferred revenue, Terminal' value='2.2'><span class='u'>%</span></td></tr><tr><td>Other non-current liabilities</td><td class='hist'>14.6%</td><td class='hist'>12.5%</td><td class='hist'>13.0%</td><td class='hist'>11.7%</td><td class='hist'>10.0%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_noncurrent_liabilities' data-unit='%' data-col='0' aria-label='Other non-current liabilities, Year 1' value='10.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_noncurrent_liabilities' data-unit='%' data-col='1' aria-label='Other non-current liabilities, Year 2' value='10.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_noncurrent_liabilities' data-unit='%' data-col='2' aria-label='Other non-current liabilities, Year 3' value='10.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_noncurrent_liabilities' data-unit='%' data-col='3' aria-label='Other non-current liabilities, Year 4' value='10.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_noncurrent_liabilities' data-unit='%' data-col='4' aria-label='Other non-current liabilities, Year 5' value='10.0'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.operating_liabilities.other_noncurrent_liabilities' data-unit='%' data-col='5' aria-label='Other non-current liabilities, Terminal' value='10.0'><span class='u'>%</span></td></tr><tr class='group'><td colspan='12'>Taxes</td></tr><tr><td>Cash tax rate on taxable income</td><td class='hist'>13.3%</td><td class='hist'>16.2%</td><td class='hist'>14.7%</td><td class='hist'>24.1%</td><td class='hist'>15.6%</td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='0' aria-label='Cash tax rate on taxable income, Year 1' value='16.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='1' aria-label='Cash tax rate on taxable income, Year 2' value='16.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='2' aria-label='Cash tax rate on taxable income, Year 3' value='16.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='3' aria-label='Cash tax rate on taxable income, Year 4' value='16.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='4' aria-label='Cash tax rate on taxable income, Year 5' value='16.5'><span class='u'>%</span></td><td class='fc'><input inputmode='decimal' data-path='assumptions.cash_tax_rate' data-unit='%' data-col='5' aria-label='Cash tax rate on taxable income, Terminal' value='16.5'><span class='u'>%</span></td></tr></tbody></table></div>
+<p class='rates'>WACC <input inputmode='decimal' data-path='rates.wacc' data-unit='%' aria-label='WACC' value='10.0'><span class='u'>%</span> &nbsp;·&nbsp; NOL limitation <input inputmode='decimal' data-path='rates.nol_limitation' data-unit='%' aria-label='NOL limitation' value='80.0'><span class='u'>%</span> &nbsp;·&nbsp; opening NOL <input inputmode='decimal' data-path='base.nol' data-unit='n' aria-label='opening NOL' value='0'> &nbsp;·&nbsp; diluted shares <input inputmode='decimal' data-path='meta.diluted_shares' data-unit='n' aria-label='diluted shares' value='14924.8'> &nbsp;·&nbsp; terminal growth <b id='tg'>3.5%</b> (the terminal sales growth)</p>
+<div class="readout">
+  <span id="readout-text">Value per share at these forecasts: <b>138.17</b> — details on the DCF tab.</span>
+  <button type="button" id="reset">Reset to suggested</button>
+</div>
+<details class="csv">
+  <summary>These numbers as assumptions.csv</summary>
+  <p class="note">The same grid in the format the skill reads, to keep a set of
+  numbers you have settled on.</p>
+  <textarea id="csv-text" readonly rows="10" aria-label="assumptions.csv"></textarea>
+  <button type="button" id="copy-csv">Copy</button>
+</details>
+</section>
+
+<section role="tabpanel" id="p-dcf" aria-labelledby="t-dcf" hidden>
+<ul class="warnings" id="warnings"></ul>
+<div class="headline">
+  <div><span class="lab">Enterprise value</span><span class="val" id="h-ev">2,028,400</span></div>
+  <div><span class="lab">Equity value</span><span class="val" id="h-eq">2,062,163</span></div>
+  <div><span class="lab">Value per share</span><span class="val big" id="h-vps">138.17</span></div>
+</div>
+<p class="drive" id="dcf-status">Valued on the suggested forecasts in the Baseline
+tab. Edit them there and this tab revalues.</p>
+
+<h2>Forecast</h2>
+<div class="scroller" id="schedule"><table><thead><tr><th>Forecast</th><th class='fc'>Year 1</th><th class='fc'>Year 2</th><th class='fc'>Year 3</th><th class='fc'>Year 4</th><th class='fc'>Year 5</th><th class='fc'>Year 6 · transition</th><th class='fc'>Year 7 · perpetuity</th></tr></thead><tbody><tr><td>Sales</td><td>476,504</td><td>505,095</td><td>530,349</td><td>554,215</td><td>576,384</td><td>596,557</td><td>617,437</td></tr><tr><td>EBITDA</td><td>169,159</td><td>176,783</td><td>185,622</td><td>193,975</td><td>201,734</td><td>208,795</td><td>216,103</td></tr><tr><td>Depreciation</td><td>13,206</td><td>13,658</td><td>14,640</td><td>15,460</td><td>16,249</td><td>16,818</td><td>17,406</td></tr><tr><td>EBIT</td><td>155,953</td><td>163,125</td><td>170,982</td><td>178,516</td><td>185,485</td><td>191,977</td><td>198,696</td></tr><tr><td>NOL carryforward, opening</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr><tr><td>NOL used</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr><tr><td>Taxable income</td><td>155,953</td><td>163,125</td><td>170,982</td><td>178,516</td><td>185,485</td><td>191,977</td><td>198,696</td></tr><tr><td>Cash taxes</td><td>25,732</td><td>26,916</td><td>28,212</td><td>29,455</td><td>30,605</td><td>31,676</td><td>32,785</td></tr><tr><td>Effective tax rate</td><td>16.5%</td><td>16.5%</td><td>16.5%</td><td>16.5%</td><td>16.5%</td><td>16.5%</td><td>16.5%</td></tr><tr><td>Net PP&amp;E, closing</td><td>51,540</td><td>55,245</td><td>58,338</td><td>61,317</td><td>63,464</td><td>65,685</td><td>67,984</td></tr><tr><td>Capital expenditure</td><td>14,912</td><td>17,363</td><td>17,734</td><td>18,439</td><td>18,395</td><td>19,039</td><td>19,705</td></tr><tr><td>Net working capital, closing</td><td>-953</td><td>-1,010</td><td>-1,061</td><td>-1,108</td><td>-1,153</td><td>-1,193</td><td>-1,235</td></tr><tr><td>Investment in working capital</td><td>8,911</td><td>-57.2</td><td>-50.5</td><td>-47.7</td><td>-44.3</td><td>-40.3</td><td>-41.8</td></tr><tr class='total'><td>Free cash flow</td><td>119,604</td><td>132,562</td><td>139,727</td><td>146,129</td><td>152,778</td><td>158,120</td><td>163,654</td></tr><tr class='derived'><td>Free cash flow growth</td><td>&mdash;</td><td>10.8%</td><td>5.4%</td><td>4.6%</td><td>4.6%</td><td>3.5%</td><td>3.5%</td></tr><tr><td>Discount factor</td><td>0.9091</td><td>0.8264</td><td>0.7513</td><td>0.6830</td><td>0.6209</td><td>0.5645</td><td>0.5132</td></tr><tr><td>PV of free cash flow</td><td>108,730</td><td>109,555</td><td>104,979</td><td>99,808</td><td>94,863</td><td>89,255</td><td>83,981</td></tr></tbody></table></div>
+<p class="note">Year 6 runs on the terminal assumptions and absorbs the
+balance-sheet transition. The perpetuity sits on year 7, which is why year 7 is
+shown but not discounted into the explicit sum.</p>
+
+<h2>From enterprise value to the shareholders</h2>
+<div class="scroller" id="bridge"><table><tbody><tr><td>PV of free cash flow, years 1 to 6</td><td>607,191</td></tr><tr><td>Terminal value at the end of year 6</td><td>2,517,758</td></tr><tr><td>PV of the terminal value</td><td>1,421,209</td></tr><tr class='total'><td>Enterprise value of operations</td><td>2,028,400</td></tr><tr><td>Plus cash</td><td>35,934</td></tr><tr><td>Plus marketable securities current</td><td>18,763</td></tr><tr><td>Plus marketable securities noncurrent</td><td>77,723</td></tr><tr><td>Less commercial paper</td><td>-7,979</td></tr><tr><td>Less term debt current</td><td>-12,350</td></tr><tr><td>Less term debt noncurrent</td><td>-78,328</td></tr><tr class='total'><td>Equity value</td><td>2,062,163</td></tr><tr><td>Diluted shares</td><td>14,925</td></tr><tr class='total'><td>Value per share</td><td>138.17</td></tr></tbody></table></div>
+
+<h2>Sensitivity — value per share</h2>
+<div class="scroller" id="sensitivity"><table><thead><tr><th>WACC \ terminal growth</th><th>2.5%</th><th>3.0%</th><th>3.5%</th><th>4.0%</th><th>4.5%</th></tr></thead><tbody><tr><td>8.0%</td><td class='sens'>169.26</td><td class='sens'>182.70</td><td class='sens'>199.12</td><td class='sens'>219.65</td><td class='sens'>246.05</td></tr><tr><td>9.0%</td><td class='sens'>143.26</td><td class='sens'>152.35</td><td class='sens'>163.10</td><td class='sens'>176.00</td><td class='sens'>191.77</td></tr><tr><td>10.0%</td><td class='sens'>124.20</td><td class='sens'>130.68</td><td class='sens here'>138.17</td><td class='sens'>146.90</td><td class='sens'>157.22</td></tr><tr><td>11.0%</td><td class='sens'>109.63</td><td class='sens'>114.44</td><td class='sens'>119.89</td><td class='sens'>126.12</td><td class='sens'>133.31</td></tr><tr><td>12.0%</td><td class='sens'>98.13</td><td class='sens'>101.81</td><td class='sens'>105.92</td><td class='sens'>110.54</td><td class='sens'>115.78</td></tr></tbody></table></div>
+
+<h2>Which arguments are worth having</h2>
+<p class="note">How much a change in each driver moves the equity value, given
+the current assumptions. Each driver is moved one notch each way in every
+forecast year at once — the five explicit years and the perpetuity together, not
+the perpetuity alone — and the model re-run. These are a local measure around the
+current assumptions and shift as you edit them. The span is shown as a share of
+value; a driver near the bottom is one you can settle quickly.</p>
+<div class="scroller" id="ranking"><table><thead><tr><th>Driver</th><th>Moved</th><th>Moves the value by</th><th></th></tr></thead><tbody><tr><td>sales growth</td><td>1pp</td><td>32.1%</td><td class='bar'><span style='width:100%'></span></td></tr><tr><td>ebitda margin</td><td>1pp</td><td>6.2%</td><td class='bar'><span style='width:19%'></span></td></tr><tr><td>cash tax rate</td><td>1pp</td><td>2.4%</td><td class='bar'><span style='width:7%'></span></td></tr><tr><td>sales to net ppe</td><td>5% of itself</td><td>1.2%</td><td class='bar'><span style='width:4%'></span></td></tr><tr><td>receivables</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr><tr><td>vendor receivables</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr><tr><td>inventories</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr><tr><td>other current assets</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr><tr><td>other noncurrent assets</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr><tr><td>payables</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr><tr><td>other current liabilities</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr><tr><td>deferred revenue</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr><tr><td>other noncurrent liabilities</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr><tr><td>depreciation rate</td><td>1pp</td><td>0.7%</td><td class='bar'><span style='width:2%'></span></td></tr></tbody></table></div>
+
+<h2>Cost of capital</h2>
+<p class="note body">A placeholder of 10 percent, not an estimate for this company. The true WACC should be calculated (cost of equity from CAPM, after-tax cost of debt, market-value weights) and entered on the Baseline tab or in the workbook's Inputs sheet.</p>
+
+<h2>The model</h2>
+<p class="note body">
+  Sales grow at <i>g</i>. EBITDA is a margin on sales. Net PP&amp;E at the end of
+  year <i>t</i> is next year's sales divided by the sales-to-PP&amp;E turnover —
+  the one line that leads sales by a year, because capacity is built ahead of the
+  volume it serves. Depreciation is a rate on prior-year net PP&amp;E, and capex is
+  the plug that reconciles the two; in steady state it lands at (<i>g</i> +
+  <i>d</i>) times prior net PP&amp;E. Every other operating asset and liability is
+  a ratio to the same year's sales. Free cash flow is EBITDA less cash taxes on
+  EBIT, less capex, less the change in working capital. Taxes are unlevered; the
+  interest shield lives in the discount rate. A running NOL carryforward shelters
+  the explicit years; anything still alive after year 6 is valued separately and
+  appears in the bridge, so the perpetuity is taxed at the full rate and stays a
+  genuine steady state.
+</p>
+</section>
+
+</main>
+<script type="application/json" id="dcf-data">{"bundle": {"base": {"sales": 416161.0, "net_ppe": 49834.0, "operating_assets": {"receivables": 39777.0, "vendor_receivables": 33180.0, "inventories": 5718.0, "other_current_assets": 14585.0, "other_noncurrent_assets": 83727.0}, "operating_liabilities": {"payables": 69860.0, "other_current_liabilities": 66387.0, "deferred_revenue": 9055.0, "other_noncurrent_liabilities": 41549.0}, "nonoperating_assets": {"cash": 35934.0, "marketable_securities_current": 18763.0, "marketable_securities_noncurrent": 77723.0}, "debt_claims": {"commercial_paper": 7979.0, "term_debt_current": 12350.0, "term_debt_noncurrent": 78328.0}, "equity_claims": {}, "nol": 0.0}, "assumptions": {"sales_growth": {"explicit": [0.145, 0.06, 0.05, 0.045, 0.04], "terminal": 0.035}, "ebitda_margin": {"explicit": [0.355, 0.35, 0.35, 0.35, 0.35], "terminal": 0.35}, "sales_to_net_ppe": {"explicit": [9.8, 9.6, 9.5, 9.4, 9.4], "terminal": 9.4}, "depreciation_rate": {"explicit": [0.265, 0.265, 0.265, 0.265, 0.265], "terminal": 0.265}, "cash_tax_rate": {"explicit": [0.165, 0.165, 0.165, 0.165, 0.165], "terminal": 0.165}, "operating_assets": {"receivables": {"explicit": [0.095, 0.095, 0.095, 0.095, 0.095], "terminal": 0.095}, "vendor_receivables": {"explicit": [0.08, 0.08, 0.08, 0.08, 0.08], "terminal": 0.08}, "inventories": {"explicit": [0.015, 0.015, 0.015, 0.015, 0.015], "terminal": 0.015}, "other_current_assets": {"explicit": [0.036000000000000004, 0.036000000000000004, 0.036000000000000004, 0.036000000000000004, 0.036000000000000004], "terminal": 0.036000000000000004}, "other_noncurrent_assets": {"explicit": [0.2, 0.2, 0.2, 0.2, 0.2], "terminal": 0.2}}, "operating_liabilities": {"payables": {"explicit": [0.168, 0.168, 0.168, 0.168, 0.168], "terminal": 0.168}, "other_current_liabilities": {"explicit": [0.138, 0.138, 0.138, 0.138, 0.138], "terminal": 0.138}, "deferred_revenue": {"explicit": [0.022000000000000002, 0.022000000000000002, 0.022000000000000002, 0.022000000000000002, 0.022000000000000002], "terminal": 0.022000000000000002}, "other_noncurrent_liabilities": {"explicit": [0.1, 0.1, 0.1, 0.1, 0.1], "terminal": 0.1}}}, "rates": {"wacc": 0.1, "nol_limitation": 0.8}, "meta": {"diluted_shares": 14924.834, "units": "USD millions"}}, "store": "dcf-aapl-3b308207973f", "check": {"ev_ops": 2028399.6910612443, "equity_value": 2062162.6910612443, "value_per_share": 138.16989127391597, "fcf": [119603.5249188699, 132562.0500922296, 139727.12247143203, 146129.2626572626, 152778.34199053253, 158120.04180964013, 163654.24327297747]}}</script>
+<script>
+// The page's calculator: a line-for-line port of dcf_engine.py, so the Baseline
+// tab can be edited and the DCF tab revalued in the browser.
+//
+// This is the recursion's third home, after the Python engine and the
+// workbook's formulas. It is held to the engine two ways: tests/test_page_js.py
+// runs it under node against run_model, and the page itself re-values the
+// suggested numbers on load and flags any disagreement with the figures the
+// engine wrote into it.
+
+var DCF = (function () {
+  var N_EXPLICIT = 5, TRANSITION = 6, PERPETUITY = 7;
+  var SCALARS = ["sales_growth", "ebitda_margin", "sales_to_net_ppe",
+                 "depreciation_rate", "cash_tax_rate"];
+  var SIDES = ["operating_assets", "operating_liabilities"];
+
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
+  function total(o) { var s = 0; for (var k in o) s += o[k]; return s; }
+  function drv(spec, t) { return t <= N_EXPLICIT ? spec.explicit[t - 1] : spec.terminal; }
+  function label(k) {
+    var s = String(k).replace(/_/g, " ").trim();
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function runModel(b) {
+    var a = b.assumptions, base = b.base, wacc = b.rates.wacc;
+    var g = a.sales_growth.terminal;
+    var lim = b.rates.nol_limitation === undefined ? 0.8 : b.rates.nol_limitation;
+    if (!(wacc > g)) throw new Error("WACC (" + fmt(wacc, "pct") + ") must exceed terminal growth (" +
+                                     fmt(g, "pct") + "); the perpetuity does not exist.");
+
+    var s = [base.sales], t, k;
+    for (t = 1; t <= PERPETUITY + 1; t++) s.push(s[t - 1] * (1 + drv(a.sales_growth, t)));
+
+    var nppePrev = base.net_ppe;
+    var nwcPrev = total(base.operating_assets || {}) - total(base.operating_liabilities || {});
+    var nol = +(base.nol || 0), rows = [];
+    for (t = 1; t <= PERPETUITY; t++) {
+      var sales = s[t];
+      var nppe = s[t + 1] / drv(a.sales_to_net_ppe, t);
+      var dep = drv(a.depreciation_rate, t) * nppePrev;
+      var capex = nppe - nppePrev + dep;
+      var ratio = 0;
+      for (k in a.operating_assets) ratio += drv(a.operating_assets[k], t);
+      for (k in a.operating_liabilities) ratio -= drv(a.operating_liabilities[k], t);
+      var nwc = ratio * sales;
+      var ebitda = drv(a.ebitda_margin, t) * sales;
+      var ebit = ebitda - dep;
+
+      var rate = drv(a.cash_tax_rate, t), used, taxable, tax, open = nol;
+      if (t >= PERPETUITY) { used = 0; taxable = ebit; tax = rate * ebit; }
+      else if (ebit <= 0) { used = 0; taxable = 0; tax = 0; nol -= ebit; }
+      else { used = Math.min(lim * ebit, nol); taxable = ebit - used; tax = rate * taxable; nol -= used; }
+
+      var fcf = ebitda - tax - capex - (nwc - nwcPrev);
+      var df = 1 / Math.pow(1 + wacc, t);
+      rows.push({ year: t, sales: sales, next_sales: s[t + 1], ebitda: ebitda, net_ppe: nppe,
+                  depreciation: dep, capex: capex, nwc: nwc, delta_nwc: nwc - nwcPrev, ebit: ebit,
+                  nol_open: open, nol_used: used, nol_close: nol, taxable_income: taxable, tax: tax,
+                  effective_tax_rate: ebit ? tax / ebit : 0, fcf: fcf, discount_factor: df,
+                  pv_fcf: fcf * df });
+      nppePrev = nppe; nwcPrev = nwc;
+    }
+
+    var perp = rows[PERPETUITY - 1], pvExplicit = 0;
+    for (t = 0; t < TRANSITION; t++) pvExplicit += rows[t].pv_fcf;
+    var tv = perp.fcf / (wacc - g);
+    var pvTerminal = tv / Math.pow(1 + wacc, TRANSITION);
+    var evOps = pvExplicit + pvTerminal;
+
+    var nolSix = rows[TRANSITION - 1].nol_close, pvNol = 0, unexhausted = false;
+    if (nolSix > 0) {
+      if (perp.ebit <= 0) unexhausted = true;
+      else {
+        var left = nolSix, e = perp.ebit, yr = PERPETUITY, tr = drv(a.cash_tax_rate, PERPETUITY);
+        while (left > 0 && yr < PERPETUITY + 200) {
+          var u = Math.min(lim * e, left);
+          pvNol += tr * u / Math.pow(1 + wacc, yr);
+          left -= u; e *= 1 + g; yr++;
+        }
+        unexhausted = left > 0;
+      }
+    }
+
+    var bridge = [{ label: "Enterprise value of operations", amount: evOps }];
+    if (pvNol) bridge.push({ label: "PV of remaining NOL carryforward", amount: pvNol });
+    for (k in base.nonoperating_assets || {}) bridge.push({ label: "Plus " + label(k).toLowerCase(), amount: +base.nonoperating_assets[k] });
+    for (k in base.debt_claims || {}) bridge.push({ label: "Less " + label(k).toLowerCase(), amount: -base.debt_claims[k] });
+    for (k in base.equity_claims || {}) bridge.push({ label: "Less " + label(k).toLowerCase(), amount: -base.equity_claims[k] });
+    var equity = 0;
+    bridge.forEach(function (x) { equity += x.amount; });
+    var shares = b.meta.diluted_shares || 0;
+
+    return { schedule: rows, ev_ops: evOps, pv_explicit: pvExplicit, pv_terminal: pvTerminal,
+             terminal_value: tv, pv_nol: pvNol, bridge: bridge, equity_value: equity,
+             value_per_share: shares ? equity / shares : null,
+             warnings: warnings(b, rows, perp, nolSix, pvNol, unexhausted) };
+  }
+
+  function warnings(b, rows, perp, nolSix, pvNol, unexhausted) {
+    var a = b.assumptions, out = [];
+    if (nolSix > 0) out.push("A carryforward of " + fmt1(nolSix) + " survives year 6. Its shield is valued separately at " +
+                             fmt1(pvNol) + " and shown in the bridge, so the perpetuity is taxed at the full rate.");
+    if (unexhausted) out.push("The carryforward is not exhausted within 200 years of steady state; the shield above is a lower bound.");
+    if (perp.ebit <= 0) out.push("Terminal EBIT is not positive, so the perpetuity is negative. The model cannot value this company as a going concern on these assumptions.");
+    var neg = rows.filter(function (r) { return r.capex < 0; }).map(function (r) { return r.year; });
+    if (neg.length) out.push("Implied capex is negative in year(s) [" + neg.join(", ") + "]: the sales-to-PP&E turnover is shrinking the asset base faster than it depreciates.");
+    if (rows.some(function (r) { return r.sales <= 0; })) out.push("Sales reach zero or below inside the forecast.");
+    var k5 = drv(a.sales_to_net_ppe, N_EXPLICIT), kt = a.sales_to_net_ppe.terminal;
+    if (kt && Math.abs(k5 - kt) / Math.abs(kt) > 0.10)
+      out.push("Year 5's sales-to-PP&E turnover (" + k5.toFixed(2) + ") is more than 10 percent from terminal (" +
+               kt.toFixed(2) + "), so year 6 absorbs the whole adjustment.");
+    var units = String(b.meta.units || "").toLowerCase();
+    if (units.indexOf("million") >= 0 && b.base.sales > 1e7)
+      out.push("meta.units says millions but base sales is " + fmt(b.base.sales, "num") + ". If the statements are in dollars and the share count is in millions, value per share is wrong by a factor of a million.");
+    return out;
+  }
+
+  function tryValue(b) { try { return runModel(b).value_per_share; } catch (e) { return null; } }
+
+  function sensitivityAxes(b) {
+    var w = b.rates.wacc, g = b.assumptions.sales_growth.terminal;
+    return [[-0.02, -0.01, 0, 0.01, 0.02].map(function (d) { return w + d; }),
+            [-0.01, -0.005, 0, 0.005, 0.01].map(function (d) { return g + d; })];
+  }
+
+  function sensitivityGrid(b, waccs, growths) {
+    return waccs.map(function (w) {
+      return growths.map(function (g) {
+        var trial = clone(b);
+        trial.rates.wacc = w;
+        trial.assumptions.sales_growth.terminal = g;
+        return tryValue(trial);
+      });
+    });
+  }
+
+  function driverRanking(b) {
+    var entries = SCALARS.map(function (n) { return [n, null]; });
+    SIDES.forEach(function (side) { for (var k in b.assumptions[side]) entries.push([side, k]); });
+    var base = tryValue(b), out = [];
+    entries.forEach(function (en) {
+      var rel = en[0] === "sales_to_net_ppe", size = rel ? 0.05 : 0.01, vals = [];
+      [-size, size].forEach(function (sh) {
+        var trial = clone(b);
+        var sp = en[1] === null ? trial.assumptions[en[0]] : trial.assumptions[en[0]][en[1]];
+        sp.explicit = sp.explicit.map(function (v) { return rel ? v * (1 + sh) : v + sh; });
+        sp.terminal = rel ? sp.terminal * (1 + sh) : sp.terminal + sh;
+        vals.push(tryValue(trial));
+      });
+      if (vals[0] === null || vals[1] === null) return;
+      var span = Math.abs(vals[1] - vals[0]);
+      out.push({ driver: (en[1] === null ? en[0] : en[1]).replace(/_/g, " "), name: en[0], key: en[1],
+                 shift: rel ? "5% of itself" : "1pp", low: vals[0], high: vals[1], span: span,
+                 base: base, span_share: base ? span / Math.abs(base) : null });
+    });
+    out.sort(function (x, y) { return y.span - x.span; });
+    return out;
+  }
+
+  // Mirrors build_pages.fmt.
+  function comma(v, d) { return v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d }); }
+  function fmt1(v) { return comma(v, 1); }
+  function fmt(v, kind) {
+    if (v === null || v === undefined) return "—";
+    if (kind === "pct") return comma(v * 100, 1) + "%";
+    if (kind === "mult") return comma(v, 2) + "×";
+    if (kind === "factor") return comma(v, 4);
+    if (kind === "share") return comma(v, 2);
+    return Math.abs(v) < 100 ? comma(v, 1) : comma(v, 0);
+  }
+
+  return { runModel: runModel, sensitivityAxes: sensitivityAxes, sensitivityGrid: sensitivityGrid,
+           driverRanking: driverRanking, fmt: fmt, clone: clone, SCALARS: SCALARS, SIDES: SIDES };
+})();
+
+if (typeof module !== "undefined" && module.exports) module.exports = DCF;
+
+if (typeof document !== "undefined") (function () {
+  var DATA = JSON.parse(document.getElementById("dcf-data").textContent);
+  var fmt = DCF.fmt, clone = DCF.clone;
+  var REC = DATA.bundle;
+  var state = clone(REC);
+
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+  function byId(id) { return document.getElementById(id); }
+
+  // ------------------------------------------------------------ tabs
+  function select(btn) {
+    btn.parentElement.querySelectorAll('[role="tab"]').forEach(function (b) {
+      var on = b === btn;
+      b.setAttribute("aria-selected", on);
+      byId(b.getAttribute("aria-controls")).hidden = !on;
+    });
+  }
+  document.querySelectorAll('[role="tab"]').forEach(function (b) {
+    b.addEventListener("click", function () {
+      select(b);
+      try { history.replaceState(null, "", "#" + b.id.slice(2)); } catch (e) {}
+    });
+  });
+  var want = location.hash.slice(1), tab = want && byId("t-" + want);
+  if (tab) select(tab);
+
+  // ------------------------------------------------------------ cells
+  // Each input names where its number lives in the bundle.
+  function locate(inp) {
+    var path = inp.dataset.path.split("."), col = inp.dataset.col;
+    return {
+      unit: inp.dataset.unit,
+      get: function (b) {
+        var o = b;
+        for (var i = 0; i < path.length; i++) o = o[path[i]];
+        return col === undefined ? o : (+col < 5 ? o.explicit[+col] : o.terminal);
+      },
+      set: function (v) {
+        var o = state;
+        for (var i = 0; i < path.length - 1; i++) o = o[path[i]];
+        var last = path[path.length - 1];
+        if (col === undefined) o[last] = v;
+        else if (+col < 5) o[last].explicit[+col] = v;
+        else o[last].terminal = v;
+      }
+    };
+  }
+  function shown(v, unit) {
+    var x = unit === "%" ? v * 100 : v, d = unit === "x" ? 2 : 1, s = x.toFixed(d), r = +x.toFixed(4);
+    if (unit === "n") return String(r);
+    return +s === r ? s : String(r);
+  }
+  function inputs() { return document.querySelectorAll("#p-baseline input[data-path]"); }
+  function mark(inp, ref) { inp.classList.toggle("edited", Math.abs(ref.get(state) - ref.get(REC)) > 1e-12); }
+  function fill() {
+    inputs().forEach(function (inp) {
+      var ref = locate(inp);
+      inp.value = shown(ref.get(state), ref.unit);
+      inp.classList.remove("bad");
+      mark(inp, ref);
+    });
+  }
+
+  // Edits survive a reload. The key carries a hash of the suggested numbers,
+  // so a rebuild with new suggestions starts clean rather than resurrecting
+  // edits made against the old ones.
+  function save() { try { localStorage.setItem(DATA.store, JSON.stringify(state)); } catch (e) {} }
+  try {
+    var saved = JSON.parse(localStorage.getItem(DATA.store) || "null");
+    if (saved && saved.assumptions) state = saved;
+  } catch (e) {}
+
+  document.addEventListener("input", function (ev) {
+    var inp = ev.target;
+    if (!inp.dataset || !inp.dataset.path) return;
+    var v = parseFloat(inp.value.replace(/,/g, "")), ref = locate(inp);
+    if (inp.value.trim() === "" || !isFinite(v)) { inp.classList.add("bad"); return; }
+    inp.classList.remove("bad");
+    ref.set(ref.unit === "%" ? v / 100 : v);
+    mark(inp, ref);
+    save();
+    render();
+  });
+  document.addEventListener("change", function (ev) {
+    var inp = ev.target;
+    if (inp.dataset && inp.dataset.path && inp.classList.contains("bad")) {
+      var ref = locate(inp);
+      inp.value = shown(ref.get(state), ref.unit);
+      inp.classList.remove("bad");
+    }
+  });
+  byId("reset").addEventListener("click", function () {
+    state = clone(REC);
+    try { localStorage.removeItem(DATA.store); } catch (e) {}
+    fill();
+    render();
+  });
+  byId("copy-csv").addEventListener("click", function () {
+    var text = byId("csv-text").value, btn = this;
+    function done() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1500); }
+    try { navigator.clipboard.writeText(text).then(done, function () { byId("csv-text").select(); }); }
+    catch (e) { byId("csv-text").select(); }
+  });
+
+  // ------------------------------------------------------------ the CSV, as dcf_assumptions writes it
+  function num(v, unit) { var x = unit === "%" ? v * 100 : v; return String(+x.toPrecision(8)); }
+  function csv(b) {
+    var a = b.assumptions, lines = ["row,key,unit,Y1,Y2,Y3,Y4,Y5,Terminal"];
+    var units = { sales_growth: "%", ebitda_margin: "%", sales_to_net_ppe: "x", depreciation_rate: "%", cash_tax_rate: "%" };
+    function row(name, key, unit, spec) {
+      lines.push([name, key, unit].concat(spec.explicit.concat([spec.terminal]).map(function (v) { return num(v, unit); })).join(","));
+    }
+    DCF.SCALARS.forEach(function (n) { row(n, "", units[n], a[n]); });
+    DCF.SIDES.forEach(function (side) { for (var k in a[side]) row(side, k, "%", a[side][k]); });
+    lines.push("wacc,,%," + num(b.rates.wacc, "%"));
+    lines.push("nol_limitation,,%," + num(b.rates.nol_limitation === undefined ? 0.8 : b.rates.nol_limitation, "%"));
+    lines.push("opening_nol,,n," + num(+(b.base.nol || 0), "n"));
+    lines.push("diluted_shares,,n," + num(b.meta.diluted_shares || 0, "n"));
+    return lines.join("\n") + "\n";
+  }
+
+  // ------------------------------------------------------------ the DCF tab, as build_pages renders it
+  var LINES = [["sales", "Sales", "num"], ["ebitda", "EBITDA", "num"], ["depreciation", "Depreciation", "num"],
+    ["ebit", "EBIT", "num"], ["nol_open", "NOL carryforward, opening", "num"], ["nol_used", "NOL used", "num"],
+    ["taxable_income", "Taxable income", "num"], ["tax", "Cash taxes", "num"],
+    ["effective_tax_rate", "Effective tax rate", "pct"], ["net_ppe", "Net PP&E, closing", "num"],
+    ["capex", "Capital expenditure", "num"], ["nwc", "Net working capital, closing", "num"],
+    ["delta_nwc", "Investment in working capital", "num"], ["fcf", "Free cash flow", "num"],
+    ["discount_factor", "Discount factor", "factor"], ["pv_fcf", "PV of free cash flow", "num"]];
+
+  function scheduleTable(m) {
+    var h = "<table><thead><tr><th>Forecast</th>";
+    m.schedule.forEach(function (r) {
+      h += "<th class='fc'>Year " + r.year + (r.year === 6 ? " · transition" : r.year === 7 ? " · perpetuity" : "") + "</th>";
+    });
+    h += "</tr></thead><tbody>";
+    LINES.forEach(function (L) {
+      h += "<tr" + (L[0] === "fcf" ? " class='total'" : "") + "><td>" + esc(L[1]) + "</td>";
+      m.schedule.forEach(function (r) { h += "<td>" + fmt(r[L[0]], L[2]) + "</td>"; });
+      h += "</tr>";
+      if (L[0] === "fcf") {
+        h += "<tr class='derived'><td>Free cash flow growth</td><td>&mdash;</td>";
+        for (var i = 1; i < m.schedule.length; i++) {
+          var p = m.schedule[i - 1].fcf;
+          h += p > 0 ? "<td>" + fmt(m.schedule[i].fcf / p - 1, "pct") + "</td>" : "<td>&mdash;</td>";
+        }
+        h += "</tr>";
+      }
+    });
+    return h + "</tbody></table>";
+  }
+
+  function bridgeTable(b, m) {
+    var h = "<table><tbody>";
+    function line(l, v, kind, tot) {
+      h += "<tr" + (tot ? " class='total'" : "") + "><td>" + esc(l) + "</td><td>" + fmt(v, kind || "num") + "</td></tr>";
+    }
+    line("PV of free cash flow, years 1 to 6", m.pv_explicit);
+    line("Terminal value at the end of year 6", m.terminal_value);
+    line("PV of the terminal value", m.pv_terminal);
+    m.bridge.forEach(function (x, i) { line(x.label, x.amount, "num", i === 0); });
+    line("Equity value", m.equity_value, "num", true);
+    line("Diluted shares", b.meta.diluted_shares);
+    line("Value per share", m.value_per_share, "share", true);
+    return h + "</tbody></table>";
+  }
+
+  function sensitivityTable(b) {
+    var ax = DCF.sensitivityAxes(b), grid = DCF.sensitivityGrid(b, ax[0], ax[1]);
+    var h = "<table><thead><tr><th>WACC \\ terminal growth</th>" +
+            ax[1].map(function (g) { return "<th>" + fmt(g, "pct") + "</th>"; }).join("") + "</tr></thead><tbody>";
+    ax[0].forEach(function (w, i) {
+      h += "<tr><td>" + fmt(w, "pct") + "</td>";
+      ax[1].forEach(function (g, j) {
+        h += "<td class='" + (i === 2 && j === 2 ? "sens here" : "sens") + "'>" + fmt(grid[i][j], "share") + "</td>";
+      });
+      h += "</tr>";
+    });
+    return h + "</tbody></table>";
+  }
+
+  function rankingTable(b) {
+    var rows = DCF.driverRanking(b);
+    if (!rows.length) return "<p class='note'>No driver could be varied without breaking the model, so there is nothing to rank.</p>";
+    var widest = rows[0].span_share || 1;
+    var h = "<table><thead><tr><th>Driver</th><th>Moved</th><th>Moves the value by</th><th></th></tr></thead><tbody>";
+    rows.forEach(function (r) {
+      var share = r.span_share || 0;
+      h += "<tr><td>" + esc(r.driver) + "</td><td>" + esc(r.shift) + "</td><td>" + (share * 100).toFixed(1) +
+           "%</td><td class='bar'><span style='width:" + Math.max(2, Math.round(100 * share / widest)) + "%'></span></td></tr>";
+    });
+    return h + "</tbody></table>";
+  }
+
+  // ------------------------------------------------------------ parity with the engine
+  var drift = null;
+  (function () {
+    var c = DATA.check;
+    function off(x, y) { return Math.abs(x - y) > 1e-6 * Math.max(1, Math.abs(y)); }
+    try {
+      var m = DCF.runModel(REC);
+      var bad = off(m.ev_ops, c.ev_ops) || off(m.equity_value, c.equity_value) ||
+                m.schedule.some(function (r, i) { return off(r.fcf, c.fcf[i]); });
+      if (bad) drift = "This page's calculator disagrees with dcf_engine.py on the suggested numbers, so its revaluations cannot be trusted. Rebuild the page and report the mismatch.";
+    } catch (e) { drift = "This page's calculator failed on the suggested numbers: " + e.message; }
+  })();
+
+  // ------------------------------------------------------------ render
+  function render() {
+    var edited = document.querySelectorAll("#p-baseline input.edited").length;
+    byId("tg").textContent = fmt(state.assumptions.sales_growth.terminal, "pct");
+    byId("csv-text").value = csv(state);
+    byId("dcf-status").textContent = edited
+      ? "Valued on the Baseline tab with " + edited + " edited cell" + (edited > 1 ? "s" : "") + "."
+      : "Valued on the suggested forecasts in the Baseline tab. Edit them there and this tab revalues.";
+
+    var m, warn = drift ? [drift] : [];
+    try { m = DCF.runModel(state); }
+    catch (e) {
+      byId("warnings").innerHTML = warn.concat([e.message]).map(function (w) { return "<li>" + esc(w) + "</li>"; }).join("");
+      ["h-ev", "h-eq", "h-vps"].forEach(function (id) { byId(id).textContent = "—"; });
+      ["schedule", "bridge", "sensitivity", "ranking"].forEach(function (id) { byId(id).innerHTML = ""; });
+      byId("readout-text").textContent = e.message;
+      return;
+    }
+    byId("warnings").innerHTML = warn.concat(m.warnings).map(function (w) { return "<li>" + esc(w) + "</li>"; }).join("");
+    byId("h-ev").textContent = fmt(m.ev_ops, "num");
+    byId("h-eq").textContent = fmt(m.equity_value, "num");
+    byId("h-vps").textContent = fmt(m.value_per_share, "share");
+    byId("readout-text").innerHTML = "Value per share at these forecasts: <b>" + fmt(m.value_per_share, "share") + "</b>" +
+      (edited ? " (suggested: " + fmt(DATA.check.value_per_share, "share") + ")" : "") + " — details on the DCF tab.";
+    byId("schedule").innerHTML = scheduleTable(m);
+    byId("bridge").innerHTML = bridgeTable(state, m);
+    byId("sensitivity").innerHTML = sensitivityTable(state);
+    byId("ranking").innerHTML = rankingTable(state);
+  }
+
+  fill();
+  render();
+})();
+
+</script>
+
+</body>
+</html>
