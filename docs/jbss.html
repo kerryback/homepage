@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JBSS Two-Stage DCF</title>
+<style>
+  :root {
+    --ink: #36393B; --muted: #6b6e71; --rule: #d9d6d8; --pale: #f4f3f4;
+    --mint: #3AEFCC; --mint-deep: #12a88b; --mint-pale: #dafbf4; --warn: #b3261e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #fff; color: var(--ink);
+    font: 16px/1.5 "Avenir Next", "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  main { max-width: 74rem; margin: 0 auto; padding: 2.25rem 1rem 3.5rem; }
+  h1 { font-size: 1.7rem; font-weight: 600; margin: 0 0 .25rem; line-height: 1.25; }
+  h2 { font-size: 1.15rem; font-weight: 600; margin: 2.25rem 0 .6rem; }
+  p { margin: 0 0 .5rem; }
+  .sub { color: var(--muted); max-width: 52rem; }
+  a { color: var(--mint-deep); }
+  .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: .75rem; margin: 1.5rem 0 .5rem; }
+  .result { background: var(--pale); padding: .7rem 1rem; border-left: 4px solid var(--rule); }
+  .result.main { background: var(--mint-pale); border-left-color: var(--mint); }
+  .result .label { font-size: .85rem; color: var(--muted); }
+  .result .value { font-size: 1.6rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bar { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin: .5rem 0 0; }
+  button {
+    font: inherit; color: var(--ink); background: #fff; border: 1px solid var(--ink);
+    padding: .3rem .9rem; cursor: pointer;
+  }
+  button:hover { background: var(--pale); }
+  #warn { color: var(--warn); }
+  .wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: .92rem; font-variant-numeric: tabular-nums; }
+  th, td { padding: .3rem .55rem; text-align: right; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  th { font-weight: 600; background: var(--pale); }
+  th:first-child, td:first-child { text-align: left; white-space: normal; min-width: 15rem; }
+  #sens th:first-child, #sens td:first-child { min-width: 0; white-space: nowrap; }
+  tr.group td { font-weight: 600; background: #fff; padding-top: .8rem; }
+  tr.total td { font-weight: 600; border-top: 2px solid var(--ink); }
+  tr.memo td { color: var(--muted); }
+  input {
+    font: inherit; font-variant-numeric: tabular-nums; width: 5rem; text-align: right;
+    padding: .15rem .3rem; border: 1px solid var(--rule); background: #fff; color: var(--ink);
+  }
+  input.money { width: 7.5rem; }
+  input:focus { outline: 2px solid var(--mint-deep); outline-offset: 0; }
+  input.changed { background: var(--mint-pale); border-color: var(--mint-deep); }
+  .unit { color: var(--muted); font-size: .85rem; margin-left: .15rem; }
+  .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: 0 2.5rem; align-items: start; }
+  .note { color: var(--muted); font-size: .9rem; margin-top: .5rem; max-width: 52rem; }
+  td.here { background: var(--mint-pale); font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <h1>John B. Sanfilippo &amp; Son, Inc. (JBSS)</h1>
+  <p class="sub">Two-stage DCF. Fiscal 2026, ended June 25, 2026, is year 0. Figures are in USD thousands, except per-share value. Change any input, and everything below recalculates. The same model, with live formulas, is in the workbook: <a href="jbss/jbss.xlsx">jbss.xlsx</a>.</p>
+
+  <div class="results" aria-live="polite">
+    <div class="result main"><div class="label">Value per share</div><div class="value" id="r-vps"></div></div>
+    <div class="result"><div class="label">Equity value</div><div class="value" id="r-eq"></div></div>
+    <div class="result"><div class="label">Enterprise value</div><div class="value" id="r-ev"></div></div>
+    <div class="result"><div class="label">Terminal value share of enterprise value</div><div class="value" id="r-tv"></div></div>
+  </div>
+  <div class="bar">
+    <button type="button" id="reset">Reset to baseline</button>
+    <span id="warn" role="alert" hidden>WACC must be above terminal growth.</span>
+  </div>
+
+  <h2>Assumptions</h2>
+  <div class="wrap"><table id="assume"></table></div>
+
+  <div class="two">
+    <div>
+      <h2>Rates and shares</h2>
+      <div class="wrap"><table id="rates"></table></div>
+    </div>
+    <div>
+      <h2>Year-0 balances</h2>
+      <div class="wrap"><table id="balances"></table></div>
+    </div>
+  </div>
+
+  <h2>Forecast</h2>
+  <div class="wrap"><table id="forecast"></table></div>
+  <p class="note">Year 6 runs on the terminal assumptions and absorbs the balance-sheet transition. The perpetuity is based on year 7 free cash flow, so year 7 is not in the sum of explicit present values.</p>
+
+  <div class="two">
+    <div>
+      <h2>From enterprise value to equity value</h2>
+      <div class="wrap"><table id="bridge"></table></div>
+    </div>
+    <div>
+      <h2>Value per share: WACC and terminal growth</h2>
+      <div class="wrap"><table id="sens"></table></div>
+      <p class="note">Each cell re-runs the model with the other inputs as they stand above.</p>
+    </div>
+  </div>
+</main>
+
+<script>
+const BASE = {
+  growth: [0.045, 0.065, 0.06, 0.045, 0.035, 0.035],
+  margin: [0.102, 0.106, 0.108, 0.108, 0.108, 0.108],
+  turnover: [5.25, 5.6, 5.9, 6.15, 6.3, 6.3],
+  depRate: [0.14, 0.135, 0.13, 0.13, 0.13, 0.13],
+  ar: [0.072, 0.071, 0.071, 0.07, 0.07, 0.07],
+  inv: [0.209, 0.205, 0.2, 0.197, 0.195, 0.195],
+  prepaid: [0.015, 0.014, 0.013, 0.012, 0.012, 0.012],
+  ap: [0.062, 0.06, 0.058, 0.056, 0.055, 0.055],
+  payroll: [0.029, 0.028, 0.027, 0.026, 0.026, 0.026],
+  accrued: [0.018, 0.017, 0.016, 0.016, 0.016, 0.016],
+  workers: [0.009, 0.009, 0.009, 0.009, 0.009, 0.009],
+  tax: [0.27, 0.27, 0.27, 0.27, 0.27, 0.27],
+  wacc: 0.08, nolLimit: 0.8, nolOpen: 0, shares: 11777.4,
+  sales0: 1175673, ppe0: 243702, nwc0: 209479,
+  cash: 1147, rental: 12263, revolver: 33615, debt: 49619, overdraft: 237, pension: 29193
+};
+
+// Same arithmetic as the Model, NOL schedule and Bridge sheets of jbss.xlsx.
+function dcf(a) {
+  const T = 5;                               // index 5 holds the terminal column
+  const at = (k, y) => a[k][Math.min(y - 1, T)];   // years 6 and 7 use terminal assumptions
+  const r = a.wacc, g = a.growth[T];
+  const sales = [a.sales0];
+  for (let y = 1; y <= 8; y++) sales[y] = sales[y - 1] * (1 + at("growth", y));
+  const rows = [];
+  let ppe = a.ppe0, nwc = a.nwc0, nol = a.nolOpen;
+  for (let y = 1; y <= 7; y++) {
+    const s = sales[y];
+    const ebitda = at("margin", y) * s;
+    const ppeClose = sales[y + 1] / at("turnover", y);
+    const dep = at("depRate", y) * ppe;
+    const capex = ppeClose - ppe + dep;
+    const nwcClose = (at("ar", y) + at("inv", y) + at("prepaid", y) - at("ap", y) - at("payroll", y) - at("accrued", y) - at("workers", y)) * s;
+    const dNwc = nwcClose - nwc;
+    const ebit = ebitda - dep;
+    const nolOpen = nol;
+    let used, taxable, nolClose;
+    if (y === 7) {                           // the perpetuity is taxed at the full rate
+      used = 0; taxable = ebit; nolClose = nolOpen;
+    } else {
+      used = ebit <= 0 ? 0 : Math.min(a.nolLimit * ebit, nolOpen);
+      taxable = ebit <= 0 ? 0 : ebit - used;
+      nolClose = ebit <= 0 ? nolOpen - ebit : nolOpen - used;
+    }
+    const taxes = at("tax", y) * taxable;
+    const fcf = ebitda - taxes - capex - dNwc;
+    const df = 1 / Math.pow(1 + r, y);
+    rows.push({ y, sales: s, ebitda, dep, ebit, nolOpen, used, taxable, taxes, nolClose,
+      effRate: ebit === 0 ? 0 : taxes / ebit, ppe: ppeClose, capex, nwc: nwcClose, dNwc, fcf, df, pv: fcf * df });
+    ppe = ppeClose; nwc = nwcClose; nol = nolClose;
+  }
+  const pvExplicit = rows.slice(0, 6).reduce((t, x) => t + x.pv, 0);
+  const tv = rows[6].fcf / (r - g);
+  const pvTv = tv / Math.pow(1 + r, 6);
+  const ev = pvExplicit + pvTv;
+
+  // Tax shield on the carryforward surviving year 6, over years 7 to 206.
+  let bal = rows[5].nolClose, e = rows[6].ebit, pvNol = 0;
+  for (let y = 7; y <= 206; y++) {
+    const used = Math.min(a.nolLimit * e, bal);
+    const saved = e <= 0 ? 0 : a.tax[T] * used;
+    pvNol += saved / Math.pow(1 + r, y);
+    bal = e <= 0 ? bal : bal - used;
+    e *= 1 + g;
+  }
+  const equity = ev + pvNol + a.cash + a.rental - a.revolver - a.debt - a.overdraft - a.pension;
+  return { rows, pvExplicit, tv, pvTv, ev, pvNol, equity, vps: a.shares === 0 ? NaN : equity / a.shares };
+}
+
+const clone = o => JSON.parse(JSON.stringify(o));
+let state = clone(BASE);
+
+const ASSUME = [
+  ["Growth and margin"],
+  ["Sales growth", "growth", "pct"], ["EBITDA margin", "margin", "pct"],
+  ["Property, plant and equipment"],
+  ["Next-year sales / net PP&E", "turnover", "x"], ["Depreciation / prior net PP&E", "depRate", "pct"],
+  ["Operating assets, as a share of sales"],
+  ["Accounts receivable", "ar", "pct"], ["Inventories", "inv", "pct"], ["Prepaid expenses and other current assets", "prepaid", "pct"],
+  ["Operating liabilities, as a share of sales"],
+  ["Accounts payable", "ap", "pct"], ["Accrued payroll and related benefits", "payroll", "pct"], ["Other accrued expenses", "accrued", "pct"], ["Long-term workers' compensation liabilities", "workers", "pct"],
+  ["Taxes"],
+  ["Cash tax rate on taxable income", "tax", "pct"]
+];
+const RATES = [["WACC", "wacc", "pct"], ["NOL limitation", "nolLimit", "pct"], ["Opening NOL carryforward", "nolOpen", "money"], ["Diluted shares (thousands)", "shares", "money"]];
+const BALANCES = [["Sales", "sales0"], ["Net PP&E", "ppe0"], ["Net working capital", "nwc0"], ["Cash", "cash"], ["Rental investment property", "rental"], ["Revolving credit facility", "revolver"], ["Long-term debt", "debt"], ["Bank overdraft", "overdraft"], ["Unfunded pension", "pension"]];
+
+const trim = v => String(+v.toFixed(6));
+const shown = (v, kind) => kind === "pct" ? trim(v * 100) : trim(v);
+const fieldHtml = (key, i, kind, label) => {
+  const id = i === null ? key : `${key}-${i}`;
+  const cls = kind === "money" ? ' class="money"' : "";
+  const unit = kind === "pct" ? '<span class="unit">%</span>' : kind === "x" ? '<span class="unit">×</span>' : "";
+  return `<input id="f-${id}" data-key="${key}" data-i="${i === null ? "" : i}" data-kind="${kind}"${cls} type="number" step="any" aria-label="${label}">${unit}`;
+};
+
+const heads = ["Year 1", "Year 2", "Year 3", "Year 4", "Year 5", "Terminal"];
+document.getElementById("assume").innerHTML =
+  `<thead><tr><th>Assumption</th>${heads.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>` +
+  ASSUME.map(([label, key, kind]) => key
+    ? `<tr><td>${label}</td>${heads.map((h, i) => `<td>${fieldHtml(key, i, kind, `${label}, ${h}`)}</td>`).join("")}</tr>`
+    : `<tr class="group"><td colspan="7">${label}</td></tr>`).join("") + "</tbody>";
+document.getElementById("rates").innerHTML = "<tbody>" +
+  RATES.map(([label, key, kind]) => `<tr><td>${label}</td><td>${fieldHtml(key, null, kind, label)}</td></tr>`).join("") + "</tbody>";
+document.getElementById("balances").innerHTML = "<tbody>" +
+  BALANCES.map(([label, key]) => `<tr><td>${label}</td><td>${fieldHtml(key, null, "money", label)}</td></tr>`).join("") + "</tbody>";
+
+const inputs = [...document.querySelectorAll("input[data-key]")];
+const baseOf = el => el.dataset.i === "" ? BASE[el.dataset.key] : BASE[el.dataset.key][+el.dataset.i];
+function fill() {
+  inputs.forEach(el => { el.value = shown(baseOf(el), el.dataset.kind); el.classList.remove("changed"); });
+}
+inputs.forEach(el => el.addEventListener("input", () => {
+  if (el.value === "" || !isFinite(+el.value)) return;
+  const v = el.dataset.kind === "pct" ? +el.value / 100 : +el.value;
+  if (el.dataset.i === "") state[el.dataset.key] = v; else state[el.dataset.key][+el.dataset.i] = v;
+  el.classList.toggle("changed", Math.abs(v - baseOf(el)) > 1e-12);
+  render();
+}));
+document.getElementById("reset").addEventListener("click", () => { state = clone(BASE); fill(); render(); });
+
+const n0 = v => Math.round(v).toLocaleString("en-US");
+const pc = v => (v * 100).toFixed(1) + "%";
+const dollars = v => "$" + v.toFixed(2);
+
+const FORECAST = [
+  ["Sales", "sales", n0], ["EBITDA", "ebitda", n0], ["Depreciation", "dep", n0], ["EBIT", "ebit", n0],
+  ["NOL carryforward, opening", "nolOpen", n0], ["NOL used", "used", n0], ["Taxable income", "taxable", n0], ["Cash taxes", "taxes", n0], ["Effective tax rate", "effRate", pc],
+  ["Net PP&E, closing", "ppe", n0], ["Capital expenditure", "capex", n0], ["Net working capital, closing", "nwc", n0], ["Investment in working capital", "dNwc", n0],
+  ["Free cash flow", "fcf", n0, "total"], ["Discount factor", "df", v => v.toFixed(4), "memo"], ["PV of free cash flow", "pv", n0]
+];
+const WACCS = [0.06, 0.07, 0.08, 0.09, 0.10], GS = [0.025, 0.03, 0.035, 0.04, 0.045];
+
+function render() {
+  const m = dcf(state);
+  const bad = !(state.wacc > state.growth[5]);
+  document.getElementById("warn").hidden = !bad;
+  const set = (id, t) => { document.getElementById(id).textContent = t; };
+  set("r-vps", bad ? "n/a" : dollars(m.vps));
+  set("r-eq", bad ? "n/a" : n0(m.equity));
+  set("r-ev", bad ? "n/a" : n0(m.ev));
+  set("r-tv", bad ? "n/a" : pc(m.pvTv / m.ev));
+
+  document.getElementById("forecast").innerHTML =
+    `<thead><tr><th>Forecast</th>${m.rows.map(x => `<th>Year ${x.y}${x.y === 6 ? " · transition" : x.y === 7 ? " · perpetuity" : ""}</th>`).join("")}</tr></thead><tbody>` +
+    FORECAST.map(([label, key, f, cls]) => `<tr${cls ? ` class="${cls}"` : ""}><td>${label}</td>${m.rows.map(x => `<td>${f(x[key])}</td>`).join("")}</tr>`).join("") + "</tbody>";
+
+  const line = (label, v, cls) => `<tr${cls ? ` class="${cls}"` : ""}><td>${label}</td><td>${bad ? "n/a" : v}</td></tr>`;
+  document.getElementById("bridge").innerHTML = "<tbody>" +
+    line("PV of free cash flow, years 1 to 6", n0(m.pvExplicit)) +
+    line("Terminal value at the end of year 6", n0(m.tv), "memo") +
+    line("PV of the terminal value", n0(m.pvTv)) +
+    line("Enterprise value of operations", n0(m.ev), "total") +
+    line("PV of remaining NOL carryforward", n0(m.pvNol)) +
+    line("Plus cash", n0(state.cash)) +
+    line("Plus rental investment property", n0(state.rental)) +
+    line("Less revolving credit facility", n0(-state.revolver)) +
+    line("Less long-term debt", n0(-state.debt)) +
+    line("Less bank overdraft", n0(-state.overdraft)) +
+    line("Less unfunded pension", n0(-state.pension)) +
+    line("Equity value", n0(m.equity), "total") +
+    line("Diluted shares (thousands)", state.shares.toLocaleString("en-US", { maximumFractionDigits: 1 })) +
+    line("Value per share", dollars(m.vps), "total") + "</tbody>";
+
+  const close = (x, y) => Math.abs(x - y) < 1e-9;
+  document.getElementById("sens").innerHTML =
+    `<thead><tr><th>WACC \\ terminal growth</th>${GS.map(g => `<th>${pc(g)}</th>`).join("")}</tr></thead><tbody>` +
+    WACCS.map(w => `<tr><td>${pc(w)}</td>${GS.map(g => {
+      const a = clone(state); a.wacc = w; a.growth[5] = g;
+      const here = close(w, state.wacc) && close(g, state.growth[5]);
+      return `<td${here ? ' class="here"' : ""}>${w > g ? dollars(dcf(a).vps) : "n/a"}</td>`;
+    }).join("")}</tr>`).join("") + "</tbody>";
+}
+
+fill();
+render();
+</script>
+</body>
+</html>
