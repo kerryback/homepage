@@ -22,6 +22,10 @@ format:
 }
 #show link: set text(fill: rgb("#2c5f8a"))
 
+#let job(body) = {
+  block(above: 1em, below: 0.45em, body)
+}
+
 #let entry(body) = {
   block(above: 0.45em, below: 0.45em, body)
 }
@@ -39,15 +43,10 @@ format:
   #line(length: 40%, stroke: 1pt + rgb("#2c3e50"))
 ]
 
-= Education
-
-#entry[*Ph.D., Economics* #h(1fr) University of Kentucky, 1983]
-#entry[*B.A., Economics* #h(1fr) Western Kentucky University, 1978]
-
 = Employment
 
-#entry[
-  *Rice University* #h(1fr) 2009 -- \
+#job[
+  #smallcaps[Rice University] #h(1fr) 2009 -- \
   #h(1em) J. Howard Creekmore Professor of Finance, 2009 -- \
   #h(1em) Professor of Economics, 2014 -- \
   #h(1em) Finance Area Ph.D. Coordinator, 2009 -- 2026 \
@@ -56,33 +55,38 @@ format:
   
 ]
 
-#entry[
-  *Texas A&M University* #h(1fr) 2004--2009 \
+#job[
+  #smallcaps[Texas A&M University] #h(1fr) 2004--2009 \
   #h(1em) Jerry and Kay Cox Chair in Business and Thomas W. Leland Memorial Chair in Finance
 ]
 
-#entry[
-  *Washington University in Saint Louis* #h(1fr) 1989--2004 \
+#job[
+  #smallcaps[Washington University in Saint Louis] #h(1fr) 1989--2004 \
   #h(1em) Visiting Associate, Associate, and Professor of Finance, 1989--1996 \ 
   #h(1em) Vernon W. and Marion K. Piper Professor of Financial Economics, 1996--2004 \
   #h(1em) Senior Associate Dean, Academic Affairs, 1996--2001, 2002--2003 
   
 ]
 
-#entry[
-  *Indiana University* #h(1fr) 1987--1990 \
+#job[
+  #smallcaps[Indiana University] #h(1fr) 1987--1990 \
   #h(1em) Associate Professor of Finance
 ]
 
-#entry[
-  *University of Pennsylvania* #h(1fr) 1988--1989 \
+#job[
+  #smallcaps[University of Pennsylvania] #h(1fr) 1988--1989 \
   #h(1em) Visiting Assistant Professor of Economics
 ]
 
-#entry[
-  *Northwestern University* #h(1fr) 1982--1987 \
+#job[
+  #smallcaps[Northwestern University] #h(1fr) 1982--1987 \
   #h(1em) Assistant Professor of Economics
 ]
+
+= Education
+
+#entry[Ph.D., Economics #h(1fr) University of Kentucky, 1983]
+#entry[B.A., Economics #h(1fr) Western Kentucky University, 1978]
 
 = Books
 
