@@ -94,6 +94,11 @@ format:
 
 = Refereed Articles
 
+#[
+#set enum(reversed: true)
+
++ Back, K., Çelebi, O., Kakhbod, A., and A. M. Reppen, forthcoming, "Segmented Trading Markets," _Theoretical Economics_.
+
 + Back, K., Carlin, B., Kazempour, S. M., and C. Xie, forthcoming, "Discretionary Announcement Timing and Stock Returns," _Journal of Finance_.
 
 + Back, K., Crotty, K., and S. M. Kazempour, 2022, "Validity, Tightness, and Forecasting Power of Risk Premium Bounds," _Journal of Financial Economics_, *144*, 732--760.
@@ -157,12 +162,13 @@ format:
 + Back, K., 1986, "Concepts of Similarity for Utility Functions," _Journal of Mathematical Economics_, *15*, 129--142.
 
 + Back, K., 1986, "Continuity of the Fenchel Transform of Convex Functions," _Proceedings of the American Mathematical Society_, *97*, 661--667.
+]
 
 = Working Papers
 
-+ Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2026, "Optimal Transport and Informed Trading in Securities Markets," R&R at _Operations Research_.
++ Back, K., Crotty, K., and R. Dittmar, 2026, "Persistent and Migrating Momentum."
 
-+ Back, K., Çelebi, O., Kakhbod, A., and A. M. Reppen, 2026, "Segmented Trading Markets."
++ Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2026, "Optimal Transport and Informed Trading in Securities Markets," R&R at _Operations Research_.
 
 + Back, K., Ober, A., and S. Pruitt, 2025, "The Virtue of Complexity in Simple Economic Models."
 
@@ -191,10 +197,9 @@ format:
 #entry[Editor, Review of Financial Studies #h(1fr) 1994--1997]
 #entry[Co-Editor, Finance and Stochastics #h(1fr) 2001--2011]
 
-#entry[Associate Editor, Journal of Finance #h(1fr) 2022--2025]
+#entry[Associate Editor, Journal of Finance #h(1fr) 2003--2012, 2022--2025]
 #entry[Associate Editor, Mathematics and Financial Economics #h(1fr) 2006--2021]
 #entry[Associate Editor, Review of Asset Pricing Studies #h(1fr) 2015--2020]
-#entry[Associate Editor, Journal of Finance #h(1fr) 2003--2012]
 #entry[Associate Editor, Journal of Economic Dynamics and Control #h(1fr) 1995--1996]
 #entry[Associate Editor, Journal of Economic Theory #h(1fr) 1993--1996]
 #entry[Associate Editor, Mathematical Finance #h(1fr) 1990--1996]

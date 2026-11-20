@@ -1,8 +1,8 @@
 ### Working Papers
 
-Back, K., and A. Ober, 2025, [Performance of Factor Models in a Simple Economy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5339536).
+Back, K., Crotty, K., and R. Dittmar, 2026, Persistent and Migrating Momentum.
 
-Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2025, [Segmented Trading Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978).
+Back, K., and A. Ober, 2025, [Performance of Factor Models in a Simple Economy](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5339536).
 
 Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2024, [Optimal Transport and Informed Trading in Securities Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3628726).
 
@@ -11,6 +11,8 @@ Back, K., Cocquemas, F., Ekren, I., and A. Lioui, 2024, [Optimal Transport and I
 
 
 ### Recent Publications
+
+Back, K., Celebi, O., Kakhbod, A., and A. M. Reppen, 2025, [Segmented Trading Markets](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4119978) *Theoretical Economics*, forthcoming.
 
 Back, K., Carlin, B., Kazempour, S. M., and C. Xie, 2024, [Discretionary Announcement Timing and Stock Returns](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4933885) *Journal of Finance*, forthcoming.
 
