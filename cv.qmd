@@ -209,8 +209,9 @@ format:
 
 = Ph.D. Committees Chaired and Initial Placements
 
-*Rice University* \
-#h(1em) Patrick Blonien (Carnegie Mellon) #sym.dot.c
+#smallcaps[Rice University] \
+#h(1em) Alexander Ober (Northwestern) #sym.dot.c
+Patrick Blonien (Carnegie Mellon) #sym.dot.c
 Seyed Mohammad Kazempour (LSU) #sym.dot.c
 Paul Barton (SEC) #sym.dot.c
 Alberto Teguia (University of British Columbia) #sym.dot.c
@@ -219,12 +220,12 @@ Morad Zekhnini (Tulane)
 
 #v(0.3em)
 
-*Texas A&M University* \
-#h(1em) Philipp Illeditsch (Wharton School, University of Pennsylvania)
+#smallcaps[Texas A&M University] \
+#h(1em) Philipp Illeditsch (University of Pennsylvania)
 
 #v(0.3em)
 
-*Washington University in St. Louis* \
+#smallcaps[Washington University in St. Louis] \
 #h(1em) Chris Yung (University of Colorado) #sym.dot.c
 Tao Li (Chinese University of Hong Kong) #sym.dot.c
 Shmuel Baruch (London Business School) #sym.dot.c
